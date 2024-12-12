@@ -1,14 +1,15 @@
 
+1. composer install 
+2. Run containers
 
 
-
-1. Run migrations: 
+3. Run migrations: 
 
 php bin/console make:migration
 
 php bin/console doctrine:migrations:migrate
 
-2. Connect to database and create a user in it with admin ad user roles. 
+4. Connect to database and create a user in it with admin ad user roles. 
 
 for hash password try to use command in docker container:
 - php bin/console security:hash-password 
