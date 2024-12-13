@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Examination index{% endblock %}
+
+{% block body %}
+    <h1>Examination index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Shortcut</th>
+                <th>ExaminationName</th>
+                <th>Norms</th>
+                <th>Machine</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for examination in examinations %}
+            <tr>
+                <td>{{ examination.id }}</td>
+                <td>{{ examination.shortcut }}</td>
+                <td>{{ examination.examinationName }}</td>
+                <td>{{ examination.norms }}</td>
+                <td>{{ examination.machine }}</td>
+                <td>
+                    <a href="{{ path('app_examination_show', {'id': examination.id}) }}">show</a>
+                    <a href="{{ path('app_examination_edit', {'id': examination.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_examination_new') }}">Create new</a>
+{% endblock %}
