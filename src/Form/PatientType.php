@@ -31,7 +31,7 @@ class PatientType extends AbstractType
                 'widget' => 'single_text',
                 'constraints' => [
                     new LessThanOrEqual([
-                        'value' => 'today', // Ensure the date is today or in the past
+                        'value' => 'today',
                         'message' => 'The date of birth cannot be in the future.',
                     ]),
                 ],

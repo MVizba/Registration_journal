@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Appointment{% endblock %}
+
+{% block body %}
+    <h1>Edit Appointment</h1>
+
+    {{ include('appointment/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_appointment_index') }}">back to list</a>
+
+    <a href="{{ path('app_examination_w_r_new', {'appointmentId': appointment.id}) }}" class="btn btn-primary">
+        Add Examination
+    </a>
+
+    <h2>Examinations</h2>
+    {% for examinationWithResult in appointment.examinationWithResults %}
+        <div>
+            <p><strong>Examination:</strong> {{ examinationWithResult.examination.examinationName }}</p>
+            <p><strong>Date:</strong> {{ examinationWithResult.date|date('Y-m-d') }}</p>
+            <p><strong>Result:</strong> {{ examinationWithResult.result }}</p>
+
+            <a href="{{ path('app_examination_w_r_edit', {'id': examinationWithResult.id}) }}" class="btn btn-warning">Edit</a>
+            <form action="{{ path('app_examination_w_r_delete', {'id': examinationWithResult.id}) }}" method="post" style="display: inline-block;">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ examinationWithResult.id) }}">
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+
+        </div>
+    {% else %}
+        <p>No examinations.</p>
+    {% endfor %}
+
+    {{ include('appointment/_delete_form.html.twig') }}
+{% endblock %}

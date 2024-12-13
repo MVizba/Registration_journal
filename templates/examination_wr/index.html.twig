@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ExaminationWithResults index{% endblock %}
+
+{% block body %}
+    <h1>ExaminationWithResults index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Result</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for examination_with_result in examination_with_results %}
+            <tr>
+                <td>{{ examination_with_result.id }}</td>
+                <td>{{ examination_with_result.date ? examination_with_result.date|date('Y-m-d') : '' }}</td>
+                <td>{{ examination_with_result.result }}</td>
+                <td>
+                    <a href="{{ path('app_examination_w_r_show', {'id': examination_with_result.id}) }}">show</a>
+                    <a href="{{ path('app_examination_w_r_edit', {'id': examination_with_result.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_examination_w_r_new') }}">Create new</a>
+{% endblock %}
