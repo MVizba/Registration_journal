@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Patient{% endblock %}
+
+{% block body %}
+    <h1>Create new Patient</h1>
+
+    {{ include('patient/_form.html.twig') }}
+
+    <a href="{{ path('app_patient_index') }}">back to list</a>
+    <a href="{{ path('app_client_new', { redirect: 'app_patient_new' }) }}" class="btn btn-primary w-100">
+        Add New Client
+    </a>
+{% endblock %}
