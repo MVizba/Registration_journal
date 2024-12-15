@@ -49,14 +49,28 @@
             <p><strong>Examination:</strong> {{ examinationWithResult.examination.examinationName }}</p>
             <p><strong>Date:</strong> {{ examinationWithResult.date|date('Y-m-d') }}</p>
             <p><strong>Result:</strong> {{ examinationWithResult.result }}</p>
+            <p><strong>Norms:</strong> {{ examinationWithResult.examination.norms }}</p>
+            <p><strong>Machine:</strong> {{ examinationWithResult.examination.machine }}</p>
         </div>
     {% else %}
         <p>No examinations.</p>
     {% endfor %}
     <!-- pabaiga examination results-->
 
+    <!-- assigned drugs -->
+    <h2>Assigned Drugs</h2>
+    {% for asignedDrug in appointment.asignedDrugs %}
+        <div>
+            <p><strong>Drug Name:</strong> {{ asignedDrug.drugWarehouse.drugName }}</p>
+            <p><strong>Amount:</strong> {{ asignedDrug.amount }} {{ asignedDrug.type }}</p>
+        </div>
+    {% else %}
+        <p>No assigned drugs.</p>
+    {% endfor %}
+    <!-- end assigned drugs -->
+
     <a href="{{ path('app_appointment_index') }}">back to list</a>
-    <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}">edit</a>
+{#    <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}">edit</a>#}
 
 {#    {{ include('appointment/_delete_form.html.twig') }}#}
 {% endblock %}
