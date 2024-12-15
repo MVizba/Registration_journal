@@ -10,8 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Security;
-
 
 #[Route('/client')]
 final class ClientController extends AbstractController
@@ -31,7 +29,7 @@ final class ClientController extends AbstractController
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
         $user = $this->getUser();
-        if ($user === null) {
+        if (null === $user) {
             throw $this->createAccessDeniedException('You must be logged in!');
         }
         $client->setUser($user);
@@ -48,7 +46,6 @@ final class ClientController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
 
     #[Route('/{id}', name: 'app_client_show', methods: ['GET'])]
     public function show(Client $client): Response

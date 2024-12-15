@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Security;
 
 #[Route('/patient')]
 final class PatientController extends AbstractController
@@ -29,7 +28,6 @@ final class PatientController extends AbstractController
         $patient = new Patient();
         $form = $this->createForm(PatientType::class, $patient);
         $form->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($patient);

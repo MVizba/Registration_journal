@@ -42,7 +42,7 @@ class PatientType extends AbstractType
             ->add('client', EntityType::class, [
                 'class' => Client::class,
                 'choice_label' => function (Client $client) {
-                    return $client->getName() . ' ' . $client->getLastName();
+                    return $client->getName().' '.$client->getLastName();
                 },
                 'placeholder' => 'Select an owner',
                 'required' => true,

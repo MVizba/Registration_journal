@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\DrugWarehouseRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DrugWarehouseRepository::class)]
 class DrugWarehouse

@@ -11,7 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use DateTime;
 
 class AppointmentType extends AbstractType
 {
@@ -20,12 +19,12 @@ class AppointmentType extends AbstractType
         $builder
             ->add('date', DateTimeType::class, [
                 'widget' => 'single_text',
-                'data' => new DateTime(),
+                'data' => new \DateTime(),
                 'required' => false,
             ])
             ->add('registrationDate', DateTimeType::class, [
                 'widget' => 'single_text',
-                'data' => new DateTime(),
+                'data' => new \DateTime(),
                 'required' => false,
             ])
             ->add('symptomsDate', DateTimeType::class, [
@@ -34,8 +33,8 @@ class AppointmentType extends AbstractType
                     new Assert\LessThanOrEqual([
                         'value' => 'today',
                         'message' => 'The date of symptoms cannot be greater than Now',
-                    ])
-                ]
+                    ]),
+                ],
             ])
             ->add('status')
             ->add('diagnosis')

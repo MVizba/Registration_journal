@@ -2,13 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\AppointmentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use App\Repository\AppointmentRepository;
-
-
 
 class DashboardController extends AbstractController
 {

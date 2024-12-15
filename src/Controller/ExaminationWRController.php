@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\ExaminationWithResults;
 use App\Entity\Appointment;
+use App\Entity\ExaminationWithResults;
 use App\Form\ExaminationWithResultsType;
 use App\Repository\ExaminationWithResultsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,6 +30,7 @@ final class ExaminationWRController extends AbstractController
 
         if (!$appointment) {
             $this->addFlash('error', 'Appointment not found.');
+
             return $this->redirectToRoute('app_appointment_index');
         }
 
@@ -93,6 +94,8 @@ final class ExaminationWRController extends AbstractController
 
         return $this->redirectToRoute('app_appointment_edit', [
             'id' => $examinationWithResult->getAppointment()->getId(),
-        ], Response::HTTP_SEE_OTHER);return $this->redirectToRoute('app_appointment_edit', [], Response::HTTP_SEE_OTHER);
+        ], Response::HTTP_SEE_OTHER);
+
+        return $this->redirectToRoute('app_appointment_edit', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -48,7 +48,7 @@ class Appointment
     /**
      * @var Collection<int, ExaminationWithResults>
      */
-    #[ORM\OneToMany(targetEntity: ExaminationWithResults::class, mappedBy: 'appointment',cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ExaminationWithResults::class, mappedBy: 'appointment', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $examinationWithResults;
 
     /**
