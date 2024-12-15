@@ -28,6 +28,7 @@ class AsignedDrugsType extends AbstractType
                     'g' => 'g',
                     'unit' => 'unit',
                     'bottle' => 'bottle',
+                    'pill' => 'pill',
                 ],
                 'placeholder' => 'Choose a type',
                 'required' => true,
