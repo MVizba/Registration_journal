@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AsignedDrugs{% endblock %}
+
+{% block body %}
+    <h1>Assign a Drug</h1>
+
+    {{ include('asigned_drugs/_form.html.twig') }}
+
+    <a href="{{ path('app_asigned_drugs_index') }}">back to list</a>
+{% endblock %}

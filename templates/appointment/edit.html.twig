@@ -13,6 +13,10 @@
         Add Examination
     </a>
 
+    <a href="{{ path('app_asigned_drugs_new', {'appointmentId': appointment.id}) }}" class="btn btn-primary">
+        Assign Drugs
+    </a>
+
     <h2>Examinations</h2>
     {% for examinationWithResult in appointment.examinationWithResults %}
         <div>
@@ -25,10 +29,27 @@
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ examinationWithResult.id) }}">
                 <button class="btn btn-danger" type="submit">Delete</button>
             </form>
-
         </div>
     {% else %}
         <p>No examinations.</p>
+    {% endfor %}
+
+    <h2>Assigned Drugs</h2>
+    {% for asignedDrug in appointment.asignedDrugs %}
+        <div>
+            <p><strong>Drug:</strong> {{ asignedDrug.drugWarehouse.drugName }}</p>
+            <p><strong>Amount:</strong> {{ asignedDrug.amount }}</p>
+            <p><strong>Type:</strong> {{ asignedDrug.type }}</p>
+            <p><strong>Date:</strong> {{ asignedDrug.date|date('Y-m-d') }}</p>
+
+            <a href="{{ path('app_asigned_drugs_edit', {'id': asignedDrug.id}) }}" class="btn btn-warning">Edit</a>
+            <form action="{{ path('app_asigned_drugs_delete', {'id': asignedDrug.id}) }}" method="post" style="display: inline-block;">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ asignedDrug.id) }}">
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        </div>
+    {% else %}
+        <p>No drugs assigned.</p>
     {% endfor %}
 
     {{ include('appointment/_delete_form.html.twig') }}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AsignedDrugs index{% endblock %}
+
+{% block body %}
+    <h1>AsignedDrugs index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for asigned_drug in asigned_drugs %}
+            <tr>
+                <td>{{ asigned_drug.id }}</td>
+                <td>{{ asigned_drug.date ? asigned_drug.date|date('Y-m-d') : '' }}</td>
+                <td>{{ asigned_drug.type }}</td>
+                <td>{{ asigned_drug.amount }}</td>
+                <td>
+                    <a href="{{ path('app_asigned_drugs_show', {'id': asigned_drug.id}) }}">show</a>
+                    <a href="{{ path('app_asigned_drugs_edit', {'id': asigned_drug.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_asigned_drugs_new') }}">Create new</a>
+{% endblock %}
