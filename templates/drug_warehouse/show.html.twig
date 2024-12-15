@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DrugWarehouse{% endblock %}
+
+{% block body %}
+    <h1>DrugWarehouse</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ drug_warehouse.id }}</td>
+            </tr>
+            <tr>
+                <th>DateOfReceipt</th>
+                <td>{{ drug_warehouse.dateOfReceipt ? drug_warehouse.dateOfReceipt|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DrugName</th>
+                <td>{{ drug_warehouse.DrugName }}</td>
+            </tr>
+            <tr>
+                <th>DrugManufacturer</th>
+                <td>{{ drug_warehouse.drugManufacturer }}</td>
+            </tr>
+            <tr>
+                <th>DocumentNumber</th>
+                <td>{{ drug_warehouse.documentNumber }}</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td>{{ drug_warehouse.amount }}</td>
+            </tr>
+            <tr>
+                <th>ManufactureDate</th>
+                <td>{{ drug_warehouse.manufactureDate ? drug_warehouse.manufactureDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ExpirationDate</th>
+                <td>{{ drug_warehouse.expirationDate ? drug_warehouse.expirationDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Series</th>
+                <td>{{ drug_warehouse.series }}</td>
+            </tr>
+            <tr>
+                <th>WhereObtainedFrom</th>
+                <td>{{ drug_warehouse.whereObtainedFrom }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_drug_warehouse_index') }}">back to list</a>
+
+    <a href="{{ path('app_drug_warehouse_edit', {'id': drug_warehouse.id}) }}">edit</a>
+
+    {{ include('drug_warehouse/_delete_form.html.twig') }}
+{% endblock %}
