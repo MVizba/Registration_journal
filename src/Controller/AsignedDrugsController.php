@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use App\Event\DrugRemovedEvent;
 
 #[Route('/asigned/drugs')]
 final class AsignedDrugsController extends AbstractController
@@ -95,11 +96,12 @@ final class AsignedDrugsController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_asigned_drugs_delete', methods: ['POST'])]
-    public function delete(Request $request, AsignedDrugs $asignedDrug, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, AsignedDrugs $asignedDrug, EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcher): Response
     {
         $appointmentId = $asignedDrug->getAppointment()->getId();
 
         if ($this->isCsrfTokenValid('delete'.$asignedDrug->getId(), $request->request->get('_token'))) {
+            $eventDispatcher->dispatch(new DrugRemovedEvent($asignedDrug), DrugRemovedEvent::NAME);
             $entityManager->remove($asignedDrug);
             $entityManager->flush();
         }
