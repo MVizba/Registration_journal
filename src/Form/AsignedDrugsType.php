@@ -4,18 +4,26 @@ namespace App\Form;
 
 use App\Entity\AsignedDrugs;
 use App\Entity\DrugWarehouse;
+use App\Repository\DrugWarehouseRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
 
 class AsignedDrugsType extends AbstractType
 {
+    private $drugWarehouseRepository;
+
+    public function __construct(DrugWarehouseRepository $drugWarehouseRepository)
+    {
+        $this->drugWarehouseRepository = $drugWarehouseRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $availableDrugs = $this->drugWarehouseRepository->findDrugsWithAvailableStock();
         $builder
             ->add('date', DateTimeType::class, [
                 'widget' => 'single_text',
@@ -38,8 +46,9 @@ class AsignedDrugsType extends AbstractType
                 'class' => DrugWarehouse::class,
                 'placeholder' => 'Choose a drug',
                 'choice_label' => function (DrugWarehouse $drugWarehouse) {
-                    return $drugWarehouse->getDrugName();
+                    return $drugWarehouse->getDrugName().' (Avaliable: '.$drugWarehouse->getAmount().')';
                 },
+                'choices' => $availableDrugs,
             ]);
     }
 

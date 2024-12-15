@@ -4,13 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Appointment;
 use App\Entity\AsignedDrugs;
+use App\Event\DrugAssignedEvent;
 use App\Form\AsignedDrugsType;
 use App\Repository\AsignedDrugsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[Route('/asigned/drugs')]
 final class AsignedDrugsController extends AbstractController
@@ -19,13 +21,14 @@ final class AsignedDrugsController extends AbstractController
     public function index(AsignedDrugsRepository $asignedDrugsRepository): Response
     {
         $asignedDrugs = $asignedDrugsRepository->findAll();
+
         return $this->render('asigned_drugs/index.html.twig', [
             'asigned_drugs' => $asignedDrugs,
         ]);
     }
 
     #[Route('/new/{appointmentId}', name: 'app_asigned_drugs_new', methods: ['GET', 'POST'])]
-    public function new(int $appointmentId, Request $request, EntityManagerInterface $entityManager): Response
+    public function new(int $appointmentId, Request $request, EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcher): Response
     {
         $appointment = $entityManager->getRepository(Appointment::class)->find($appointmentId);
 
@@ -42,12 +45,18 @@ final class AsignedDrugsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($asignedDrug);
-            $entityManager->flush();
+            try {
+                $eventDispatcher->dispatch(new DrugAssignedEvent($asignedDrug), DrugAssignedEvent::NAME);
 
-            return $this->redirectToRoute('app_appointment_edit', [
-                'id' => $appointment->getId(),
-            ], Response::HTTP_SEE_OTHER);
+                $entityManager->persist($asignedDrug);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_appointment_edit', [
+                    'id' => $appointment->getId(),
+                ], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $e) {
+                $this->addFlash('error', $e->getMessage());
+            }
         }
 
         return $this->render('asigned_drugs/new.html.twig', [
