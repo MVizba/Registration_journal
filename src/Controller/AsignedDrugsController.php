@@ -12,10 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use App\Event\DrugRemovedEvent;
 
 #[Route('/asigned/drugs')]
+#[IsGranted('ROLE_USER')]
+
 final class AsignedDrugsController extends AbstractController
 {
     #[Route(name: 'app_asigned_drugs_index', methods: ['GET'])]

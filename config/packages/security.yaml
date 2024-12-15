@@ -41,7 +41,7 @@ security:
          - { path: ^/user, roles: ROLE_USER }
          - { path: ^/patient, roles: ROLE_USER }
          - { path: ^/client, roles: ROLE_USER }
-         - { path: ^/examination, roles: ROLE_ADMIN }
+         - { path: ^/examination, roles: ROLE_USER }
          - { path: ^/drug/warehouse, roles: ROLE_ADMIN }
 
 when@test:

@@ -11,8 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/examination/w/r')]
+#[IsGranted('ROLE_USER')]
+
 final class ExaminationWRController extends AbstractController
 {
     #[Route(name: 'app_examination_w_r_index', methods: ['GET'])]
