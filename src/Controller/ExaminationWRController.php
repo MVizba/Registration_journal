@@ -99,6 +99,5 @@ final class ExaminationWRController extends AbstractController
             'id' => $examinationWithResult->getAppointment()->getId(),
         ], Response::HTTP_SEE_OTHER);
 
-        return $this->redirectToRoute('app_appointment_edit', [], Response::HTTP_SEE_OTHER);
     }
 }

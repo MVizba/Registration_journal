@@ -89,9 +89,18 @@ to patients.
     Add new examinations.
     Manage the drug warehouse (add new drugs and edit existing ones).
 
-#  Generating Drug Report
+#  Generating Assigned Drug Report 
 
 Admin and User can generate a report of assigned drugs within a 
 specific date range using Symfony Console. 
 
 - php bin/console app:drug-report <start_date> <end_date>
+  php bin/console app:drug-report 2021-01-01 2024-12-31
+
+
+Code Quality Tools used: 
+
+- phpstan:
+    vendor/bin/phpstan analyse
+- php-cs-fixer
+- 
