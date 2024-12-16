@@ -102,5 +102,8 @@ Code Quality Tools used:
 
 - phpstan:
     vendor/bin/phpstan analyse
+
 - php-cs-fixer
-- 
+
+- phpmd:
+  vendor/bin/phpmd src/ text cleancode,codesize,unusedcode 

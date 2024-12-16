@@ -7,14 +7,13 @@ use App\Entity\DrugWarehouse;
 use App\Repository\DrugWarehouseRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AsignedDrugsType extends AbstractType
 {
-    private $drugWarehouseRepository;
+    private DrugWarehouseRepository $drugWarehouseRepository;
 
     public function __construct(DrugWarehouseRepository $drugWarehouseRepository)
     {
