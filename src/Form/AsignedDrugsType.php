@@ -8,6 +8,7 @@ use App\Repository\DrugWarehouseRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -29,7 +30,11 @@ class AsignedDrugsType extends AbstractType
                 'data' => new \DateTime(),
                 'required' => true,
             ])
-            ->add('amount')
+            ->add('amount', NumberType::class, [
+                'required' => true,
+                'scale' => 2,
+                'attr' => ['min' => 0],
+            ])
             ->add('drugWarehouse', EntityType::class, [
                 'class' => DrugWarehouse::class,
                 'placeholder' => 'Choose a drug',

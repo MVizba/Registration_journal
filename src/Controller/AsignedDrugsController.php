@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Appointment;
 use App\Entity\AsignedDrugs;
 use App\Event\DrugAssignedEvent;
+use App\Event\DrugRemovedEvent;
 use App\Form\AsignedDrugsType;
 use App\Repository\AsignedDrugsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,11 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use App\Event\DrugRemovedEvent;
 
 #[Route('/asigned/drugs')]
 #[IsGranted('ROLE_USER')]
-
 final class AsignedDrugsController extends AbstractController
 {
     #[Route(name: 'app_asigned_drugs_index', methods: ['GET'])]
@@ -49,6 +48,14 @@ final class AsignedDrugsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $drugWarehouse = $asignedDrug->getDrugWarehouse();
+            $assignedAmount = $asignedDrug->getAmount();
+            $availableStock = $drugWarehouse->getAmount();
+
+            if ($assignedAmount > $availableStock) {
+                $this->addFlash('error', 'There is no enough amount in stock.');
+                return $this->redirectToRoute('app_asigned_drugs_new', ['appointmentId' => $appointmentId]);
+            }
             try {
                 $eventDispatcher->dispatch(new DrugAssignedEvent($asignedDrug), DrugAssignedEvent::NAME);
 

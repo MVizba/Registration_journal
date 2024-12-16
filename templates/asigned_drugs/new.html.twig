@@ -3,7 +3,16 @@
 {% block title %}New AsignedDrugs{% endblock %}
 
 {% block body %}
+
     <h1>Assign a Drug</h1>
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
     {{ include('asigned_drugs/_form.html.twig') }}
 
