@@ -30,23 +30,12 @@ class AsignedDrugsType extends AbstractType
                 'data' => new \DateTime(),
                 'required' => true,
             ])
-            ->add('type', ChoiceType::class, [
-                'choices' => [
-                    'ml' => 'ml',
-                    'g' => 'g',
-                    'unit' => 'unit',
-                    'bottle' => 'bottle',
-                    'pill' => 'pill',
-                ],
-                'placeholder' => 'Choose a type',
-                'required' => true,
-            ])
             ->add('amount')
             ->add('drugWarehouse', EntityType::class, [
                 'class' => DrugWarehouse::class,
                 'placeholder' => 'Choose a drug',
                 'choice_label' => function (DrugWarehouse $drugWarehouse) {
-                    return $drugWarehouse->getDrugName().' (Avaliable: '.$drugWarehouse->getAmount().')';
+                    return $drugWarehouse->getDrugName().' ('.$drugWarehouse->getType().' - Available: '.$drugWarehouse->getAmount().')';
                 },
                 'choices' => $availableDrugs,
             ]);

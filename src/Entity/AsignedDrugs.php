@@ -20,11 +20,9 @@ class AsignedDrugs
     #[ORM\JoinColumn(nullable: false)]
     private ?DrugWarehouse $drugWarehouse = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $type = null;
 
     #[ORM\Column]
-    private ?int $amount = null;
+    private ?float $amount = null;
 
     #[ORM\ManyToOne(inversedBy: 'asignedDrugs')]
     private ?Appointment $appointment = null;
@@ -58,24 +56,13 @@ class AsignedDrugs
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
 
-    public function setType(string $type): static
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getAmount(): ?int
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
 
-    public function setAmount(int $amount): static
+    public function setAmount(float $amount): static
     {
         $this->amount = $amount;
 

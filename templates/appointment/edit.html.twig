@@ -39,7 +39,6 @@
         <div>
             <p><strong>Drug:</strong> {{ asignedDrug.drugWarehouse.drugName }}</p>
             <p><strong>Amount:</strong> {{ asignedDrug.amount }}</p>
-            <p><strong>Type:</strong> {{ asignedDrug.type }}</p>
             <p><strong>Date:</strong> {{ asignedDrug.date|date('Y-m-d') }}</p>
 
             <a href="{{ path('app_asigned_drugs_edit', {'id': asignedDrug.id}) }}" class="btn btn-warning">Edit</a>

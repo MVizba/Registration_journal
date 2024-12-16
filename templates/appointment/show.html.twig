@@ -62,7 +62,7 @@
     {% for asignedDrug in appointment.asignedDrugs %}
         <div>
             <p><strong>Drug Name:</strong> {{ asignedDrug.drugWarehouse.drugName }}</p>
-            <p><strong>Amount:</strong> {{ asignedDrug.amount }} {{ asignedDrug.type }}</p>
+            <p><strong>Amount:</strong> {{ asignedDrug.amount }} {{ asignedDrug.drugWarehouse.type }}</p>
         </div>
     {% else %}
         <p>No assigned drugs.</p>

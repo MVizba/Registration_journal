@@ -7,5 +7,5 @@
 
     {{ include('asigned_drugs/_form.html.twig') }}
 
-    <a href="{{ path('app_asigned_drugs_index') }}">back to list</a>
+    <a href="{{ path('app_appointment_edit',{'id': appointment.id}) }}">back</a>
 {% endblock %}

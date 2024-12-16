@@ -19,7 +19,7 @@ class DrugWarehouse
     private ?\DateTimeInterface $dateOfReceipt = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $drugName = null; // Changed to camelCase
+    private ?string $drugName = null;
 
     #[ORM\Column(length: 255)]
     private ?string $drugManufacturer = null;
@@ -28,7 +28,10 @@ class DrugWarehouse
     private ?string $documentNumber = null;
 
     #[ORM\Column]
-    private ?int $amount = null;
+    private ?float $amount = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $type = null;
 
     #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTimeInterface $manufactureDate = null;
@@ -42,8 +45,8 @@ class DrugWarehouse
     #[ORM\Column(length: 255)]
     private ?string $whereObtainedFrom = null;
 
-    // One-to-many relationship with AsignedDrugs
-    #[ORM\OneToMany(mappedBy: 'drugWarehouse', targetEntity: AsignedDrugs::class)]
+
+    #[ORM\OneToMany(targetEntity: AsignedDrugs::class, mappedBy: 'drugWarehouse')]
     private Collection $asignedDrugs;
 
     public function __construct()
@@ -51,7 +54,6 @@ class DrugWarehouse
         $this->asignedDrugs = new ArrayCollection();
     }
 
-    // Getters and setters
 
     public function getId(): ?int
     {
@@ -106,14 +108,26 @@ class DrugWarehouse
         return $this;
     }
 
-    public function getAmount(): ?int
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
 
-    public function setAmount(int $amount): static
+    public function setAmount(float $amount): static
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

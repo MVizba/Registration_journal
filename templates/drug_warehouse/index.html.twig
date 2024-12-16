@@ -14,6 +14,7 @@
                 <th>DrugManufacturer</th>
                 <th>DocumentNumber</th>
                 <th>Amount</th>
+                <th>Type</th>
                 <th>ManufactureDate</th>
                 <th>ExpirationDate</th>
                 <th>Series</th>
@@ -30,6 +31,7 @@
                 <td>{{ drug_warehouse.drugManufacturer }}</td>
                 <td>{{ drug_warehouse.documentNumber }}</td>
                 <td>{{ drug_warehouse.amount }}</td>
+                <td>{{ drug_warehouse.type }}</td>
                 <td>{{ drug_warehouse.manufactureDate ? drug_warehouse.manufactureDate|date('Y-m-d') : '' }}</td>
                 <td>{{ drug_warehouse.expirationDate ? drug_warehouse.expirationDate|date('Y-m-d') : '' }}</td>
                 <td>{{ drug_warehouse.series }}</td>
