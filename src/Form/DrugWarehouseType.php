@@ -4,17 +4,23 @@ namespace App\Form;
 
 use App\Entity\DrugWarehouse;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class DrugWarehouseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('dateOfReceipt', null, [
+            ->add('dateOfReceipt', DateTimeType::class, [
                 'widget' => 'single_text',
+                'data' => new \DateTime(),
+                'required' => true,
             ])
             ->add('DrugName')
             ->add('drugManufacturer')
@@ -31,11 +37,25 @@ class DrugWarehouseType extends AbstractType
                 'placeholder' => 'Choose a type',
                 'required' => true,
             ])
-            ->add('manufactureDate', null, [
+            ->add('manufactureDate', DateType::class, [
                 'widget' => 'single_text',
+                'constraints' => [
+                    new Assert\LessThanOrEqual([
+                        'value' => 'today',
+                        'message' => 'The date can not be in the future',
+                    ]),
+                ],
+                'required' => true,
             ])
-            ->add('expirationDate', null, [
+            ->add('expirationDate', DateType::class, [
                 'widget' => 'single_text',
+                'constraints' => [
+                    new GreaterThanOrEqual([
+                        'value' => 'today',
+                        'message' => 'The expiration date must be today or in the future.',
+                    ]),
+                ],
+                'required' => true,
             ])
             ->add('series')
             ->add('whereObtainedFrom')
