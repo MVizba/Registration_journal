@@ -88,3 +88,10 @@ to patients.
     Admins have all the permissions of a user, plus:
     Add new examinations.
     Manage the drug warehouse (add new drugs and edit existing ones).
+
+#  Generating Drug Report
+
+Admin and User can generate a report of assigned drugs within a 
+specific date range using Symfony Console. 
+
+- php bin/console app:drug-report <start_date> <end_date>

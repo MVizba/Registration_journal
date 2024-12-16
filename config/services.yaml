@@ -23,3 +23,6 @@ services:
             $entityManager: '@doctrine.orm.entity_manager'
         tags:
             - { name: 'kernel.event_subscriber' }
+
+    App\Command\DrugReportCommand:
+        tags: [ 'console.command' ]

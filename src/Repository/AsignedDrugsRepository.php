@@ -40,4 +40,24 @@ class AsignedDrugsRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * Find drugs assigned within a date range.
+     *
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @return AsignedDrugs[]
+     */
+    public function findByDateRange(\DateTime $startDate, \DateTime $endDate)
+    {
+        return $this->createQueryBuilder('ad')
+            ->andWhere('ad.date >= :start_date')
+            ->andWhere('ad.date <= :end_date')
+            ->setParameter('start_date', $startDate)
+            ->setParameter('end_date', $endDate)
+            ->orderBy('ad.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
