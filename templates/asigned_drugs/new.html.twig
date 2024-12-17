@@ -3,18 +3,27 @@
 {% block title %}New AsignedDrugs{% endblock %}
 
 {% block body %}
+    <div class="container mt-4">
+        <h1 class="text-center">Assign a Drug</h1>
 
-    <h1>Assign a Drug</h1>
-
-    {% for type, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ type }}">
-                {{ message }}
-            </div>
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
 
-    {{ include('asigned_drugs/_form.html.twig') }}
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {{ include('asigned_drugs/_form.html.twig') }}
 
-    <a href="{{ path('app_appointment_edit',{'id': appointment.id}) }}">back</a>
+                <div class="row mt-3 justify-content-left">
+                    <div class="col-auto">
+                        <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-secondary">Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
