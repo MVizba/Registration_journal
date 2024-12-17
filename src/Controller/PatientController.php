@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Patient;
 use App\Entity\Client;
+use App\Entity\Patient;
 use App\Form\PatientType;
 use App\Repository\PatientRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,7 +15,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/patient')]
 #[IsGranted('ROLE_USER')]
-
 final class PatientController extends AbstractController
 {
     #[Route(name: 'app_patient_index', methods: ['GET'])]
@@ -30,6 +29,7 @@ final class PatientController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $patient = new Patient();
+        // Add Client ir atidarom disabled fields is URL issitraukiam
         $selectedClientId = $request->query->get('selectedClient');
         if ($selectedClientId) {
             $selectedClient = $entityManager->getRepository(Client::class)->find($selectedClientId);
