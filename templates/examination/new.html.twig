@@ -1,11 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Examination{% endblock %}
+{% block title %}Create New Examination{% endblock %}
 
 {% block body %}
-    <h1>Create new Examination</h1>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="text-left">Create New Examination</h1>
 
-    {{ include('examination/_form.html.twig') }}
+                {{ include('examination/_form.html.twig') }}
 
-    <a href="{{ path('app_examination_index') }}">back to list</a>
+                <div class="row justify-content-left mt-3">
+                    <div class="col-auto">
+                        <a href="{{ path('app_examination_index') }}" class="btn btn-secondary">Back to list</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
