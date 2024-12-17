@@ -3,53 +3,67 @@
 {% block title %}Edit Appointment{% endblock %}
 
 {% block body %}
-    <h1>Edit Appointment</h1>
+    <div class="container mt-4">
+        <h1>Edit Appointment</h1>
 
-    {{ include('appointment/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_appointment_index') }}">back to list</a>
-
-    <a href="{{ path('app_examination_w_r_new', {'appointmentId': appointment.id}) }}" class="btn btn-primary">
-        Add Examination
-    </a>
-
-    <a href="{{ path('app_asigned_drugs_new', {'appointmentId': appointment.id}) }}" class="btn btn-primary">
-        Assign Drugs
-    </a>
-
-    <h2>Examinations</h2>
-    {% for examinationWithResult in appointment.examinationWithResults %}
-        <div>
-            <p><strong>Examination:</strong> {{ examinationWithResult.examination.examinationName }}</p>
-            <p><strong>Date:</strong> {{ examinationWithResult.date|date('Y-m-d') }}</p>
-            <p><strong>Result:</strong> {{ examinationWithResult.result }}</p>
-
-            <a href="{{ path('app_examination_w_r_edit', {'id': examinationWithResult.id}) }}" class="btn btn-warning">Edit</a>
-            <form action="{{ path('app_examination_w_r_delete', {'id': examinationWithResult.id}) }}" method="post" style="display: inline-block;">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ examinationWithResult.id) }}">
-                <button class="btn btn-danger" type="submit">Delete</button>
-            </form>
+        <div class="card p-4 shadow">
+            {{ include('appointment/_form.html.twig', {'button_label': 'Update'}) }}
         </div>
-    {% else %}
-        <p>No examinations.</p>
-    {% endfor %}
 
-    <h2>Assigned Drugs</h2>
-    {% for asignedDrug in appointment.asignedDrugs %}
-        <div>
-            <p><strong>Drug:</strong> {{ asignedDrug.drugWarehouse.drugName }}</p>
-            <p><strong>Amount:</strong> {{ asignedDrug.amount }}</p>
-            <p><strong>Date:</strong> {{ asignedDrug.date|date('Y-m-d') }}</p>
+        <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary mt-3">Back to List</a>
 
-            <a href="{{ path('app_asigned_drugs_edit', {'id': asignedDrug.id}) }}" class="btn btn-warning">Edit</a>
-            <form action="{{ path('app_asigned_drugs_delete', {'id': asignedDrug.id}) }}" method="post" style="display: inline-block;">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ asignedDrug.id) }}">
-                <button class="btn btn-danger" type="submit">Delete</button>
-            </form>
+        <div class="mt-5">
+            <h3>Examinations</h3>
+            <ul class="list-group">
+                {% for examinationWithResult in appointment.examinationWithResults %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>
+                            <strong>Date:</strong> {{ examinationWithResult.date|date('Y-m-d') }} <br>
+                            <strong>{{ examinationWithResult.examination.examinationName }}</strong> <br>
+                            Result: {{ examinationWithResult.result }}
+                        </span>
+                        <span>
+                            <a href="{{ path('app_examination_w_r_edit', {'id': examinationWithResult.id}) }}" class="btn btn-sm btn-primary">Edit</a>
+                            <form action="{{ path('app_examination_w_r_delete', {'id': examinationWithResult.id}) }}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ examinationWithResult.id) }}">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </span>
+                    </li>
+                {% else %}
+                    <li class="list-group-item text-muted">No examinations found.</li>
+                {% endfor %}
+            </ul>
+            <a href="{{ path('app_examination_w_r_new', {'appointmentId': appointment.id}) }}" class="btn btn-success mt-3">Add Examination</a>
         </div>
-    {% else %}
-        <p>No drugs assigned.</p>
-    {% endfor %}
 
-    {{ include('appointment/_delete_form.html.twig') }}
+        <div class="mt-5">
+            <h3>Assigned Drugs</h3>
+            <ul class="list-group">
+                {% for asignedDrug in appointment.asignedDrugs %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>
+                            <strong>Date:</strong> {{ asignedDrug.date|date('Y-m-d') }} <br>
+                            <strong>{{ asignedDrug.drugWarehouse.drugName }}</strong> <br>
+                            <strong>Amount:</strong> {{ asignedDrug.amount }} {{ asignedDrug.drugWarehouse.type }}
+                        </span>
+                        <span>
+                            <a href="{{ path('app_asigned_drugs_edit', {'id': asignedDrug.id}) }}" class="btn btn-sm btn-primary">Edit</a>
+                            <form action="{{ path('app_asigned_drugs_delete', {'id': asignedDrug.id}) }}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ asignedDrug.id) }}">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </span>
+                    </li>
+                {% else %}
+                    <li class="list-group-item text-muted">No drugs assigned.</li>
+                {% endfor %}
+            </ul>
+            <a href="{{ path('app_asigned_drugs_new', {'appointmentId': appointment.id}) }}" class="btn btn-success mt-3">Assign Drugs</a>
+        </div>
+
+        <div class="mt-5">
+            {{ include('appointment/_delete_form.html.twig') }}
+        </div>
+    </div>
 {% endblock %}
