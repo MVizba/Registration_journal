@@ -3,9 +3,20 @@
 {% block title %}New ExaminationWithResults{% endblock %}
 
 {% block body %}
-    <h1>Create new ExaminationWithResults</h1>
+    <div class="container mt-4">
+        <h1 class="text-center">Assign an examination</h1>
 
-    {{ include('examination_wr/_form.html.twig') }}
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <!-- Form for creating a new examination with results -->
+                {{ include('examination_wr/_form.html.twig') }}
 
-    <a href="{{ path('app_examination_w_r_index') }}">back to list</a>
+                <div class="row mt-3 justify-content-left">
+                    <div class="col-auto">
+                        <a href="{{ path('app_examination_w_r_index') }}" class="btn btn-secondary">Back to list</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
