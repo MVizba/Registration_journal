@@ -8,8 +8,6 @@
 
         <div class="card p-4 shadow">
             {{ form_start(form) }}
-
-            <!-- Render form fields  -->
             <div class="row mb-3">
                 <div class="col-md-4">
                     {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
@@ -54,7 +52,7 @@
                     {{ form_widget(form.client, {'attr': {'class': 'form-control'}}) }}
                 </div>
                 <div class="col-md-4 d-flex align-items-end">
-                    <!-- New Client redirektas -->
+                    <!-- New Client redirect  -->
                     <a href="{{ path('app_client_new', { redirect: 'app_patient_new' }) }}" class="btn btn-primary w-100">
                         Add New Client
                     </a>
