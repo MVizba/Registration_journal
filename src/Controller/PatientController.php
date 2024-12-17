@@ -29,8 +29,14 @@ final class PatientController extends AbstractController
     #[Route('/new', name: 'app_patient_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $clients = $entityManager->getRepository(Client::class)->findAll();
         $patient = new Patient();
+        $selectedClientId = $request->query->get('selectedClient');
+        if ($selectedClientId) {
+            $selectedClient = $entityManager->getRepository(Client::class)->find($selectedClientId);
+            if ($selectedClient) {
+                $patient->setClient($selectedClient);
+            }
+        }
         $form = $this->createForm(PatientType::class, $patient);
         $form->handleRequest($request);
 
@@ -42,8 +48,8 @@ final class PatientController extends AbstractController
         }
 
         return $this->render('patient/new.html.twig', [
+            'patient' => $patient,
             'form' => $form->createView(),
-            'clients' => $clients,
         ]);
     }
 
