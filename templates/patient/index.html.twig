@@ -20,7 +20,6 @@
             <tbody>
             {% for patient in patients %}
                 <tr>
-                    {# Display the owner's (client's) name and last name #}
                     <td>
                         {{ patient.client ? patient.client.name ~ ' ' ~ patient.client.lastName : 'No Owner Assigned' }}
                     </td>

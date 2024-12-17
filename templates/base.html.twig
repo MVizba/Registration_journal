@@ -37,23 +37,27 @@
                         </ul>
                     </li>
 
-                    <!-- Testavimas sandelis -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="examinationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Examination</a>
-                        <ul class="dropdown-menu" aria-labelledby="examinationDropdown">
-                            <li><a class="dropdown-item" href="{{ path('app_examination_new') }}">New</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_examination_index') }}">List</a></li>
-                        </ul>
-                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <!-- Testavimas sandelis -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="examinationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Examination</a>
+                            <ul class="dropdown-menu" aria-labelledby="examinationDropdown">
+                                <li><a class="dropdown-item" href="{{ path('app_examination_new') }}">New</a></li>
+                                <li><a class="dropdown-item" href="{{ path('app_examination_index') }}">List</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
 
-                    <!-- Vaistu sandelis -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="DrugWarehouseDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Warehouse</a>
-                        <ul class="dropdown-menu" aria-labelledby="DrugWarehouseDropdown">
-                            <li><a class="dropdown-item" href="{{ path('app_drug_warehouse_new') }}">New</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_drug_warehouse_index') }}">List</a></li>
-                        </ul>
-                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <!-- Vaistu sandelis -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="DrugWarehouseDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Warehouse</a>
+                            <ul class="dropdown-menu" aria-labelledby="DrugWarehouseDropdown">
+                                <li><a class="dropdown-item" href="{{ path('app_drug_warehouse_new') }}">New</a></li>
+                                <li><a class="dropdown-item" href="{{ path('app_drug_warehouse_index') }}">List</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
 
                     <!-- Logout -->
                     <li class="nav-item">
