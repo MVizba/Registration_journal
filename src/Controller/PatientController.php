@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Patient;
+use App\Entity\Client;
 use App\Form\PatientType;
 use App\Repository\PatientRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,6 +29,7 @@ final class PatientController extends AbstractController
     #[Route('/new', name: 'app_patient_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $clients = $entityManager->getRepository(Client::class)->findAll();
         $patient = new Patient();
         $form = $this->createForm(PatientType::class, $patient);
         $form->handleRequest($request);
@@ -40,8 +42,8 @@ final class PatientController extends AbstractController
         }
 
         return $this->render('patient/new.html.twig', [
-            'patient' => $patient,
-            'form' => $form,
+            'form' => $form->createView(),
+            'clients' => $clients,
         ]);
     }
 
