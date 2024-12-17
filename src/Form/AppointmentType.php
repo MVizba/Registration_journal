@@ -31,7 +31,7 @@ class AppointmentType extends AbstractType
                 'widget' => 'single_text',
                 'constraints' => [
                     new Assert\LessThanOrEqual([
-                        'value' => 'today',
+                        'value' => new \DateTime('now'),
                         'message' => 'The date of symptoms cannot be greater than Now',
                     ]),
                 ],
