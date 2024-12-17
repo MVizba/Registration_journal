@@ -14,7 +14,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/client')]
 #[IsGranted('ROLE_USER')]
-
 final class ClientController extends AbstractController
 {
     #[Route(name: 'app_client_index', methods: ['GET'])]
@@ -32,6 +31,7 @@ final class ClientController extends AbstractController
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
         $user = $this->getUser();
+
         if (null === $user) {
             throw $this->createAccessDeniedException('You must be logged in!');
         }
@@ -40,6 +40,11 @@ final class ClientController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($client);
             $entityManager->flush();
+
+            $redirectRoute = $request->query->get('redirect');
+            if ($redirectRoute && is_string($redirectRoute)) {
+                return $this->redirectToRoute($redirectRoute, ['selectedClient' => $client->getId()]);
+            }
 
             return $this->redirectToRoute('app_client_index', [], Response::HTTP_SEE_OTHER);
         }
