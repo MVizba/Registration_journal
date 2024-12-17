@@ -10,11 +10,10 @@
             <div class="col-md-8">
                 {{ include('asigned_drugs/_form.html.twig', {'button_label': 'Update'}) }}
 
-{#                <div class="row mt-3 justify-content-left">#}
-{#                    <div class="col-auto">#}
-{#                        <a href="{{ path('app_asigned_drugs_index') }}" class="btn btn-secondary">Back to list</a>#}
-{#                    </div>#}
-{#                </div>#}
+                <div class="row mt-3 justify-content-left">
+                    <div class="col-auto">
+                        <a href="{{ path('app_appointment_edit', {'id': asigned_drug.appointment.id}) }}" class="btn btn-secondary">Back</a>                    </div>
+                </div>
 
 {#                <div class="row mt-3 justify-content-end">#}
 {#                    <div class="col-auto">#}

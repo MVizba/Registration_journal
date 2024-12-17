@@ -8,12 +8,11 @@
 
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <!-- Form for creating a new examination with results -->
                 {{ include('examination_wr/_form.html.twig') }}
 
                 <div class="row mt-3 justify-content-left">
                     <div class="col-auto">
-                        <a href="{{ path('app_examination_w_r_index') }}" class="btn btn-secondary">Back to list</a>
+                        <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-secondary">Back</a>
                     </div>
                 </div>
             </div>
