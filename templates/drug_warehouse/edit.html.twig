@@ -3,11 +3,34 @@
 {% block title %}Edit DrugWarehouse{% endblock %}
 
 {% block body %}
-    <h1>Edit DrugWarehouse</h1>
+    <div class="container mt-4">
+        <h1 class="text-center">Edit DrugWarehouse</h1>
 
-    {{ include('drug_warehouse/_form.html.twig', {'button_label': 'Update'}) }}
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <!-- Form for editing drug warehouse -->
+                <form method="post" action="{{ path('app_drug_warehouse_edit', {'id': drug_warehouse.id}) }}" id="drug_warehouse_form">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <div class="row mt-3 justify-content-between">
+                        <div class="col-auto">
+                            <a href="{{ path('app_drug_warehouse_index') }}" class="btn btn-secondary">Back to list</a>
+                        </div>
+                        <div class="col-auto">
+                            <!-- Update button inside the form -->
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </form>
 
-    <a href="{{ path('app_drug_warehouse_index') }}">back to list</a>
-
-    {{ include('drug_warehouse/_delete_form.html.twig') }}
+                <!-- Include Delete form -->
+                <div class="row mt-3 justify-content-end">
+                    <div class="col-auto">
+                        {{ include('drug_warehouse/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

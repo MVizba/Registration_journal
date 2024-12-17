@@ -3,51 +3,42 @@
 {% block title %}DrugWarehouse index{% endblock %}
 
 {% block body %}
-    <h1>DrugWarehouse index</h1>
-
-    <table class="table">
-        <thead>
+    <div class="table-responsive">
+        <h1 class="text-center">Drug stock</h1>
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <th>Id</th>
                 <th>DateOfReceipt</th>
                 <th>DrugName</th>
                 <th>DrugManufacturer</th>
                 <th>DocumentNumber</th>
                 <th>Amount</th>
-                <th>Type</th>
-                <th>ManufactureDate</th>
                 <th>ExpirationDate</th>
-                <th>Series</th>
-                <th>WhereObtainedFrom</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for drug_warehouse in drug_warehouses %}
-            <tr>
-                <td>{{ drug_warehouse.id }}</td>
-                <td>{{ drug_warehouse.dateOfReceipt ? drug_warehouse.dateOfReceipt|date('Y-m-d') : '' }}</td>
-                <td>{{ drug_warehouse.DrugName }}</td>
-                <td>{{ drug_warehouse.drugManufacturer }}</td>
-                <td>{{ drug_warehouse.documentNumber }}</td>
-                <td>{{ drug_warehouse.amount }}</td>
-                <td>{{ drug_warehouse.type }}</td>
-                <td>{{ drug_warehouse.manufactureDate ? drug_warehouse.manufactureDate|date('Y-m-d') : '' }}</td>
-                <td>{{ drug_warehouse.expirationDate ? drug_warehouse.expirationDate|date('Y-m-d') : '' }}</td>
-                <td>{{ drug_warehouse.series }}</td>
-                <td>{{ drug_warehouse.whereObtainedFrom }}</td>
-                <td>
-                    <a href="{{ path('app_drug_warehouse_show', {'id': drug_warehouse.id}) }}">show</a>
-                    <a href="{{ path('app_drug_warehouse_edit', {'id': drug_warehouse.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for drug_warehouse in drug_warehouses %}
+                <tr>
+                    <td>{{ drug_warehouse.dateOfReceipt ? drug_warehouse.dateOfReceipt|date('Y-m-d') : '' }}</td>
+                    <td>{{ drug_warehouse.DrugName }}</td>
+                    <td>{{ drug_warehouse.drugManufacturer }}</td>
+                    <td>{{ drug_warehouse.documentNumber }}</td>
+                    <td>{{ drug_warehouse.amount }}</td>
+                    <td>{{ drug_warehouse.expirationDate ? drug_warehouse.expirationDate|date('Y-m-d') : '' }}</td>
+                    <td>
+                        <a href="{{ path('app_drug_warehouse_show', {'id': drug_warehouse.id}) }}" class="btn btn-secondary btn-sm">Show</a>
+                        <a href="{{ path('app_drug_warehouse_edit', {'id': drug_warehouse.id}) }}" class="btn btn-secondary btn-sm">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="12" class="text-center">No records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{ path('app_drug_warehouse_new') }}" class="btn btn-secondary mt-3">Create new</a>
 
-    <a href="{{ path('app_drug_warehouse_new') }}">Create new</a>
 {% endblock %}
