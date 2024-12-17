@@ -3,45 +3,46 @@
 {% block title %}Patient index{% endblock %}
 
 {% block body %}
-    <h1>Patient index</h1>
-
-    <table class="table">
-        <thead>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <th>Id</th>
+                <th>Owner</th>
                 <th>Name</th>
                 <th>Type</th>
                 <th>Gender</th>
                 <th>Age</th>
-                <th>MarkingNumber</th>
-                <th>PassportNumber</th>
-                <th>Appearance</th>
-                <th>actions</th>
+                <th>Marking Number</th>
+                <th>Passport Number</th>
+                <th>Actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for patient in patients %}
-            <tr>
-                <td>{{ patient.id }}</td>
-                <td>{{ patient.name }}</td>
-                <td>{{ patient.type }}</td>
-                <td>{{ patient.gender }}</td>
-                <td>{{ patient.age ? patient.age|date('Y-m-d') : '' }}</td>
-                <td>{{ patient.markingNumber }}</td>
-                <td>{{ patient.passportNumber }}</td>
-                <td>{{ patient.appearance }}</td>
-                <td>
-                    <a href="{{ path('app_patient_show', {'id': patient.id}) }}">show</a>
-                    <a href="{{ path('app_patient_edit', {'id': patient.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for patient in patients %}
+                <tr>
+                    {# Display the owner's (client's) name and last name #}
+                    <td>
+                        {{ patient.client ? patient.client.name ~ ' ' ~ patient.client.lastName : 'No Owner Assigned' }}
+                    </td>
+                    <td>{{ patient.name }}</td>
+                    <td>{{ patient.type }}</td>
+                    <td>{{ patient.gender }}</td>
+                    <td>{{ patient.age ? patient.age|date('Y-m-d') : '' }}</td>
+                    <td>{{ patient.markingNumber }}</td>
+                    <td>{{ patient.passportNumber }}</td>
+                    <td>
+                        <a href="{{ path('app_patient_show', {'id': patient.id}) }}" class="btn btn-secondary btn-sm">Show</a>
+                        <a href="{{ path('app_patient_edit', {'id': patient.id}) }}" class="btn btn-secondary btn-sm">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8" class="text-center">No records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    <a href="{{ path('app_patient_new') }}">Create new</a>
+    <a href="{{ path('app_patient_new') }}" class="btn btn-primary mt-3">Create new</a>
 {% endblock %}

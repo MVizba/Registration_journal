@@ -1,50 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Patient{% endblock %}
+{% block title %}Animal card{% endblock %}
 
 {% block body %}
-    <h1>Patient</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ patient.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ patient.name }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ patient.type }}</td>
-            </tr>
-            <tr>
-                <th>Gender</th>
-                <td>{{ patient.gender }}</td>
-            </tr>
-            <tr>
-                <th>Age</th>
-                <td>{{ patient.age ? patient.age|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>MarkingNumber</th>
-                <td>{{ patient.markingNumber }}</td>
-            </tr>
-            <tr>
-                <th>PassportNumber</th>
-                <td>{{ patient.passportNumber }}</td>
-            </tr>
-            <tr>
-                <th>Appearance</th>
-                <td>{{ patient.appearance }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_patient_index') }}">back to list</a>
-
-    <a href="{{ path('app_patient_edit', {'id': patient.id}) }}">edit</a>
-
-    {{ include('patient/_delete_form.html.twig') }}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="text-left">Animal info</h1>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Owner</th>
+                        <td>{{ patient.client.name }} {{ patient.client.lastName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ patient.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ patient.type }}</td>
+                    </tr>
+                    <tr>
+                        <th>Gender</th>
+                        <td>{{ patient.gender }}</td>
+                    </tr>
+                    <tr>
+                        <th>Age</th>
+                        <td>
+                            {% if patient.age %}
+                                {{ patient.age|date('Y-m-d') }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Marking Number</th>
+                        <td>{{ patient.markingNumber }}</td>
+                    </tr>
+                    <tr>
+                        <th>Passport Number</th>
+                        <td>{{ patient.passportNumber }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row justify-content-left mt-3">
+                    <div class="col-auto">
+                        <a href="{{ path('app_patient_index') }}" class="btn btn-secondary">Back to list</a>
+                    </div>
+                    <div class="col-auto">
+                        <a href="{{ path('app_patient_edit', {'id': patient.id}) }}" class="btn btn-primary">Edit</a>
+                    </div>
+                    <div class="col-auto">
+                        {{ include('patient/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
