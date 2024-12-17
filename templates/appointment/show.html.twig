@@ -1,76 +1,109 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Appointment{% endblock %}
+{% block title %}Appointment Details{% endblock %}
 
 {% block body %}
-    <h1>Appointment</h1>
-
-    <table class="table">
-        <tbody>
-        <p><strong>Owner:</strong> {{ appointment.client.name }}</p>
-        <p><strong>Patient:</strong> {{ appointment.patient.name }}</p>
-
-            <tr>
-                <th>Date</th>
-                <td>{{ appointment.date ? appointment.date|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>RegistrationDate</th>
-                <td>{{ appointment.registrationDate ? appointment.registrationDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>SymptomsDate</th>
-                <td>{{ appointment.symptomsDate ? appointment.symptomsDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ appointment.status }}</td>
-            </tr>
-            <tr>
-                <th>Diagnosis</th>
-                <td>{{ appointment.diagnosis }}</td>
-            </tr>
-            <tr>
-                <th>Services</th>
-                <td>{{ appointment.services }}</td>
-            </tr>
-            <tr>
-                <th>EndResult</th>
-                <td>{{ appointment.endResult }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-
-    <!-- examination results -->
-    <h2>Examinations</h2>
-    {% for examinationWithResult in appointment.examinationWithResults %}
-        <div>
-            <p><strong>Examination:</strong> {{ examinationWithResult.examination.examinationName }}</p>
-            <p><strong>Date:</strong> {{ examinationWithResult.date|date('Y-m-d') }}</p>
-            <p><strong>Result:</strong> {{ examinationWithResult.result }}</p>
-            <p><strong>Norms:</strong> {{ examinationWithResult.examination.norms }}</p>
-            <p><strong>Machine:</strong> {{ examinationWithResult.examination.machine }}</p>
+    <div class="container my-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h1 class="mb-0">Appointment Details</h1>
+            </div>
+            <div class="card-body">
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <p><strong>Owner:</strong> {{ appointment.client.name }}</p>
+                        <p><strong>Patient:</strong> {{ appointment.patient.name }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Date:</strong> {{ appointment.date|date('Y-m-d') }}</p>
+                        <p><strong>Registration Date:</strong> {{ appointment.registrationDate|date('Y-m-d') }}</p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <p><strong>Symptoms Date:</strong> {{ appointment.symptomsDate|date('Y-m-d') }}</p>
+                        <p><strong>Status:</strong> {{ appointment.status }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Diagnosis:</strong> {{ appointment.diagnosis }}</p>
+                        <p><strong>Services:</strong> {{ appointment.services }}</p>
+                        <p><strong>End Result:</strong> {{ appointment.endResult }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    {% else %}
-        <p>No examinations.</p>
-    {% endfor %}
-    <!-- pabaiga examination results-->
 
-    <!-- assigned drugs -->
-    <h2>Assigned Drugs</h2>
-    {% for asignedDrug in appointment.asignedDrugs %}
-        <div>
-            <p><strong>Drug Name:</strong> {{ asignedDrug.drugWarehouse.drugName }}</p>
-            <p><strong>Amount:</strong> {{ asignedDrug.amount }} {{ asignedDrug.drugWarehouse.type }}</p>
+        <!-- Examinations -->
+        <div class="card shadow-sm mt-4">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0">Examinations</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-secondary">
+                    <tr>
+                        <th scope="col">Examination Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Result</th>
+                        <th scope="col">Norms</th>
+                        <th scope="col">Machine</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for examinationWithResult in appointment.examinationWithResults %}
+                        <tr>
+                            <td>{{ examinationWithResult.examination.examinationName }}</td>
+                            <td>{{ examinationWithResult.date|date('Y-m-d') }}</td>
+                            <td>{{ examinationWithResult.result }}</td>
+                            <td>{{ examinationWithResult.examination.norms }}</td>
+                            <td>{{ examinationWithResult.examination.machine }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No examinations found.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    {% else %}
-        <p>No assigned drugs.</p>
-    {% endfor %}
-    <!-- end assigned drugs -->
 
-    <a href="{{ path('app_appointment_index') }}">back to list</a>
-{#    <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}">edit</a>#}
+        <!-- Assigned Drugs -->
+        <div class="card shadow-sm mt-4">
+            <div class="card-header bg-info text-white">
+                <h3 class="mb-0">Assigned Drugs</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-secondary">
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Drug Name</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for asignedDrug in appointment.asignedDrugs %}
+                        <tr>
+                            <td>{{ asignedDrug.date|date('Y-m-d') }}</td>
+                            <td>{{ asignedDrug.drugWarehouse.drugName }}</td>
+                            <td>{{ asignedDrug.amount }} {{ asignedDrug.drugWarehouse.type }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="2" class="text-center text-muted">No assigned drugs found.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-{#    {{ include('appointment/_delete_form.html.twig') }}#}
+        <!-- Back'as -->
+        <div class="text-left mt-4">
+            <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to list
+            </a>
+        </div>
+    </div>
 {% endblock %}
