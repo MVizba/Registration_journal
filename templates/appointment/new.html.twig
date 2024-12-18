@@ -8,8 +8,13 @@
 
         <div class="card p-4 shadow">
             {{ form_start(form) }}
+            <a href="{{ path('app_patient_new', {'fromAppointment': 'true'}) }}" class="btn btn-secondary">
+                Add New Patient/Client
+            </a>
             {{ include('appointment/_form.html.twig') }}
         </div>
+
+
 
         <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary mt-3">Back to List</a>
     </div>

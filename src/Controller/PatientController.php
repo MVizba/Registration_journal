@@ -28,15 +28,18 @@ final class PatientController extends AbstractController
     #[Route('/new', name: 'app_patient_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $patient = new Patient();
-        // Add Client ir atidarom disabled fields is URL issitraukiam
         $selectedClientId = $request->query->get('selectedClient');
+        $selectedClient = null;
+
         if ($selectedClientId) {
             $selectedClient = $entityManager->getRepository(Client::class)->find($selectedClientId);
-            if ($selectedClient) {
-                $patient->setClient($selectedClient);
-            }
         }
+
+        $patient = new Patient();
+        if ($selectedClient) {
+            $patient->setClient($selectedClient);
+        }
+
         $form = $this->createForm(PatientType::class, $patient);
         $form->handleRequest($request);
 
@@ -44,20 +47,16 @@ final class PatientController extends AbstractController
             $entityManager->persist($patient);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_patient_index', [], Response::HTTP_SEE_OTHER);
+            // Redirect to appointment su klientu ir pacientu
+            return $this->redirectToRoute('app_appointment_new', [
+                'selectedPatient' => $patient->getId(),
+                'selectedClient' => $selectedClient ? $selectedClient->getId() : null,
+            ]);
         }
 
         return $this->render('patient/new.html.twig', [
             'patient' => $patient,
             'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_patient_show', methods: ['GET'])]
-    public function show(Patient $patient): Response
-    {
-        return $this->render('patient/show.html.twig', [
-            'patient' => $patient,
         ]);
     }
 
@@ -78,6 +77,13 @@ final class PatientController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('/{id}', name: 'app_patient_show', methods: ['GET'])]
+    public function show(Patient $patient): Response
+    {
+        return $this->render('patient/show.html.twig', [
+            'patient' => $patient,
+        ]);
+    }
 
     #[Route('/{id}', name: 'app_patient_delete', methods: ['POST'])]
     public function delete(Request $request, Patient $patient, EntityManagerInterface $entityManager): Response
@@ -89,4 +95,5 @@ final class PatientController extends AbstractController
 
         return $this->redirectToRoute('app_patient_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }
