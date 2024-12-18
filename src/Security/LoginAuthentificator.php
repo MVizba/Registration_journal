@@ -22,22 +22,18 @@ class LoginAuthentificator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
-    {
+    public function __construct(
+        private readonly UrlGeneratorInterface $urlGenerator,
+    ) {
     }
 
     public function authenticate(Request $request): Passport
     {
-        $emailParam = $request->get('email', '');
-        $email = is_string($emailParam) ? $emailParam : '';
+        $email = $this->getStringFromRequest($request, 'email');
+        $password = $this->getStringFromRequest($request, 'password');
+        $csrfToken = $this->getStringFromRequest($request, '_csrf_token');
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
-
-        $passwordParam = $request->get('password', '');
-        $password = is_string($passwordParam) ? $passwordParam : '';
-
-        $csrfParam = $request->get('_csrf_token', '');
-        $csrfToken = is_string($csrfParam) ? $csrfParam : '';
 
         return new Passport(
             new UserBadge($email),
@@ -51,15 +47,20 @@ class LoginAuthentificator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return new RedirectResponse($targetPath);
-        }
+        $targetPath = $this->getTargetPath($request->getSession(), $firewallName);
 
-        return new RedirectResponse($this->urlGenerator->generate('app_dashboard'));
+        return new RedirectResponse($targetPath ?: $this->urlGenerator->generate('app_dashboard'));
     }
 
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+    }
+
+    private function getStringFromRequest(Request $request, string $key): string
+    {
+        $value = $request->get($key, '');
+
+        return is_string($value) ? $value : '';
     }
 }

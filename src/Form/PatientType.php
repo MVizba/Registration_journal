@@ -51,10 +51,9 @@ class PatientType extends AbstractType
             $form = $event->getForm();
             $data = $event->getData();
 
+            $clientSelected = false;
             if (is_array($data) && isset($data['client'])) {
                 $clientSelected = !empty($data['client']);
-            } else {
-                $clientSelected = false;
             }
 
             $this->addFields($form, !$clientSelected);
