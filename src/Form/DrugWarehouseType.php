@@ -4,13 +4,13 @@ namespace App\Form;
 
 use App\Entity\DrugWarehouse;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class DrugWarehouseType extends AbstractType
 {
@@ -21,11 +21,28 @@ class DrugWarehouseType extends AbstractType
                 'widget' => 'single_text',
                 'data' => new \DateTime(),
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
             ])
-            ->add('DrugName')
-            ->add('drugManufacturer')
-            ->add('documentNumber')
-            ->add('amount')
+            ->add('DrugName', null, [
+                'constraints' => [new Assert\NotBlank()],
+            ])
+            ->add('drugManufacturer', null, [
+                'constraints' => [new Assert\NotBlank()],
+            ])
+            ->add('documentNumber', null, [
+                'constraints' => [new Assert\NotBlank()],
+            ])
+            ->add('amount', null, [
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new GreaterThanOrEqual([
+                        'value' => 0,
+                        'message' => 'The amount must be 0 or greater.',
+                    ]),
+                ],
+            ])
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'ml' => 'ml',
@@ -57,9 +74,12 @@ class DrugWarehouseType extends AbstractType
                 ],
                 'required' => true,
             ])
-            ->add('series')
-            ->add('whereObtainedFrom')
-        ;
+            ->add('series', null, [
+                'constraints' => [new Assert\NotBlank()],
+            ])
+            ->add('whereObtainedFrom', null, [
+                'constraints' => [new Assert\NotBlank()],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
