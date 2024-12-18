@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class AppointmentType extends AbstractType
 {
@@ -36,19 +37,51 @@ class AppointmentType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('status')
-            ->add('diagnosis')
-            ->add('services')
-            ->add('endResult')
+            ->add('status', TextareaType::class, [
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Please provide the status.',
+                    ]),
+                ],
+            ])
+            ->add('diagnosis', TextareaType::class, [
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Please provide the diagnosis.',
+                    ]),
+                ],
+            ])
+            ->add('services', TextareaType::class, [
+                'required' => false,
+            ])
+            ->add('endResult', TextareaType::class, [
+                'required' => false,
+            ])
             ->add('client', EntityType::class, [
                 'class' => Client::class,
-                'choice_label' => 'name',
+                'choice_label' => function (Client $client) {
+                    return $client->getName().' '.$client->getLastName();
+                },
+                'placeholder' => 'Select an owner',
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Please select an owner before filling the form.',
+                    ]),
+                ],
             ])
             ->add('patient', EntityType::class, [
                 'class' => Patient::class,
                 'choice_label' => 'name',
+                'placeholder' => 'Select a patient',
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Please select a patient.',
+                    ]),
+                ],
             ])
         ;
     }
