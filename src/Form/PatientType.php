@@ -7,6 +7,7 @@ use App\Entity\Patient;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -68,8 +69,15 @@ class PatientType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'Name is required.']),
                 ],
+                'attr' => [
+                    'placeholder' => 'Enter the patient’s name',
+                ],
             ])
-            ->add('type', null, ['disabled' => $disabled])
+            ->add('type', null, ['disabled' => $disabled,
+                'attr' => [
+                    'placeholder' => 'Enter the patient’s type (e.g., dog, cat)',
+                ],
+            ])
             ->add('gender', ChoiceType::class, [
                 'choices' => [
                     'Male' => 'male',
@@ -90,9 +98,43 @@ class PatientType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('markingNumber', null, ['disabled' => $disabled])
-            ->add('passportNumber', null, ['disabled' => $disabled])
-            ->add('appearance', null, ['disabled' => $disabled]);
+            ->add('markingNumber', null, [
+                'disabled' => $disabled,
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => 50,
+                        'maxMessage' => 'Marking number cannot be longer than {{ limit }} characters.',
+                    ]),
+                ],
+                'required' => false,
+                'attr' => [
+                    'placeholder' => '(optional)',
+                ],
+            ])
+            ->add('passportNumber', null, [
+                'disabled' => $disabled,
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => 50,
+                        'maxMessage' => 'Passport number cannot be longer than {{ limit }} characters.',
+                    ]),
+                ],
+                'required' => false,
+                'attr' => [
+                    'placeholder' => '(optional)',
+                ],
+            ])
+            ->add('appearance', TextareaType::class, [
+                'disabled' => $disabled,
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Appearance is required.']),
+                ],
+                'required' => true,
+                'attr' => [
+                    'placeholder' => 'Describe the patient’s appearance',
+                    'rows' => 5,
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
