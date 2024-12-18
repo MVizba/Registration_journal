@@ -23,8 +23,8 @@
                     {% for appointment in appointments %}
                         <tr>
                             <td>{{ appointment.date ? appointment.date|date('Y-m-d') : '' }}</td>
-                            <td>{{ appointment.patient ? appointment.patient.name : 'N/A' }}</td>
-                            <td>{{ appointment.client ? appointment.client.name ~ ' ' ~ appointment.client.lastName : 'N/A' }}</td>
+                            <td>{{ appointment.patient ? appointment.patient.name : '' }}</td>
+                            <td>{{ appointment.client ? appointment.client.name ~ ' ' ~ appointment.client.lastName : '' }}</td>
                             <td>{{ appointment.status }}</td>
                             <td>{{ appointment.diagnosis }}</td>
                             <td>
