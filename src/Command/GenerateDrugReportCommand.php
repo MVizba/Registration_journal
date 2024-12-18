@@ -6,7 +6,6 @@ use App\Entity\Appointment;
 use App\Entity\AsignedDrugs;
 use App\Entity\DrugWarehouse;
 use App\Repository\AsignedDrugsRepository;
-use DateTime;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -15,6 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use DateTime;
 
 #[AsCommand(
     name: 'app:drug-report',
@@ -44,7 +44,6 @@ class GenerateDrugReportCommand extends Command
         $startDateArg = $input->getArgument('start_date');
         $endDateArg = $input->getArgument('end_date');
 
-        // Ensure that these arguments are strings before passing to DateTime
         if (!is_string($startDateArg) || !is_string($endDateArg)) {
             $io->error('Invalid date arguments.');
 
@@ -52,8 +51,8 @@ class GenerateDrugReportCommand extends Command
         }
 
         try {
-            $startDate = new \DateTime($startDateArg);
-            $endDate = new \DateTime($endDateArg);
+            $startDate = new DateTime($startDateArg);
+            $endDate = new DateTime($endDateArg);
         } catch (\Exception $e) {
             $io->error('Invalid date format. Please use YYYY-MM-DD.');
 
@@ -88,7 +87,6 @@ class GenerateDrugReportCommand extends Command
 
         $row = 2;
         foreach ($asignedDrugs as $asignedDrug) {
-
             $dateObj = $asignedDrug->getDate();
             $dateStr = ($dateObj instanceof \DateTimeInterface) ? $dateObj->format('Y-m-d') : 'Unknown';
 

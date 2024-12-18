@@ -16,6 +16,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 
+/**
+ * @SuppressWarnings("unused")
+ */
 class PatientType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

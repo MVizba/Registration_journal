@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Exception\InvalidArgumentException;
+use Symfony\Component\Validator\Exception\RuntimeException;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -67,7 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         if ('' === $email) {
-            throw new \InvalidArgumentException('Email cannot be empty.');
+            throw new InvalidArgumentException('Email cannot be empty.');
         }
         $this->email = $email;
 
@@ -77,7 +79,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         if (null === $this->email || '' === $this->email) {
-            throw new \RuntimeException('No email set, cannot generate user identifier.');
+            throw new RuntimeException('No email set, cannot generate user identifier.');
         }
 
         return $this->email;

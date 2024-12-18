@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Validator\Exception\RuntimeException;
 
 #[Route('/client')]
 #[IsGranted('ROLE_USER')]
@@ -39,7 +40,7 @@ final class ClientController extends AbstractController
         }
 
         if (!$user instanceof User) {
-            throw new \RuntimeException('Logged in user is not an instance of App\Entity\User.');
+            throw new RuntimeException('Logged in user is not an instance of App\Entity\User.');
         }
 
         $client->setUser($user);

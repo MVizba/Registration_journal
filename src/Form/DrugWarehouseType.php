@@ -14,6 +14,9 @@ use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 class DrugWarehouseType extends AbstractType
 {
+    /**
+     * @SuppressWarnings("unused")
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

@@ -45,6 +45,9 @@ class LoginAuthentificator extends AbstractLoginFormAuthenticator
         );
     }
 
+    /**
+     * @SuppressWarnings("unused")
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         $targetPath = $this->getTargetPath($request->getSession(), $firewallName);
@@ -52,6 +55,9 @@ class LoginAuthentificator extends AbstractLoginFormAuthenticator
         return new RedirectResponse($targetPath ?: $this->urlGenerator->generate('app_dashboard'));
     }
 
+    /**
+     * @SuppressWarnings("unused")
+     */
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);

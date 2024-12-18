@@ -12,6 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class ClientType extends AbstractType
 {
+    /**
+     * @SuppressWarnings("unused")
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
