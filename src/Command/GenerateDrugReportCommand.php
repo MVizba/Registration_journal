@@ -2,7 +2,11 @@
 
 namespace App\Command;
 
+use App\Entity\Appointment;
+use App\Entity\AsignedDrugs;
+use App\Entity\DrugWarehouse;
 use App\Repository\AsignedDrugsRepository;
+use DateTime;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -16,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     name: 'app:drug-report',
     description: 'Generate a report of assigned drugs within a specified time period and export it to Excel.',
 )]
-class DrugReportCommand extends Command
+class GenerateDrugReportCommand extends Command
 {
     private AsignedDrugsRepository $asignedDrugsRepository;
 
@@ -26,7 +30,7 @@ class DrugReportCommand extends Command
         $this->asignedDrugsRepository = $asignedDrugsRepository;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('start_date', InputArgument::REQUIRED, 'Start date (YYYY-MM-DD)')
@@ -36,8 +40,25 @@ class DrugReportCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $startDate = new \DateTime($input->getArgument('start_date'));
-        $endDate = new \DateTime($input->getArgument('end_date'));
+
+        $startDateArg = $input->getArgument('start_date');
+        $endDateArg = $input->getArgument('end_date');
+
+        // Ensure that these arguments are strings before passing to DateTime
+        if (!is_string($startDateArg) || !is_string($endDateArg)) {
+            $io->error('Invalid date arguments.');
+
+            return Command::FAILURE;
+        }
+
+        try {
+            $startDate = new \DateTime($startDateArg);
+            $endDate = new \DateTime($endDateArg);
+        } catch (\Exception $e) {
+            $io->error('Invalid date format. Please use YYYY-MM-DD.');
+
+            return Command::FAILURE;
+        }
 
         $asignedDrugs = $this->asignedDrugsRepository->findByDateRange($startDate, $endDate);
 
@@ -52,7 +73,10 @@ class DrugReportCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function exportToExcel(array $asignedDrugs, \DateTime $startDate, \DateTime $endDate, SymfonyStyle $io): void
+    /**
+     * @param AsignedDrugs[] $asignedDrugs
+     */
+    private function exportToExcel(array $asignedDrugs, \DateTimeInterface $startDate, \DateTimeInterface $endDate, SymfonyStyle $io): void
     {
         $filename = "drug_report_{$startDate->format('Ymd')}_to_{$endDate->format('Ymd')}.xlsx";
 
@@ -64,14 +88,35 @@ class DrugReportCommand extends Command
 
         $row = 2;
         foreach ($asignedDrugs as $asignedDrug) {
+
+            $dateObj = $asignedDrug->getDate();
+            $dateStr = ($dateObj instanceof \DateTimeInterface) ? $dateObj->format('Y-m-d') : 'Unknown';
+
+            $drugWarehouse = $asignedDrug->getDrugWarehouse();
+            $drugName = ($drugWarehouse instanceof DrugWarehouse) ? $drugWarehouse->getDrugName() : 'Unknown';
+
+            $amount = $asignedDrug->getAmount();
+
             $appointment = $asignedDrug->getAppointment();
+
+            $patientName = 'Unknown';
+            if ($appointment instanceof Appointment && $appointment->getPatient()) {
+                $patientName = $appointment->getPatient()->getName();
+            }
+
+            $clientName = 'Unknown';
+            if ($appointment instanceof Appointment && $appointment->getClient()) {
+                $clientName = $appointment->getClient()->getName();
+            }
+
             $sheet->fromArray([
-                $asignedDrug->getDate()->format('Y-m-d'),
-                $asignedDrug->getDrugWarehouse()->getDrugName(),
-                $asignedDrug->getAmount(),
-                $appointment ? $appointment->getPatient()->getName() : 'Unknown',
-                $appointment ? $appointment->getClient()->getName() : 'Unknown',
+                $dateStr,
+                $drugName,
+                $amount,
+                $patientName,
+                $clientName,
             ], null, "A$row");
+
             ++$row;
         }
 

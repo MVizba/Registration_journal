@@ -49,13 +49,21 @@ final class AsignedDrugsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $drugWarehouse = $asignedDrug->getDrugWarehouse();
+            if (null === $drugWarehouse) {
+                $this->addFlash('error', 'No drug warehouse associated with the assigned drug.');
+
+                return $this->redirectToRoute('app_asigned_drugs_new', ['appointmentId' => $appointmentId]);
+            }
+
             $assignedAmount = $asignedDrug->getAmount();
             $availableStock = $drugWarehouse->getAmount();
 
             if ($assignedAmount > $availableStock) {
-                $this->addFlash('error', 'There is no enough amount in stock.');
+                $this->addFlash('error', 'There is not enough amount in stock.');
+
                 return $this->redirectToRoute('app_asigned_drugs_new', ['appointmentId' => $appointmentId]);
             }
+
             try {
                 $eventDispatcher->dispatch(new DrugAssignedEvent($asignedDrug), DrugAssignedEvent::NAME);
 
@@ -94,8 +102,15 @@ final class AsignedDrugsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $appointment = $asignedDrug->getAppointment();
+            if (null === $appointment) {
+                $this->addFlash('error', 'No associated appointment found.');
+
+                return $this->redirectToRoute('app_appointment_index');
+            }
+
             return $this->redirectToRoute('app_appointment_edit', [
-                'id' => $asignedDrug->getAppointment()->getId(),
+                'id' => $appointment->getId(),
             ], Response::HTTP_SEE_OTHER);
         }
 
@@ -108,12 +123,22 @@ final class AsignedDrugsController extends AbstractController
     #[Route('/{id}', name: 'app_asigned_drugs_delete', methods: ['POST'])]
     public function delete(Request $request, AsignedDrugs $asignedDrug, EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcher): Response
     {
-        $appointmentId = $asignedDrug->getAppointment()->getId();
+        $appointment = $asignedDrug->getAppointment();
+        $appointmentId = $appointment?->getId();
 
-        if ($this->isCsrfTokenValid('delete'.$asignedDrug->getId(), $request->request->get('_token'))) {
+        $token = $request->request->get('_token');
+        if (!is_string($token)) {
+            $token = '';
+        }
+
+        if ($this->isCsrfTokenValid('delete'.$asignedDrug->getId(), $token)) {
             $eventDispatcher->dispatch(new DrugRemovedEvent($asignedDrug), DrugRemovedEvent::NAME);
             $entityManager->remove($asignedDrug);
             $entityManager->flush();
+        }
+
+        if (null === $appointmentId) {
+            return $this->redirectToRoute('app_appointment_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->redirectToRoute('app_appointment_edit', [

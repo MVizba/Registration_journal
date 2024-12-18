@@ -16,36 +16,17 @@ class DrugWarehouseRepository extends ServiceEntityRepository
         parent::__construct($registry, DrugWarehouse::class);
     }
 
+    /**
+     * @return DrugWarehouse[] An array of DrugWarehouse objects
+     */
     public function findDrugsWithAvailableStock(): array
     {
-        return $this->createQueryBuilder('d')
+        /** @var DrugWarehouse[] $result */
+        $result = $this->createQueryBuilder('d')
             ->where('d.amount > 0')
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
-
-    //    /**
-    //     * @return DrugWarehouse[] Returns an array of DrugWarehouse objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('d.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?DrugWarehouse
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

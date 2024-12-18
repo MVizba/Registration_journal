@@ -13,6 +13,7 @@ class DrugWarehouse
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    // @phpstan-ignore-next-line
     private ?int $id = null;
 
     #[ORM\Column(type: 'date')]
@@ -46,6 +47,9 @@ class DrugWarehouse
     private ?string $whereObtainedFrom = null;
 
 
+    /**
+     * @var Collection<int, AsignedDrugs>
+     */
     #[ORM\OneToMany(targetEntity: AsignedDrugs::class, mappedBy: 'drugWarehouse')]
     private Collection $asignedDrugs;
 
@@ -180,6 +184,9 @@ class DrugWarehouse
         return $this;
     }
 
+    /**
+     * @return Collection<int, AsignedDrugs>
+     */
     public function getAsignedDrugs(): Collection
     {
         return $this->asignedDrugs;

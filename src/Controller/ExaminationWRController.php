@@ -15,7 +15,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/examination/w/r')]
 #[IsGranted('ROLE_USER')]
-
 final class ExaminationWRController extends AbstractController
 {
     #[Route(name: 'app_examination_w_r_index', methods: ['GET'])]
@@ -33,7 +32,6 @@ final class ExaminationWRController extends AbstractController
 
         if (!$appointment) {
             $this->addFlash('error', 'Appointment not found.');
-
             return $this->redirectToRoute('app_appointment_index');
         }
 
@@ -76,8 +74,13 @@ final class ExaminationWRController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $appointment = $examinationWithResult->getAppointment();
+            if (null === $appointment) {
+                return $this->redirectToRoute('app_appointment_index');
+            }
+
             return $this->redirectToRoute('app_appointment_edit', [
-                'id' => $examinationWithResult->getAppointment()->getId(),
+                'id' => $appointment->getId(),
             ], Response::HTTP_SEE_OTHER);
         }
 
@@ -90,14 +93,23 @@ final class ExaminationWRController extends AbstractController
     #[Route('/{id}', name: 'app_examination_w_r_delete', methods: ['POST'])]
     public function delete(Request $request, ExaminationWithResults $examinationWithResult, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$examinationWithResult->getId(), $request->request->get('_token'))) {
+        $token = $request->request->get('_token');
+        if (!is_string($token)) {
+            $token = '';
+        }
+
+        if ($this->isCsrfTokenValid('delete'.$examinationWithResult->getId(), $token)) {
             $entityManager->remove($examinationWithResult);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_appointment_edit', [
-            'id' => $examinationWithResult->getAppointment()->getId(),
-        ], Response::HTTP_SEE_OTHER);
+        $appointment = $examinationWithResult->getAppointment();
+        if (null === $appointment) {
+            return $this->redirectToRoute('app_appointment_index');
+        }
 
+        return $this->redirectToRoute('app_appointment_edit', [
+            'id' => $appointment->getId(),
+        ], Response::HTTP_SEE_OTHER);
     }
 }

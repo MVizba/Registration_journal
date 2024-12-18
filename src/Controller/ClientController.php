@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Client;
+use App\Entity\User;
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,11 +31,17 @@ final class ClientController extends AbstractController
         $client = new Client();
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
+
         $user = $this->getUser();
 
         if (null === $user) {
             throw $this->createAccessDeniedException('You must be logged in!');
         }
+
+        if (!$user instanceof User) {
+            throw new \RuntimeException('Logged in user is not an instance of App\Entity\User.');
+        }
+
         $client->setUser($user);
 
         if ($form->isSubmitted() && $form->isValid()) {

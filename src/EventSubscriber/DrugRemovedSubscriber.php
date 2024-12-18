@@ -26,15 +26,22 @@ class DrugRemovedSubscriber implements EventSubscriberInterface
     public function onDrugRemoved(DrugRemovedEvent $event): void
     {
         $asignedDrug = $event->getAsignedDrug();
-        $drugName = $asignedDrug->getDrugWarehouse()->getDrugName();
+        $drugWarehouse = $asignedDrug->getDrugWarehouse();
+
+        if (null === $drugWarehouse) {
+            return;
+        }
+
+        $drugName = $drugWarehouse->getDrugName();
         $assignedAmount = $asignedDrug->getAmount();
 
-        $drugWarehouse = $this->entityManager->getRepository(DrugWarehouse::class)->findOneBy(['drugName' => $drugName]);
+        $drugWarehouseEntity = $this->entityManager->getRepository(DrugWarehouse::class)
+            ->findOneBy(['drugName' => $drugName]);
 
-        if ($drugWarehouse) {
-            $currentAmount = $drugWarehouse->getAmount();
+        if ($drugWarehouseEntity) {
+            $currentAmount = $drugWarehouseEntity->getAmount();
             $newAmount = $currentAmount + $assignedAmount;
-            $drugWarehouse->setAmount($newAmount);
+            $drugWarehouseEntity->setAmount($newAmount);
 
             $this->entityManager->flush();
         }

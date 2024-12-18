@@ -16,41 +16,17 @@ class AsignedDrugsRepository extends ServiceEntityRepository
         parent::__construct($registry, AsignedDrugs::class);
     }
 
-    //    /**
-    //     * @return AsignedDrugs[] Returns an array of AsignedDrugs objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?AsignedDrugs
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
-
     /**
      * Find drugs assigned within a date range.
      *
      * @param \DateTime $startDate
      * @param \DateTime $endDate
-     * @return AsignedDrugs[]
+     * @return AsignedDrugs[] An array of AsignedDrugs objects
      */
-    public function findByDateRange(\DateTime $startDate, \DateTime $endDate)
+    public function findByDateRange(\DateTime $startDate, \DateTime $endDate): array
     {
-        return $this->createQueryBuilder('ad')
+        /** @var AsignedDrugs[] $result */
+        $result = $this->createQueryBuilder('ad')
             ->andWhere('ad.date >= :start_date')
             ->andWhere('ad.date <= :end_date')
             ->setParameter('start_date', $startDate)
@@ -58,6 +34,8 @@ class AsignedDrugsRepository extends ServiceEntityRepository
             ->orderBy('ad.date', 'ASC')
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 
 }

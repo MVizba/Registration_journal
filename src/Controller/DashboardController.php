@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\AppointmentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -11,7 +12,7 @@ class DashboardController extends AbstractController
 {
     #[Route('/', name: 'app_dashboard')]
     #[IsGranted('ROLE_USER')]
-    public function index(AppointmentRepository $appointmentRepository)
+    public function index(AppointmentRepository $appointmentRepository): Response
     {
         $appointments = $appointmentRepository->findAll();
 
