@@ -1,47 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Appointment index{% endblock %}
+{% block title %}Appointments{% endblock %}
 
 {% block body %}
-    <h1>Appointments</h1>
+    <div class="container mt-4">
+        <h1 class="mb-4">Appointments</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Date</th>
-                <th>RegistrationDate</th>
-                <th>SymptomsDate</th>
-                <th>Status</th>
-                <th>Diagnosis</th>
-                <th>Services</th>
-                <th>EndResult</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for appointment in appointments %}
-            <tr>
-                <td>{{ appointment.id }}</td>
-                <td>{{ appointment.date ? appointment.date|date('Y-m-d') : '' }}</td>
-                <td>{{ appointment.registrationDate ? appointment.registrationDate|date('Y-m-d') : '' }}</td>
-                <td>{{ appointment.symptomsDate ? appointment.symptomsDate|date('Y-m-d') : '' }}</td>
-                <td>{{ appointment.status }}</td>
-                <td>{{ appointment.diagnosis }}</td>
-                <td>{{ appointment.services }}</td>
-                <td>{{ appointment.endResult }}</td>
-                <td>
-                    <a href="{{ path('app_appointment_show', {'id': appointment.id}) }}">show</a>
-                    <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered align-middle">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Date</th>
+                    <th>Registration Date</th>
+                    <th>Symptoms Date</th>
+                    <th>Status</th>
+                    <th>Diagnosis</th>
+                    <th>Services</th>
+                    <th>End Result</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for appointment in appointments %}
+                    <tr>
+                        <td>{{ appointment.date ? appointment.date|date('Y-m-d') : '' }}</td>
+                        <td>{{ appointment.registrationDate ? appointment.registrationDate|date('Y-m-d') : '' }}</td>
+                        <td>{{ appointment.symptomsDate ? appointment.symptomsDate|date('Y-m-d') : '' }}</td>
+                        <td>{{ appointment.status }}</td>
+                        <td>{{ appointment.diagnosis }}</td>
+                        <td>{{ appointment.services }}</td>
+                        <td>{{ appointment.endResult }}</td>
+                        <td>
+                            <a href="{{ path('app_appointment_show', {'id': appointment.id}) }}" class="btn btn-sm btn-secondary">Show</a>
+                            <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-sm btn-secondary">Edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center">No records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    <a href="{{ path('app_appointment_new') }}">Create new</a>
+        <a href="{{ path('app_appointment_new') }}" class="btn btn-success mt-3">Create new</a>
+    </div>
 {% endblock %}
