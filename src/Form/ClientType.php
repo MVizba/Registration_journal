@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class ClientType extends AbstractType
 {
@@ -78,6 +80,13 @@ class ClientType extends AbstractType
                     new Assert\Email([
                         'message' => 'Invalid email format',
                     ]),
+                    new Callback(function ($email, ExecutionContextInterface $context) use ($options) {
+                        $clientRepository = $options['client_repository'] ?? null;
+                        if ($clientRepository && $clientRepository->findOneBy(['email' => $email])) {
+                            $context->buildViolation('This email is already registered.')
+                                ->addViolation();
+                        }
+                    }),
                 ],
             ]);
     }
@@ -88,6 +97,7 @@ class ClientType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Client::class,
+            'client_repository' => null,
         ]);
     }
 }

@@ -27,10 +27,12 @@ final class ClientController extends AbstractController
     }
 
     #[Route('/new', name: 'app_client_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, ClientRepository $clientRepository): Response
     {
         $client = new Client();
-        $form = $this->createForm(ClientType::class, $client);
+        $form = $this->createForm(ClientType::class, $client, [
+            'client_repository' => $clientRepository,
+        ]);
         $form->handleRequest($request);
 
         $user = $this->getUser();
