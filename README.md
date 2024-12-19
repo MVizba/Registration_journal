@@ -48,16 +48,25 @@ to patients.
 
         composer install 
 
-3. Run Docker containers
+3. Environment Configuration
+
+   The application requires environment variables for configuration.
+   These variables are stored in .env files.
+        .env.example and .env.dev.example (remove example and fill up 
+        with your credentials).
+
+    for APP_SECRET: you can use: php bin/console secrets:generate-keys
+
+4. Run Docker containers
       
          docker-compose up -d
 
-4. Run migrations: 
+5. Run migrations: 
         
         php bin/console make:migration
         php bin/console doctrine:migrations:migrate
 
-5. Create Admin and User Database
+6. Create Admin and User Database
    - To set up the admin and user, connect to the MySQL database
      and execute the following SQL: 
 
