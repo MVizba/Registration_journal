@@ -6,16 +6,84 @@
     <div class="container mt-4">
         <h1>New Appointment</h1>
 
-        <div class="card p-4 shadow">
-            {{ form_start(form) }}
-            <a href="{{ path('app_patient_new', {'fromAppointment': 'true'}) }}" class="btn btn-secondary">
-                Add New Patient/Client
-            </a>
-            {{ include('appointment/_form.html.twig') }}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Please select a client and patient before filling in appointment details.
         </div>
 
+        <div class="card p-4 shadow">
+            {{ form_start(form) }}
+            
+            <!-- Client and Patient Selection -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ form_label(form.client, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.client, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.patient, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.patient, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
 
+            <!-- Add New Patient/Client Button -->
+            <div class="row mb-3">
+                <div class="col-12">
+                    <a href="{{ path('app_patient_new', {'fromAppointment': 'true'}) }}" class="btn btn-secondary">
+                        Add New Patient/Client
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dates -->
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    {{ form_label(form.date, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_label(form.registrationDate, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.registrationDate, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_label(form.symptomsDate, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.symptomsDate, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+            <!-- Status and Diagnosis -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ form_label(form.status, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.status, {'attr': {'class': 'form-control', 'rows': 4}}) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.diagnosis, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.diagnosis, {'attr': {'class': 'form-control', 'rows': 4}}) }}
+                </div>
+            </div>
+
+            <!-- Services and End Result -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ form_label(form.services, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.services, {'attr': {'class': 'form-control', 'rows': 4}}) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.endResult, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.endResult, {'attr': {'class': 'form-control', 'rows': 4}}) }}
+                </div>
+            </div>
+
+            <button class="btn btn-success">Create Appointment</button>
+            
+            {{ form_end(form) }}
+        </div>
 
         <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary mt-3">Back to List</a>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ include('appointment/_form.html.twig', {'block': 'javascripts'}) }}
 {% endblock %}
