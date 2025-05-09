@@ -38,7 +38,7 @@ class Patient
     #[ORM\Column(type: Types::TEXT)]
     private ?string $appearance = null;
 
-    #[ORM\ManyToOne(targetEntity:Client::class, inversedBy: 'patiens')]
+    #[ORM\ManyToOne(targetEntity:Client::class, inversedBy: 'patients')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Client $client = null;
 
