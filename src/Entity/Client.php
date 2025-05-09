@@ -39,7 +39,7 @@ class Client
      * @var Collection<int, Patient>
      */
     #[ORM\OneToMany(targetEntity: Patient::class, mappedBy: 'client', orphanRemoval: true)]
-    private Collection $patiens;
+    private Collection $patients;
 
     /**
      * @var Collection<int, Appointment>
@@ -49,7 +49,7 @@ class Client
 
     public function __construct()
     {
-        $this->patiens = new ArrayCollection();
+        $this->patients = new ArrayCollection();
         $this->appointments = new ArrayCollection();
     }
 
@@ -133,27 +133,27 @@ class Client
     /**
      * @return Collection<int, Patient>
      */
-    public function getPatiens(): Collection
+    public function getPatients(): Collection
     {
-        return $this->patiens;
+        return $this->patients;
     }
 
-    public function addPatien(Patient $patien): static
+    public function addPatient(Patient $patient): static
     {
-        if (!$this->patiens->contains($patien)) {
-            $this->patiens->add($patien);
-            $patien->setClient($this);
+        if (!$this->patients->contains($patient)) {
+            $this->patients->add($patient);
+            $patient->setClient($this);
         }
 
         return $this;
     }
 
-    public function removePatien(Patient $patien): static
+    public function removePatient(Patient $patient): static
     {
-        if ($this->patiens->removeElement($patien)) {
+        if ($this->patients->removeElement($patient)) {
             // set the owning side to null (unless already changed)
-            if ($patien->getClient() === $this) {
-                $patien->setClient(null);
+            if ($patient->getClient() === $this) {
+                $patient->setClient(null);
             }
         }
 
