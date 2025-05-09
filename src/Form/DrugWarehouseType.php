@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
-
+use DateTime;
 class DrugWarehouseType extends AbstractType
 {
     /**
@@ -22,7 +22,7 @@ class DrugWarehouseType extends AbstractType
         $builder
             ->add('dateOfReceipt', DateTimeType::class, [
                 'widget' => 'single_text',
-                'data' => new \DateTime(),
+                'data' => new DateTime(),
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(),

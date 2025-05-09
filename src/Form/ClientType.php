@@ -83,13 +83,13 @@ class ClientType extends AbstractType
                     new Callback(function ($email, ExecutionContextInterface $context) use ($options) {
                         $clientRepository = $options['client_repository'] ?? null;
 
-                        if ($clientRepository instanceof \App\Repository\ClientRepository) {
-                            if ($clientRepository->findOneBy(['email' => $email])) {
-                                $context->buildViolation('This email is already registered.')
-                                    ->addViolation();
-                            }
-                        } else {
+                        if (!$clientRepository instanceof \App\Repository\ClientRepository) {
                             throw new \LogicException('The "client_repository" option must be set and must be an instance of ClientRepository.');
+                        }
+
+                        if ($clientRepository->findOneBy(['email' => $email])) {
+                            $context->buildViolation('This email is already registered.')
+                                ->addViolation();
                         }
                     }),
                 ],

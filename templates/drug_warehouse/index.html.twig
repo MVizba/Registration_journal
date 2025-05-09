@@ -24,7 +24,7 @@
                     <td>{{ drug_warehouse.DrugName }}</td>
                     <td>{{ drug_warehouse.drugManufacturer }}</td>
                     <td>{{ drug_warehouse.documentNumber }}</td>
-                    <td>{{ drug_warehouse.amount }}</td>
+                    <td>{{ drug_warehouse.amount }} {{ drug_warehouse.type }}</td>
                     <td>{{ drug_warehouse.expirationDate ? drug_warehouse.expirationDate|date('Y-m-d') : '' }}</td>
                     <td>
                         <a href="{{ path('app_drug_warehouse_show', {'id': drug_warehouse.id}) }}" class="btn btn-secondary btn-sm">Show</a>
