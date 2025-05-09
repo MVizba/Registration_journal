@@ -1,4 +1,22 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const clientSelect = document.querySelector('#patient_client');
+    const formFields = document.querySelectorAll('#patient_name, #patient_type, #patient_gender, #patient_age, #patient_markingNumber, #patient_passportNumber, #patient_appearance');
+    
+    function updateFieldsState() {
+        const isClientSelected = clientSelect.value !== '';
+        formFields.forEach(field => {
+            field.disabled = !isClientSelected;
+            if (!isClientSelected) {
+                field.value = '';
+            }
+        });
+    }
+
+    updateFieldsState();
+
+    clientSelect.addEventListener('change', updateFieldsState);
+});
+</script>
+{% endblock %}
