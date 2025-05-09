@@ -13,6 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use DateTime;
+use Doctrine\ORM\EntityRepository;
 
 class AppointmentType extends AbstractType
 {
@@ -85,6 +86,13 @@ class AppointmentType extends AbstractType
                         'message' => 'Please select a patient.',
                     ]),
                 ],
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->orderBy('p.name', 'ASC');
+                },
+                'group_by' => function($patient) {
+                    return $patient->getClient()->getName() . ' ' . $patient->getClient()->getLastName();
+                }
             ])
         ;
     }
