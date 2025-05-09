@@ -6,6 +6,10 @@
     <div class="container mt-4">
         <h1 class="mb-4">Create New Patient</h1>
 
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Please select a client before filling in patient details.
+        </div>
+
         <div class="card p-4 shadow">
             {{ form_start(form) }}
             <div class="row mb-3">
@@ -65,4 +69,9 @@
         </div>
 
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ include('patient/_form.html.twig', {'block': 'javascripts'}) }}
 {% endblock %}
