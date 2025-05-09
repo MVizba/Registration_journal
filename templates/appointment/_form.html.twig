@@ -1,4 +1,62 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const clientSelect = document.querySelector('#appointment_client');
+    const patientSelect = document.querySelector('#appointment_patient');
+    const formFields = document.querySelectorAll('#appointment_date, #appointment_registrationDate, #appointment_symptomsDate, #appointment_status, #appointment_diagnosis, #appointment_services, #appointment_endResult');
+    
+    function updateFieldsState() {
+        const isClientSelected = clientSelect.value !== '';
+        const isPatientSelected = patientSelect.value !== '';
+        
+        // Disable/enable patient select based on client selection
+        patientSelect.disabled = !isClientSelected;
+        if (!isClientSelected) {
+            patientSelect.value = '';
+        }
+        
+        // Disable/enable form fields based on both selections
+        formFields.forEach(field => {
+            field.disabled = !isClientSelected || !isPatientSelected;
+            if (!isClientSelected || !isPatientSelected) {
+                if (field.type === 'textarea') {
+                    field.value = '';
+                }
+            }
+        });
+    }
+
+    // Filter patients based on selected client
+    function filterPatientsByClient() {
+        const selectedClientId = clientSelect.value;
+        const patientOptions = patientSelect.querySelectorAll('option');
+        
+        patientOptions.forEach(option => {
+            if (option.value === '') return; // Skip placeholder
+            
+            const optgroup = option.closest('optgroup');
+            if (!optgroup) return;
+            
+            const isMatchingClient = optgroup.label === clientSelect.options[clientSelect.selectedIndex].text;
+            option.style.display = isMatchingClient ? '' : 'none';
+            option.disabled = !isMatchingClient;
+        });
+        
+        // Reset patient selection when client changes
+        patientSelect.value = '';
+        updateFieldsState();
+    }
+
+    // Initial state
+    updateFieldsState();
+    
+    // Update on change
+    clientSelect.addEventListener('change', function() {
+        filterPatientsByClient();
+        updateFieldsState();
+    });
+    
+    patientSelect.addEventListener('change', updateFieldsState);
+});
+</script>
+{% endblock %}
