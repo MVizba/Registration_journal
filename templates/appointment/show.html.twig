@@ -4,68 +4,193 @@
 
 {% block body %}
     <div class="container mt-4">
-        <h1>Appointment Details</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Appointment Details</h1>
+            <div class="btn-group">
+                <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-primary">Edit</a>
+                <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
 
-        <div class="card p-4 shadow">
-            <!-- Client and Patient Information -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <h5>Client</h5>
-                    <p class="mb-0">{{ appointment.client.name }} {{ appointment.client.lastName }}</p>
+        <!-- Main Appointment Information -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Basic Information</h4>
+            </div>
+            <div class="card-body">
+                <!-- Client and Patient Information -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Client Information</h5>
+                                <p class="card-text">
+                                    <strong>Name:</strong> {{ appointment.client.name }} {{ appointment.client.lastName }}<br>
+                                    <strong>Email:</strong> {{ appointment.client.email }}<br>
+                                    <strong>Phone:</strong> {{ appointment.client.phone }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Patient Information</h5>
+                                <p class="card-text">
+                                    <strong>Name:</strong> {{ appointment.patient.name }}<br>
+                                    <strong>Type:</strong> {{ appointment.patient.type }}<br>
+                                    <strong>Gender:</strong> {{ appointment.patient.gender }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <h5>Patient</h5>
-                    <p class="mb-0">{{ appointment.patient.name }}</p>
+
+                <!-- Dates -->
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Appointment Date</h6>
+                                <p class="card-text">{{ appointment.date ? appointment.date|date('Y-m-d H:i:s') : 'Not set' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Registration Date</h6>
+                                <p class="card-text">{{ appointment.registrationDate ? appointment.registrationDate|date('Y-m-d H:i:s') : 'Not set' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Symptoms Date</h6>
+                                <p class="card-text">{{ appointment.symptomsDate ? appointment.symptomsDate|date('Y-m-d H:i:s') : 'Not set' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status and Diagnosis -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Status</h5>
+                                <p class="card-text">{{ appointment.status ?: 'No status provided' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Diagnosis</h5>
+                                <p class="card-text">{{ appointment.diagnosis ?: 'No diagnosis provided' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Services and End Result -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Services</h5>
+                                <p class="card-text">{{ appointment.services ?: 'No services provided' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">End Result</h5>
+                                <p class="card-text">{{ appointment.endResult ?: 'No end result provided' }}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Dates -->
-            <div class="row mb-4">
-                <div class="col-md-4">
-                    <h5>Appointment Date</h5>
-                    <p class="mb-0">{{ appointment.date ? appointment.date|date('Y-m-d H:i:s') : '' }}</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Registration Date</h5>
-                    <p class="mb-0">{{ appointment.registrationDate ? appointment.registrationDate|date('Y-m-d H:i:s') : '' }}</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Symptoms Date</h5>
-                    <p class="mb-0">{{ appointment.symptomsDate ? appointment.symptomsDate|date('Y-m-d H:i:s') : '' }}</p>
-                </div>
+        <!-- Examinations Section -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Examinations</h4>
             </div>
+            <div class="card-body">
+                {% if appointment.examinationWithResults|length > 0 %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Examination</th>
+                                    <th>Result</th>
+                                    <th>Norms</th>
+                                    <th>Machine</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for examination in appointment.examinationWithResults %}
+                                    <tr>
+                                        <td>{{ examination.date|date('Y-m-d') }}</td>
+                                        <td>{{ examination.examination.examinationName }}</td>
+                                        <td>{{ examination.result }}</td>
+                                        <td>{{ examination.examination.norms }}</td>
+                                        <td>{{ examination.examination.machine }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted text-center my-3">No examinations recorded for this appointment.</p>
+                {% endif %}
+            </div>
+        </div>
 
-            <!-- Status and Diagnosis -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <h5>Status</h5>
-                    <p class="mb-0">{{ appointment.status }}</p>
-                </div>
-                <div class="col-md-6">
-                    <h5>Diagnosis</h5>
-                    <p class="mb-0">{{ appointment.diagnosis }}</p>
-                </div>
+        <!-- Assigned Drugs Section -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">Assigned Drugs</h4>
             </div>
+            <div class="card-body">
+                {% if appointment.asignedDrugs|length > 0 %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Drug Name</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for drug in appointment.asignedDrugs %}
+                                    <tr>
+                                        <td>{{ drug.date|date('Y-m-d') }}</td>
+                                        <td>{{ drug.drugWarehouse.drugName }}</td>
+                                        <td>{{ drug.amount }}</td>
+                                        <td>{{ drug.drugWarehouse.type }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted text-center my-3">No drugs assigned for this appointment.</p>
+                {% endif %}
+            </div>
+        </div>
 
-            <!-- Services and End Result -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <h5>Services</h5>
-                    <p class="mb-0">{{ appointment.services }}</p>
-                </div>
-                <div class="col-md-6">
-                    <h5>End Result</h5>
-                    <p class="mb-0">{{ appointment.endResult }}</p>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-between mt-4">
-                <div>
-                    <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-primary me-2">Edit</a>
-                    <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary">Back to List</a>
-                </div>
-                {{ include('appointment/_delete_form.html.twig') }}
-            </div>
+        <!-- Delete Button -->
+        <div class="text-end mt-4">
+            {{ include('appointment/_delete_form.html.twig') }}
         </div>
     </div>
 {% endblock %}
