@@ -32,18 +32,13 @@ class DrugRemovedSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $drugName = $drugWarehouse->getDrugName();
-        $assignedAmount = $asignedDrug->getAmount();
+        $removedAmount = $asignedDrug->getAmount();
+        $currentUsedAmount = $drugWarehouse->getUsedAmount();
 
-        $drugWarehouseEntity = $this->entityManager->getRepository(DrugWarehouse::class)
-            ->findOneBy(['drugName' => $drugName]);
+        // Subtract the removed amount from used amount
+        $newUsedAmount = max(0, $currentUsedAmount - $removedAmount);
+        $drugWarehouse->setUsedAmount($newUsedAmount);
 
-        if ($drugWarehouseEntity) {
-            $currentAmount = $drugWarehouseEntity->getAmount();
-            $newAmount = $currentAmount + $assignedAmount;
-            $drugWarehouseEntity->setAmount($newAmount);
-
-            $this->entityManager->flush();
-        }
+        $this->entityManager->flush();
     }
 }
