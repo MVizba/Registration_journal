@@ -8,7 +8,11 @@
             <div class="col-md-8">
                 <h1 class="text-left">Edit Patient</h1>
 
-                {{ include('patient/_form.html.twig', {'button_label': 'Update'}) }}
+                {{ form_start(form) }}
+                <div class="card p-4 shadow">
+                    {{ include('patient/_form.html.twig', {'button_label': 'Update'}) }}
+                </div>
+                {{ form_end(form) }}
 
                 <div class="row justify-content-left mt-3">
                     <div class="col-auto">
