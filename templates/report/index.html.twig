@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Drug Report{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="h3 mb-0">Generate Drug Report</h1>
+                    </div>
+                    <div class="card-body">
+                        {% for message in app.flashes('warning') %}
+                            <div class="alert alert-warning">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+
+                        {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_label(form.startDate) }}
+                                {{ form_widget(form.startDate, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.startDate) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_label(form.endDate) }}
+                                {{ form_widget(form.endDate, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.endDate) }}
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                Generate Report
+                            </button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+                {% if drugSummary is not empty %}
+                    <div class="card mt-4">
+                        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                            <h2 class="h4 mb-0">Drug Usage Summary</h2>
+                            {% if dateRange %}
+                                <form action="{{ path('app_report_index') }}" method="post" class="d-inline">
+                                    <input type="hidden" name="drug_report[startDate]" value="{{ dateRange.start|date('Y-m-d') }}">
+                                    <input type="hidden" name="drug_report[endDate]" value="{{ dateRange.end|date('Y-m-d') }}">
+                                    <input type="hidden" name="download" value="summary">
+                                    <input type="hidden" name="drug_report[_token]" value="{{ csrf_token('drug_report') }}">
+                                    <button type="submit" class="btn btn-light btn-sm">
+                                        Download Summary Excel
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Drug Name</th>
+                                            <th>Initial Amount</th>
+                                            <th>Used Amount</th>
+                                            <th>Remaining Amount</th>
+                                            <th>Unit</th>
+                                            <th>Expiration Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for drug in drugSummary %}
+                                            <tr>
+                                                <td>{{ drug.name }}</td>
+                                                <td>{{ drug.initial }}</td>
+                                                <td>{{ drug.used }}</td>
+                                                <td>{{ drug.remaining }}</td>
+                                                <td>{{ drug.unit }}</td>
+                                                <td>{{ drug.expiration|date('Y-m-d') }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                            <h2 class="h4 mb-0">Detailed Usage</h2>
+                            {% if dateRange %}
+                                <form action="{{ path('app_report_index') }}" method="post" class="d-inline">
+                                    <input type="hidden" name="drug_report[startDate]" value="{{ dateRange.start|date('Y-m-d') }}">
+                                    <input type="hidden" name="drug_report[endDate]" value="{{ dateRange.end|date('Y-m-d') }}">
+                                    <input type="hidden" name="download" value="detailed">
+                                    <input type="hidden" name="drug_report[_token]" value="{{ csrf_token('drug_report') }}">
+                                    <button type="submit" class="btn btn-light btn-sm">
+                                        Download Detailed Excel
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Drug Name</th>
+                                            <th>Amount Used</th>
+                                            <th>Unit</th>
+                                            <th>Patient</th>
+                                            <th>Client</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for usage in detailedUsage %}
+                                            <tr>
+                                                <td>{{ usage.date|date('Y-m-d') }}</td>
+                                                <td>{{ usage.drugName }}</td>
+                                                <td>{{ usage.amount }}</td>
+                                                <td>{{ usage.unit }}</td>
+                                                <td>{{ usage.patient }}</td>
+                                                <td>{{ usage.client }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %} 
