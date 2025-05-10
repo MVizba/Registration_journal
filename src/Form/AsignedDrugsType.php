@@ -32,17 +32,26 @@ class AsignedDrugsType extends AbstractType
                 'widget' => 'single_text',
                 'data' => new \DateTime(),
                 'required' => true,
+                'label' => 'Data'
             ])
             ->add('amount', NumberType::class, [
                 'required' => true,
                 'scale' => 2,
                 'attr' => ['min' => 0],
+                'label' => 'Kiekis'
             ])
             ->add('drugWarehouse', EntityType::class, [
                 'class' => DrugWarehouse::class,
-                'placeholder' => 'Choose a drug',
+                'placeholder' => 'Pasirinkite vaistus',
+                'label' => 'Vaistai',
                 'choice_label' => function (DrugWarehouse $drugWarehouse) {
-                    return $drugWarehouse->getDrugName().' ('.$drugWarehouse->getType().' - Available: '.$drugWarehouse->getRemainingAmount().')';
+                    return sprintf(
+                        '%s (%s.: %s) - Gauta: %s',
+                        $drugWarehouse->getDrugName(),
+                        $drugWarehouse->getType(),
+                        $drugWarehouse->getRemainingAmount(),
+                        $drugWarehouse->getDateOfReceipt()->format('Y-m-d')
+                    );
                 },
                 'choices' => $availableDrugs,
             ]);
