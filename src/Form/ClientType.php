@@ -3,9 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Client;
+use App\Repository\ClientRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,6 +17,13 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class ClientType extends AbstractType
 {
+    private $clientRepository;
+
+    public function __construct(ClientRepository $clientRepository)
+    {
+        $this->clientRepository = $clientRepository;
+    }
+
     /**
      * @SuppressWarnings("unused")
      */
@@ -48,7 +58,7 @@ class ClientType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('address', TextType::class, [
+            ->add('address', TextareaType::class, [
                 'label' => 'Address',
                 'required' => false,
                 'attr' => ['placeholder' => 'Enter address (optional)'],
@@ -59,7 +69,7 @@ class ClientType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('phone', TextType::class, [
+            ->add('phone', TelType::class, [
                 'label' => 'Phone Number',
                 'required' => true,
                 'attr' => ['placeholder' => 'Enter phone number'],
@@ -82,12 +92,14 @@ class ClientType extends AbstractType
                     ]),
                     new Callback(function ($email, ExecutionContextInterface $context) use ($options) {
                         $clientRepository = $options['client_repository'] ?? null;
+                        $currentClient = $options['data'] ?? null;
 
                         if (!$clientRepository instanceof \App\Repository\ClientRepository) {
                             throw new \LogicException('The "client_repository" option must be set and must be an instance of ClientRepository.');
                         }
 
-                        if ($clientRepository->findOneBy(['email' => $email])) {
+                        $existingClient = $clientRepository->findOneBy(['email' => $email]);
+                        if ($existingClient && (!$currentClient || $existingClient->getId() !== $currentClient->getId())) {
                             $context->buildViolation('This email is already registered.')
                                 ->addViolation();
                         }
@@ -96,13 +108,11 @@ class ClientType extends AbstractType
             ]);
     }
 
-
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Client::class,
-            'client_repository' => null,
+            'client_repository' => $this->clientRepository,
         ]);
     }
 }
