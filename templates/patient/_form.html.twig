@@ -1,22 +1,36 @@
-{% block javascripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const clientSelect = document.querySelector('#patient_client');
-    const formFields = document.querySelectorAll('#patient_name, #patient_type, #patient_gender, #patient_age, #patient_markingNumber, #patient_passportNumber, #patient_appearance');
-    
-    function updateFieldsState() {
-        const isClientSelected = clientSelect.value !== '';
-        formFields.forEach(field => {
-            field.disabled = !isClientSelected;
-            if (!isClientSelected) {
-                field.value = '';
-            }
-        });
-    }
+{# Display form errors if any #}
+{{ form_errors(form) }}
 
-    updateFieldsState();
+{# Patient details #}
+<div class="patient-details">
+    <div class="row mb-3">
+        <div class="col-md-8">
+            {{ form_row(form.client) }}
+        </div>
+        {% if not form.vars.value.id %}
+        <div class="col-md-4 d-flex align-items-end">
+            <a href="{{ path('app_client_new', { redirect: 'app_patient_new' }) }}" class="btn btn-primary w-100">
+                Add New Client
+            </a>
+        </div>
+        {% endif %}
+    </div>
 
-    clientSelect.addEventListener('change', updateFieldsState);
-});
-</script>
-{% endblock %}
+    <div class="row mb-3">
+        <div class="col-md-4">{{ form_row(form.name) }}</div>
+        <div class="col-md-4">{{ form_row(form.type) }}</div>
+        <div class="col-md-4">{{ form_row(form.gender) }}</div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">{{ form_row(form.age) }}</div>
+        <div class="col-md-4">{{ form_row(form.markingNumber) }}</div>
+        <div class="col-md-4">{{ form_row(form.passportNumber) }}</div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-12">{{ form_row(form.appearance) }}</div>
+    </div>
+</div>
+
+<button class="btn btn-success" type="submit">{{ button_label|default('Save') }}</button>
