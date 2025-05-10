@@ -31,6 +31,9 @@ class DrugWarehouse
     #[ORM\Column]
     private ?float $amount = null;
 
+    #[ORM\Column]
+    private ?float $usedAmount = 0.0;
+
     #[ORM\Column(length: 100)]
     private ?string $type = null;
 
@@ -56,6 +59,7 @@ class DrugWarehouse
     public function __construct()
     {
         $this->asignedDrugs = new ArrayCollection();
+        $this->usedAmount = 0.0;
     }
 
 
@@ -122,6 +126,30 @@ class DrugWarehouse
         $this->amount = $amount;
 
         return $this;
+    }
+
+    public function getUsedAmount(): ?float
+    {
+        return $this->usedAmount;
+    }
+
+    public function setUsedAmount(float $usedAmount): static
+    {
+        $this->usedAmount = $usedAmount;
+
+        return $this;
+    }
+
+    public function addUsedAmount(float $amount): static
+    {
+        $this->usedAmount += $amount;
+
+        return $this;
+    }
+
+    public function getRemainingAmount(): float
+    {
+        return ($this->amount ?? 0.0) - ($this->usedAmount ?? 0.0);
     }
 
     public function getType(): ?string
