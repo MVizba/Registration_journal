@@ -30,6 +30,14 @@
                         <td>{{ drug_warehouse.amount }} {{ drug_warehouse.type }}</td>
                     </tr>
                     <tr>
+                        <th>Used Amount</th>
+                        <td>{{ drug_warehouse.usedAmount }} {{ drug_warehouse.type }}</td>
+                    </tr>
+                    <tr>
+                        <th>Remaining Amount</th>
+                        <td>{{ drug_warehouse.remainingAmount }} {{ drug_warehouse.type }}</td>
+                    </tr>
+                    <tr>
                         <th>ManufactureDate</th>
                         <td>{{ drug_warehouse.manufactureDate ? drug_warehouse.manufactureDate|date('Y-m-d') : '' }}</td>
                     </tr>
