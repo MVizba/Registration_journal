@@ -23,7 +23,7 @@ class DrugWarehouseRepository extends ServiceEntityRepository
     {
         /** @var DrugWarehouse[] $result */
         $result = $this->createQueryBuilder('d')
-            ->where('d.amount > 0')
+            ->where('d.amount - d.usedAmount > 0')
             ->getQuery()
             ->getResult();
 

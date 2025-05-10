@@ -42,7 +42,7 @@ class AsignedDrugsType extends AbstractType
                 'class' => DrugWarehouse::class,
                 'placeholder' => 'Choose a drug',
                 'choice_label' => function (DrugWarehouse $drugWarehouse) {
-                    return $drugWarehouse->getDrugName().' ('.$drugWarehouse->getType().' - Available: '.$drugWarehouse->getAmount().')';
+                    return $drugWarehouse->getDrugName().' ('.$drugWarehouse->getType().' - Available: '.$drugWarehouse->getRemainingAmount().')';
                 },
                 'choices' => $availableDrugs,
             ]);
