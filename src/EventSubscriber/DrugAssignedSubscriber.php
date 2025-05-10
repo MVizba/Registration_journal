@@ -32,20 +32,17 @@ class DrugAssignedSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $drugName = $drugWarehouse->getDrugName();
         $assignedAmount = $asignedDrug->getAmount();
+        $currentUsedAmount = $drugWarehouse->getUsedAmount();
+        $totalAmount = $drugWarehouse->getAmount();
 
-        $drugWarehouseEntity = $this->entityManager->getRepository(DrugWarehouse::class)
-            ->findOneBy(['drugName' => $drugName]);
-
-        if (null === $drugWarehouseEntity) {
-            return;
+        // Check if there's enough stock
+        if ($currentUsedAmount + $assignedAmount > $totalAmount) {
+            throw new \RuntimeException('Not enough stock available.');
         }
 
-        $currentAmount = $drugWarehouseEntity->getAmount();
-        $newAmount = $currentAmount - $assignedAmount;
-        $drugWarehouseEntity->setAmount($newAmount);
-
+        // Update the used amount
+        $drugWarehouse->addUsedAmount($assignedAmount);
         $this->entityManager->flush();
     }
 }
