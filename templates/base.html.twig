@@ -22,29 +22,29 @@
                 <ul class="navbar-nav">
                     <!-- Klientai -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="clientDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Client</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="clientDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Klientai</a>
                         <ul class="dropdown-menu" aria-labelledby="clientDropdown">
-                            <li><a class="dropdown-item" href="{{ path('app_client_new') }}">New</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_client_index') }}">List</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_client_new') }}">Naujas</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_client_index') }}">Sarasas</a></li>
                         </ul>
                     </li>
 
                     <!-- Pacientai -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="patientDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Patient</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="patientDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Augintiniai</a>
                         <ul class="dropdown-menu" aria-labelledby="patientDropdown">
-                            <li><a class="dropdown-item" href="{{ path('app_patient_new') }}">New</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_patient_index') }}">List</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_patient_new') }}">Naujas</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_patient_index') }}">Sarasas</a></li>
                         </ul>
                     </li>
 
                     {% if is_granted('ROLE_ADMIN') %}
                         <!-- Testavimas sandelis -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="examinationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Examination</a>
+                            <a class="nav-link dropdown-toggle" href="#" id="examinationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tyrimai</a>
                             <ul class="dropdown-menu" aria-labelledby="examinationDropdown">
-                                <li><a class="dropdown-item" href="{{ path('app_examination_new') }}">New</a></li>
-                                <li><a class="dropdown-item" href="{{ path('app_examination_index') }}">List</a></li>
+                                <li><a class="dropdown-item" href="{{ path('app_examination_new') }}">Naujas</a></li>
+                                <li><a class="dropdown-item" href="{{ path('app_examination_index') }}">Sarasas</a></li>
                             </ul>
                         </li>
                     {% endif %}
@@ -52,26 +52,26 @@
                     {% if is_granted('ROLE_ADMIN') %}
                         <!-- Vaistu sandelis -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="DrugWarehouseDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Warehouse</a>
+                            <a class="nav-link dropdown-toggle" href="#" id="DrugWarehouseDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Vaistu sandelis</a>
                             <ul class="dropdown-menu" aria-labelledby="DrugWarehouseDropdown">
-                                <li><a class="dropdown-item" href="{{ path('app_drug_warehouse_new') }}">New</a></li>
-                                <li><a class="dropdown-item" href="{{ path('app_drug_warehouse_index') }}">List</a></li>
+                                <li><a class="dropdown-item" href="{{ path('app_drug_warehouse_new') }}">Naujas</a></li>
+                                <li><a class="dropdown-item" href="{{ path('app_drug_warehouse_index') }}">Sarasas</a></li>
                             </ul>
                         </li>
                     {% endif %}
 
                     <!-- Reports -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="reportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reports</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="reportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ataskaitos</a>
                         <ul class="dropdown-menu" aria-labelledby="reportDropdown">
-                            <li><a class="dropdown-item" href="{{ path('app_report_summary_index') }}">Drug Summary</a></li>
-                            <li><a class="dropdown-item" href="{{ path('app_report_detailed_index') }}">Drug Detailed</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_report_summary_index') }}">Vaistų sąrašas</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_report_detailed_index') }}">Detali ataskaita</a></li>
                         </ul>
                     </li>
 
                     <!-- Logout -->
                     <li class="nav-item">
-                        <a href="{{ path('_logout_main') }}" class="nav-link text-danger text-decoration-none">Logout</a>
+                        <a href="{{ path('_logout_main') }}" class="nav-link text-danger text-decoration-none">Atsijungti</a>
                     </li>
                 </ul>
             </div>
