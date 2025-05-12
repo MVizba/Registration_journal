@@ -61,8 +61,12 @@
                     {% endif %}
 
                     <!-- Reports -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_report_index') }}">Drug Report</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="reportDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Reports</a>
+                        <ul class="dropdown-menu" aria-labelledby="reportDropdown">
+                            <li><a class="dropdown-item" href="{{ path('app_report_summary_index') }}">Drug Summary</a></li>
+                            <li><a class="dropdown-item" href="{{ path('app_report_detailed_index') }}">Drug Detailed</a></li>
+                        </ul>
                     </li>
 
                     <!-- Logout -->
