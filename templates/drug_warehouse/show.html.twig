@@ -6,55 +6,118 @@
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h1 class="text-left">Drug details</h1>
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <th>DateOfReceipt</th>
-                        <td>{{ drug_warehouse.dateOfReceipt ? drug_warehouse.dateOfReceipt|date('Y-m-d') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>DrugName</th>
-                        <td>{{ drug_warehouse.DrugName }}</td>
-                    </tr>
-                    <tr>
-                        <th>DrugManufacturer</th>
-                        <td>{{ drug_warehouse.drugManufacturer }}</td>
-                    </tr>
-                    <tr>
-                        <th>DocumentNumber</th>
-                        <td>{{ drug_warehouse.documentNumber }}</td>
-                    </tr>
-                    <tr>
-                        <th>Amount</th>
-                        <td>{{ drug_warehouse.amount }} {{ drug_warehouse.type }}</td>
-                    </tr>
-                    <tr>
-                        <th>Used Amount</th>
-                        <td>{{ drug_warehouse.usedAmount }} {{ drug_warehouse.type }}</td>
-                    </tr>
-                    <tr>
-                        <th>Remaining Amount</th>
-                        <td>{{ drug_warehouse.remainingAmount }} {{ drug_warehouse.type }}</td>
-                    </tr>
-                    <tr>
-                        <th>ManufactureDate</th>
-                        <td>{{ drug_warehouse.manufactureDate ? drug_warehouse.manufactureDate|date('Y-m-d') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>ExpirationDate</th>
-                        <td>{{ drug_warehouse.expirationDate ? drug_warehouse.expirationDate|date('Y-m-d') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Series</th>
-                        <td>{{ drug_warehouse.series }}</td>
-                    </tr>
-                    <tr>
-                        <th>WhereObtainedFrom</th>
-                        <td>{{ drug_warehouse.whereObtainedFrom }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="h3 mb-0">Drug Details</h1>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th>DateOfReceipt</th>
+                                <td>{{ drug_warehouse.dateOfReceipt ? drug_warehouse.dateOfReceipt|date('Y-m-d') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>DrugName</th>
+                                <td>{{ drug_warehouse.DrugName }}</td>
+                            </tr>
+                            <tr>
+                                <th>DrugManufacturer</th>
+                                <td>{{ drug_warehouse.drugManufacturer }}</td>
+                            </tr>
+                            <tr>
+                                <th>DocumentNumber</th>
+                                <td>{{ drug_warehouse.documentNumber }}</td>
+                            </tr>
+                            <tr>
+                                <th>Amount</th>
+                                <td>{{ drug_warehouse.amount }} {{ drug_warehouse.type }}</td>
+                            </tr>
+                            <tr>
+                                <th>Used Amount</th>
+                                <td>{{ drug_warehouse.usedAmount }} {{ drug_warehouse.type }}</td>
+                            </tr>
+                            <tr>
+                                <th>Remaining Amount</th>
+                                <td>{{ drug_warehouse.remainingAmount }} {{ drug_warehouse.type }}</td>
+                            </tr>
+                            <tr>
+                                <th>ManufactureDate</th>
+                                <td>{{ drug_warehouse.manufactureDate ? drug_warehouse.manufactureDate|date('Y-m-d') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>ExpirationDate</th>
+                                <td>{{ drug_warehouse.expirationDate ? drug_warehouse.expirationDate|date('Y-m-d') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Series</th>
+                                <td>{{ drug_warehouse.series }}</td>
+                            </tr>
+                            <tr>
+                                <th>WhereObtainedFrom</th>
+                                <td>{{ drug_warehouse.whereObtainedFrom }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Drug Assignments Section -->
+                <div class="card mt-4">
+                    <div class="card-header bg-info text-white">
+                        <h2 class="h4 mb-0">Drug Assignments</h2>
+                    </div>
+                    <div class="card-body">
+                        {% if drug_warehouse.asignedDrugs|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Patient</th>
+                                            <th>Client</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for assignment in drug_warehouse.asignedDrugs %}
+                                            <tr>
+                                                <td>{{ assignment.date|date('Y-m-d') }}</td>
+                                                <td>{{ assignment.amount }} {{ drug_warehouse.type }}</td>
+                                                <td>
+                                                    {% if assignment.appointment and assignment.appointment.patient %}
+                                                        {{ assignment.appointment.patient.name }}
+                                                    {% else %}
+                                                        Unknown
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if assignment.appointment and assignment.appointment.client %}
+                                                        {{ assignment.appointment.client.name }}
+                                                    {% else %}
+                                                        Unknown
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if assignment.appointment %}
+                                                        <a href="{{ path('app_appointment_show', {'id': assignment.appointment.id}) }}" 
+                                                           class="btn btn-primary btn-sm">
+                                                            View Appointment
+                                                        </a>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted text-center my-3">No assignments found for this drug.</p>
+                        {% endif %}
+                    </div>
+                </div>
+
                 <div class="row justify-content-left mt-3">
                     <div class="col-auto">
                         <a href="{{ path('app_drug_warehouse_index') }}" class="btn btn-secondary">Back to list</a>
