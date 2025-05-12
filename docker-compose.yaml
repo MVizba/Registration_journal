@@ -1,4 +1,4 @@
-version: "3"
+# version: "3"
 services:
   animal_reg:
     build: .
@@ -10,8 +10,7 @@ services:
     environment:
       XDEBUG_MODE: develop,debug
       XDEBUG_CONFIG: client_host=host.docker.internal
-    networks:
-      - mynetwork
+
   db:
     image: mysql:8.0
     ports:
@@ -19,9 +18,3 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: animal
       MYSQL_DATABASE: registration_app
-    networks:
-      - mynetwork
-
-networks:
-  mynetwork:
-    driver: bridge
