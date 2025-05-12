@@ -161,26 +161,4 @@ class Patient
     {
         return $this->appointments;
     }
-
-    public function addAppointment(Appointment $appointment): static
-    {
-        if (!$this->appointments->contains($appointment)) {
-            $this->appointments->add($appointment);
-            $appointment->setPatient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAppointment(Appointment $appointment): static
-    {
-        if ($this->appointments->removeElement($appointment)) {
-            // set the owning side to null (unless already changed)
-            if ($appointment->getPatient() === $this) {
-                $appointment->setPatient(null);
-            }
-        }
-
-        return $this;
-    }
 }
