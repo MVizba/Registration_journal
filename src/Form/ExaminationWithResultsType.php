@@ -19,11 +19,13 @@ class ExaminationWithResultsType extends AbstractType
     {
         $builder
             ->add('date', DateTimeType::class, [
+                'label' => 'Data',
                 'widget' => 'single_text',
                 'data' => new \DateTime(),
                 'required' => false,
             ])
             ->add('examination', EntityType::class, [
+                'label' => 'Tyrimas',
                 'class' => Examination::class,
                 'choice_label' => 'examinationName',
             ])

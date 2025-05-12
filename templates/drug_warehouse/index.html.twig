@@ -4,18 +4,18 @@
 
 {% block body %}
     <div class="table-responsive">
-        <h1 class="text-center">Drug stock</h1>
+        <h1 class="text-center">Vaistų sandėlis</h1>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>DateOfReceipt</th>
-                <th>DrugName</th>
-                <th>DrugManufacturer</th>
-                <th>DocumentNumber</th>
-                <th>Amount</th>
-                <th>Used Amount</th>
-                <th>ExpirationDate</th>
-                <th>Actions</th>
+                <th>Gavimo data</th>
+                <th>Pavadinimas</th>
+                <th>Gamintojas</th>
+                <th>Dokumento numeris</th>
+                <th>Kiekis</th>
+                <th>Sunaudota</th>
+                <th>Galiojimo pabaiga</th>
+                <th>Veiksmai</th>
             </tr>
             </thead>
             <tbody>
@@ -29,18 +29,18 @@
                     <td>{{ drug_warehouse.usedAmount }} {{ drug_warehouse.type }}</td>
                     <td>{{ drug_warehouse.expirationDate ? drug_warehouse.expirationDate|date('Y-m-d') : '' }}</td>
                     <td>
-                        <a href="{{ path('app_drug_warehouse_show', {'id': drug_warehouse.id}) }}" class="btn btn-secondary btn-sm">Show</a>
-                        <a href="{{ path('app_drug_warehouse_edit', {'id': drug_warehouse.id}) }}" class="btn btn-secondary btn-sm">Edit</a>
+                        <a href="{{ path('app_drug_warehouse_show', {'id': drug_warehouse.id}) }}" class="btn btn-secondary btn-sm">Peržiūrėti</a>
+                        <a href="{{ path('app_drug_warehouse_edit', {'id': drug_warehouse.id}) }}" class="btn btn-secondary btn-sm">Redaguoti</a>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="12" class="text-center">No records found</td>
+                    <td colspan="12" class="text-center">Įrašų nerasta</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
-    <a href="{{ path('app_drug_warehouse_new') }}" class="btn btn-secondary mt-3">Create new</a>
+    <a href="{{ path('app_drug_warehouse_new') }}" class="btn btn-secondary mt-3">Naujas</a>
 
 {% endblock %}

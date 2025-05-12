@@ -4,20 +4,20 @@
 
 {% block body %}
     <div class="container mt-4">
-        <h1 class="mb-4">Appointments</h1>
+        <h1 class="mb-4">Vizitai</h1>
 
         <div class="table-responsive">
             <table class="table table-striped table-bordered align-middle">
                 <thead class="thead-dark">
                 <tr>
-                    <th>Date</th>
-                    <th>Registration Date</th>
-                    <th>Symptoms Date</th>
-                    <th>Status</th>
-                    <th>Diagnosis</th>
-                    <th>Services</th>
-                    <th>End Result</th>
-                    <th>Actions</th>
+                    <th>Data</th>
+                    <th>Registracijos data</th>
+                    <th>Simptomų data</th>
+                    <th>Statusas</th>
+                    <th>Diagnozė</th>
+                    <th>Paslaugos</th>
+                    <th>Išvados</th>
+                    <th>Veiksmai</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,19 +31,19 @@
                         <td>{{ appointment.services }}</td>
                         <td>{{ appointment.endResult }}</td>
                         <td>
-                            <a href="{{ path('app_appointment_show', {'id': appointment.id}) }}" class="btn btn-sm btn-secondary">Show</a>
-                            <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-sm btn-secondary">Edit</a>
+                            <a href="{{ path('app_appointment_show', {'id': appointment.id}) }}" class="btn btn-sm btn-secondary">Peržiūrėti</a>
+                            <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-sm btn-secondary">Redaguoti</a>
                         </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="8" class="text-center">No records found</td>
+                        <td colspan="8" class="text-center">Įrašų nerasta</td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <a href="{{ path('app_appointment_new') }}" class="btn btn-success mt-3">Create new</a>
+        <a href="{{ path('app_appointment_new') }}" class="btn btn-success mt-3">Sukurti naują</a>
     </div>
 {% endblock %}

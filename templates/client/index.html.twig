@@ -7,12 +7,12 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>LastName</th>
-                <th>Address</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Actions</th>
+                <th>Vardas</th>
+                <th>Pavardė</th>
+                <th>Adresas</th>
+                <th>Telefono nr.:</th>
+                <th>El. paštas</th>
+                <th>Veiksmai</th>
             </tr>
             </thead>
             <tbody>
@@ -24,13 +24,13 @@
                     <td>{{ client.phone }}</td>
                     <td>{{ client.email }}</td>
                     <td>
-                        <a href="{{ path('app_client_show', {'id': client.id}) }}" class="btn btn-secondary btn-sm">Show</a>
-                        <a href="{{ path('app_client_edit', {'id': client.id}) }}" class="btn btn-secondary btn-sm">Edit</a>
+                        <a href="{{ path('app_client_show', {'id': client.id}) }}" class="btn btn-secondary btn-sm">Rodyti</a>
+                        <a href="{{ path('app_client_edit', {'id': client.id}) }}" class="btn btn-secondary btn-sm">Redaguoti</a>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="7" class="text-center">No records found</td>
+                    <td colspan="7" class="text-center">Įrašų nerasta</td>
                 </tr>
             {% endfor %}
             </tbody>

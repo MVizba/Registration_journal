@@ -6,17 +6,17 @@
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h1 class="text-left">Edit Patient</h1>
+                <h1 class="text-left">Redaguoti augintinio duomenis</h1>
 
                 {{ form_start(form) }}
                 <div class="card p-4 shadow">
-                    {{ include('patient/_form.html.twig', {'button_label': 'Update'}) }}
+                    {{ include('patient/_form.html.twig', {'button_label': 'Atnaujinti'}) }}
                 </div>
                 {{ form_end(form) }}
 
                 <div class="row justify-content-left mt-3">
                     <div class="col-auto">
-                        <a href="{{ path('app_patient_index') }}" class="btn btn-secondary">Back to list</a>
+                        <a href="{{ path('app_patient_index') }}" class="btn btn-secondary">Atgal</a>
                     </div>
                 </div>
 

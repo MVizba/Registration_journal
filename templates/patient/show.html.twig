@@ -8,21 +8,21 @@
             <div class="col-md-8">
                 <div class="card shadow mb-4">
                     <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0">Animal Info</h4>
+                        <h4 class="mb-0">Augintinio informacija</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <p><strong>Owner:</strong> {{ patient.client.name }} {{ patient.client.lastName }}</p>
-                                <p><strong>Name:</strong> {{ patient.name }}</p>
-                                <p><strong>Type:</strong> {{ patient.type }}</p>
-                                <p><strong>Gender:</strong> {{ patient.gender }}</p>
-                                <p><strong>Age:</strong> {{ patient.age ? patient.age|date('Y-m-d') : 'N/A' }}</p>
+                                <p><strong>Sąvininkas:</strong> {{ patient.client.name }} {{ patient.client.lastName }}</p>
+                                <p><strong>Vardas:</strong> {{ patient.name }}</p>
+                                <p><strong>Rūšis:</strong> {{ patient.type }}</p>
+                                <p><strong>Lytis:</strong> {{ patient.gender }}</p>
+                                <p><strong>Amžius:</strong> {{ patient.age ? patient.age|date('Y-m-d') : 'N/A' }}</p>
                             </div>
                             <div class="col-md-6">
-                                <p><strong>Marking Number:</strong> {{ patient.markingNumber ?: 'N/A' }}</p>
-                                <p><strong>Passport Number:</strong> {{ patient.passportNumber ?: 'N/A' }}</p>
-                                <p><strong>Appearance:</strong> {{ patient.appearance }}</p>
+                                <p><strong>Žymėjimo numeris:</strong> {{ patient.markingNumber ?: 'N/A' }}</p>
+                                <p><strong>Paso numeris:</strong> {{ patient.passportNumber ?: 'N/A' }}</p>
+                                <p><strong>Išvaizda:</strong> {{ patient.appearance }}</p>
                             </div>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
 
                 <div class="card shadow mb-4">
                     <div class="card-header bg-success text-white">
-                        <h4 class="mb-0">Appointments</h4>
+                        <h4 class="mb-0">Vizitai</h4>
                     </div>
                     <div class="card-body">
                         {% if appointments|length > 0 %}
@@ -38,10 +38,10 @@
                                 <table class="table table-hover">
                                     <thead class="table-light">
                                         <tr>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                            <th>Diagnosis</th>
-                                            <th>View</th>
+                                            <th>Data</th>
+                                            <th>Statusas</th>
+                                            <th>Diagnozė</th>
+                                            <th>Veiksmai</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -60,7 +60,7 @@
                                                 </td>
                                                 <td>
                                                     <a href="{{ path('app_appointment_show', {'id': appointment.id}) }}" class="btn btn-sm btn-info">
-                                                        View Details
+                                                        Peržiūra
                                                     </a>
                                                 </td>
                                             </tr>
@@ -69,14 +69,14 @@
                                 </table>
                             </div>
                         {% else %}
-                            <p class="text-muted">No appointments found for this patient.</p>
+                            <p class="text-muted">Nėra vizito įrašų.</p>
                         {% endif %}
                     </div>
                 </div>
 
                 <div class="row justify-content-left mt-3">
                     <div class="col-auto">
-                        <a href="{{ path('app_patient_index') }}" class="btn btn-secondary">Back to list</a>
+                        <a href="{{ path('app_patient_index') }}" class="btn btn-secondary">Atgal</a>
                     </div>
 {#                    <div class="col-auto">#}
 {#                        <a href="{{ path('app_patient_edit', {'id': patient.id}) }}" class="btn btn-primary">Edit</a>#}

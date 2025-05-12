@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container mt-4">
-        <h1>Edit Appointment</h1>
+        <h1>Redaguoti vizito kortelę</h1>
 
         <div class="card p-4 shadow">
             {{ form_start(form) }}
@@ -62,61 +62,61 @@
             </div>
 
             <div class="d-flex justify-content-between">
-                <button class="btn btn-primary">Update</button>
-                <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary">Back to List</a>
+                <button class="btn btn-primary">Atnaujinti</button>
+                <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary">Atgal</a>
             </div>
             
             {{ form_end(form) }}
         </div>
 
         <div class="mt-5">
-            <h3>Examinations</h3>
+            <h3>Tyrimai</h3>
             <ul class="list-group">
                 {% for examinationWithResult in appointment.examinationWithResults %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <span>
-                            <strong>Date:</strong> {{ examinationWithResult.date|date('Y-m-d') }} <br>
+                            <strong>Data:</strong> {{ examinationWithResult.date|date('Y-m-d') }} <br>
                             <strong>{{ examinationWithResult.examination.examinationName }}</strong> <br>
-                            Result: {{ examinationWithResult.result }}
+                            <strong>Rezultatai:</strong>: {{ examinationWithResult.result }} <br>
                         </span>
                         <span>
-                            <a href="{{ path('app_examination_w_r_edit', {'id': examinationWithResult.id}) }}" class="btn btn-sm btn-primary">Edit</a>
-                            <form action="{{ path('app_examination_w_r_delete', {'id': examinationWithResult.id}) }}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure?');">
+                            <a href="{{ path('app_examination_w_r_edit', {'id': examinationWithResult.id}) }}" class="btn btn-sm btn-primary">Redaguoti</a>
+                            <form action="{{ path('app_examination_w_r_delete', {'id': examinationWithResult.id}) }}" method="post" style="display: inline;" onsubmit="return confirm('Ar tikrai norite ištrinti tyrimą?');">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ examinationWithResult.id) }}">
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-sm btn-danger">Ištrinti</button>
                             </form>
                         </span>
                     </li>
                 {% else %}
-                    <li class="list-group-item text-muted">No examinations found.</li>
+                    <li class="list-group-item text-muted">Nėra tyrimų įrašų.</li>
                 {% endfor %}
             </ul>
-            <a href="{{ path('app_examination_w_r_new', {'appointmentId': appointment.id}) }}" class="btn btn-success mt-3">Add Examination</a>
+            <a href="{{ path('app_examination_w_r_new', {'appointmentId': appointment.id}) }}" class="btn btn-success mt-3">Pridėti tyrimą</a>
         </div>
 
         <div class="mt-5">
-            <h3>Assigned Drugs</h3>
+            <h3>Paskirti medikamentai</h3>
             <ul class="list-group">
                 {% for asignedDrug in appointment.asignedDrugs %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <span>
-                            <strong>Date:</strong> {{ asignedDrug.date|date('Y-m-d') }} <br>
+                            <strong>Data:</strong> {{ asignedDrug.date|date('Y-m-d') }} <br>
                             <strong>{{ asignedDrug.drugWarehouse.drugName }}</strong> <br>
-                            <strong>Amount:</strong> {{ asignedDrug.amount }} {{ asignedDrug.drugWarehouse.type }}
+                            <strong>Kiekis:</strong> {{ asignedDrug.amount }} {{ asignedDrug.drugWarehouse.type }}
                         </span>
                         <span>
-                            <a href="{{ path('app_asigned_drugs_edit', {'id': asignedDrug.id}) }}" class="btn btn-sm btn-primary">Edit</a>
-                            <form action="{{ path('app_asigned_drugs_delete', {'id': asignedDrug.id}) }}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure?');">
+                            <a href="{{ path('app_asigned_drugs_edit', {'id': asignedDrug.id}) }}" class="btn btn-sm btn-primary">Redaguoti</a>
+                            <form action="{{ path('app_asigned_drugs_delete', {'id': asignedDrug.id}) }}" method="post" style="display: inline;" onsubmit="return confirm('Ar tikrai norite ištrinti šį įrašą?');">
                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ asignedDrug.id) }}">
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-sm btn-danger">Ištrinti</button>
                             </form>
                         </span>
                     </li>
                 {% else %}
-                    <li class="list-group-item text-muted">No drugs assigned.</li>
+                    <li class="list-group-item text-muted">Įrašų nėra.</li>
                 {% endfor %}
             </ul>
-            <a href="{{ path('app_asigned_drugs_new', {'appointmentId': appointment.id}) }}" class="btn btn-success mt-3">Assign Drugs</a>
+            <a href="{{ path('app_asigned_drugs_new', {'appointmentId': appointment.id}) }}" class="btn btn-success mt-3">Paskirti medikamentus</a>
         </div>
     </div>
 {% endblock %}

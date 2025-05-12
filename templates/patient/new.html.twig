@@ -4,15 +4,15 @@
 
 {% block body %}
     <div class="container mt-4">
-        <h1 class="mb-4">Create New Patient</h1>
+        <h1 class="mb-4">Pridėti augintinį</h1>
 
         <div class="alert alert-info">
-            <i class="fas fa-info-circle"></i> Please select a client before filling in patient details.
+            <i class="fas fa-info-circle"></i> Pasirinkite sąvininką prieš pildant augintinio kortelę.
         </div>
 
         {{ form_start(form) }}
         <div class="card p-4 shadow">
-            {{ include('patient/_form.html.twig', {'button_label': 'Save'}) }}
+            {{ include('patient/_form.html.twig', {'button_label': 'Išsaugoti'}) }}
         </div>
         {{ form_end(form) }}
     </div>

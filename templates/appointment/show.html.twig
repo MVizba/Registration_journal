@@ -5,17 +5,17 @@
 {% block body %}
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>Appointment Details</h1>
+            <h1>Vizito kortelė</h1>
             <div class="btn-group">
-                <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-primary">Edit</a>
-                <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary">Back to List</a>
+                <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-primary">Redaguoti</a>
+                <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary">Atgal</a>
             </div>
         </div>
 
         <!-- Main Appointment Information -->
         <div class="card shadow mb-4">
             <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Basic Information</h4>
+                <h4 class="mb-0">Pagrindinė informacija</h4>
             </div>
             <div class="card-body">
                 <!-- Client and Patient Information -->
@@ -23,11 +23,11 @@
                     <div class="col-md-6">
                         <div class="card h-100">
                             <div class="card-body">
-                                <h5 class="card-title">Client Information</h5>
+                                <h5 class="card-title">Kliento duomenys</h5>
                                 <p class="card-text">
-                                    <strong>Name:</strong> {{ appointment.client.name }} {{ appointment.client.lastName }}<br>
-                                    <strong>Email:</strong> {{ appointment.client.email }}<br>
-                                    <strong>Phone:</strong> {{ appointment.client.phone }}
+                                    <strong>Vardas:</strong> {{ appointment.client.name }} {{ appointment.client.lastName }}<br>
+                                    <strong>El.p.:</strong> {{ appointment.client.email }}<br>
+                                    <strong>Tel.:</strong> {{ appointment.client.phone }}
                                 </p>
                             </div>
                         </div>
@@ -35,11 +35,11 @@
                     <div class="col-md-6">
                         <div class="card h-100">
                             <div class="card-body">
-                                <h5 class="card-title">Patient Information</h5>
+                                <h5 class="card-title">Augintinio informacija</h5>
                                 <p class="card-text">
-                                    <strong>Name:</strong> {{ appointment.patient.name }}<br>
-                                    <strong>Type:</strong> {{ appointment.patient.type }}<br>
-                                    <strong>Gender:</strong> {{ appointment.patient.gender }}
+                                    <strong>Vardas:</strong> {{ appointment.patient.name }}<br>
+                                    <strong>Rūšis:</strong> {{ appointment.patient.type }}<br>
+                                    <strong>Lytis:</strong> {{ appointment.patient.gender }}
                                 </p>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted">Appointment Date</h6>
+                                <h6 class="card-subtitle mb-2 text-muted">Vizito data</h6>
                                 <p class="card-text">{{ appointment.date ? appointment.date|date('Y-m-d H:i:s') : 'Not set' }}</p>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted">Registration Date</h6>
+                                <h6 class="card-subtitle mb-2 text-muted">Registracijos data</h6>
                                 <p class="card-text">{{ appointment.registrationDate ? appointment.registrationDate|date('Y-m-d H:i:s') : 'Not set' }}</p>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted">Symptoms Date</h6>
+                                <h6 class="card-subtitle mb-2 text-muted">Simptomų data</h6>
                                 <p class="card-text">{{ appointment.symptomsDate ? appointment.symptomsDate|date('Y-m-d H:i:s') : 'Not set' }}</p>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                     <div class="col-md-6">
                         <div class="card h-100">
                             <div class="card-body">
-                                <h5 class="card-title">Status</h5>
+                                <h5 class="card-title">Statusas</h5>
                                 <p class="card-text">{{ appointment.status ?: 'No status provided' }}</p>
                             </div>
                         </div>
@@ -87,7 +87,7 @@
                     <div class="col-md-6">
                         <div class="card h-100">
                             <div class="card-body">
-                                <h5 class="card-title">Diagnosis</h5>
+                                <h5 class="card-title">Diagnozė</h5>
                                 <p class="card-text">{{ appointment.diagnosis ?: 'No diagnosis provided' }}</p>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                     <div class="col-md-6">
                         <div class="card h-100">
                             <div class="card-body">
-                                <h5 class="card-title">Services</h5>
+                                <h5 class="card-title">Paslaugos</h5>
                                 <p class="card-text">{{ appointment.services ?: 'No services provided' }}</p>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                     <div class="col-md-6">
                         <div class="card h-100">
                             <div class="card-body">
-                                <h5 class="card-title">End Result</h5>
+                                <h5 class="card-title">Išvados</h5>
                                 <p class="card-text">{{ appointment.endResult ?: 'No end result provided' }}</p>
                             </div>
                         </div>
@@ -119,7 +119,7 @@
         <!-- Examinations Section -->
         <div class="card shadow mb-4">
             <div class="card-header bg-success text-white">
-                <h4 class="mb-0">Examinations</h4>
+                <h4 class="mb-0">Atlikti tyrimai</h4>
             </div>
             <div class="card-body">
                 {% if appointment.examinationWithResults|length > 0 %}
@@ -127,11 +127,11 @@
                         <table class="table table-hover">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Examination</th>
-                                    <th>Result</th>
-                                    <th>Norms</th>
-                                    <th>Machine</th>
+                                    <th>Data</th>
+                                    <th>Tyrimas</th>
+                                    <th>Rezultai</th>
+                                    <th>Normos</th>
+                                    <th>Aparatas</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -148,7 +148,7 @@
                         </table>
                     </div>
                 {% else %}
-                    <p class="text-muted text-center my-3">No examinations recorded for this appointment.</p>
+                    <p class="text-muted text-center my-3">Nėra tyrimų įrašų.</p>
                 {% endif %}
             </div>
         </div>
@@ -156,7 +156,7 @@
         <!-- Assigned Drugs Section -->
         <div class="card shadow mb-4">
             <div class="card-header bg-info text-white">
-                <h4 class="mb-0">Assigned Drugs</h4>
+                <h4 class="mb-0">Pasikirti medikamentai</h4>
             </div>
             <div class="card-body">
                 {% if appointment.asignedDrugs|length > 0 %}
@@ -164,10 +164,10 @@
                         <table class="table table-hover">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Drug Name</th>
-                                    <th>Amount</th>
-                                    <th>Type</th>
+                                    <th>Data</th>
+                                    <th>Pavadinimas</th>
+                                    <th>Kiekis</th>
+                                    <th>Tipas</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -183,7 +183,7 @@
                         </table>
                     </div>
                 {% else %}
-                    <p class="text-muted text-center my-3">No drugs assigned for this appointment.</p>
+                    <p class="text-muted text-center my-3">Nėra įrašų apie paskirtus medikamentus.</p>
                 {% endif %}
             </div>
         </div>

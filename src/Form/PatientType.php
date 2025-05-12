@@ -68,6 +68,7 @@ class PatientType extends AbstractType
     {
         $form
             ->add('name', null, [
+                'label' => 'Vardas',
                 'disabled' => $disabled,
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'Šis laukas privalomas.']),

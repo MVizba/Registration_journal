@@ -90,7 +90,7 @@ class DrugWarehouseType extends AbstractType
                 'constraints' => [new Assert\NotBlank()],
             ])
             ->add('whereObtainedFrom', null, [
-                'label' => 'Iš kur pirkta',
+                'label' => 'Tiekėjas',
                 'constraints' => [new Assert\NotBlank()],
             ]);
     }

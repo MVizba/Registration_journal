@@ -4,10 +4,10 @@
 
 {% block body %}
     <div class="container mt-4">
-        <h1>New Appointment</h1>
+        <h1>Naujas vizitas</h1>
 
         <div class="alert alert-info">
-            <i class="fas fa-info-circle"></i> Please select a client and patient before filling in appointment details.
+            <i class="fas fa-info-circle"></i> Pasirinkite sąvininką ir augintinį prieš pildant vizito kortelę.
         </div>
 
         <div class="card p-4 shadow">
@@ -29,7 +29,7 @@
             <div class="row mb-3">
                 <div class="col-12">
                     <a href="{{ path('app_patient_new', {'fromAppointment': 'true'}) }}" class="btn btn-secondary">
-                        Add New Patient/Client
+                        Naujas Klientas/Augintinis
                     </a>
                 </div>
             </div>
@@ -74,12 +74,12 @@
                 </div>
             </div>
 
-            <button class="btn btn-success">Create Appointment</button>
+            <button class="btn btn-success">Išsaugoti</button>
             
             {{ form_end(form) }}
         </div>
 
-        <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary mt-3">Back to List</a>
+        <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary mt-3">Atgal</a>
     </div>
 {% endblock %}
 

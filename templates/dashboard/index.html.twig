@@ -4,18 +4,18 @@
 
 {% block body %}
     <div class="container my-5">
-        <h1 class="text-center mb-4">Journal of Animal Treatment</h1>
+        <h1 class="text-center mb-4">Veterinarinis žurnalas</h1>
 
         <div class="card shadow-sm mb-4">
             <div class="card-body">
                 <table class="table table-striped table-bordered">
                     <thead class="table-light">
                     <tr>
-                        <th>Date</th>
-                        <th>Patient</th>
-                        <th>Owner</th>
-                        <th>Status</th>
-                        <th>Diagnosis</th>
+                        <th>Data</th>
+                        <th>Augintinis</th>
+                        <th>Savininkas</th>
+                        <th>Statusas</th>
+                        <th>Diagnozė</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -29,19 +29,19 @@
                             <td>{{ appointment.diagnosis }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Actions">
-                                    <a href="{{ path('app_appointment_show', {'id': appointment.id}) }}" class="btn btn-success btn-sm">Show</a>
-                                    <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-success btn-sm">Edit</a>
+                                    <a href="{{ path('app_appointment_show', {'id': appointment.id}) }}" class="btn btn-success btn-sm">Rodyti</a>
+                                    <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-success btn-sm">Redaguoti</a>
                                 </div>
                             </td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="6" class="text-center">No records found</td>
+                            <td colspan="6" class="text-center">Įrašų nerasta</td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
-                <a href="{{ path('app_appointment_new') }}" class="btn btn-primary">Create New Appointment</a>
+                <a href="{{ path('app_appointment_new') }}" class="btn btn-primary">Naujas vizitas</a>
             </div>
         </div>
     </div>

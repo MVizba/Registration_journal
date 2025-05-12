@@ -7,21 +7,21 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Owner</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Gender</th>
-                <th>Age</th>
-                <th>Marking Number</th>
-                <th>Passport Number</th>
-                <th>Actions</th>
+                <th>Sąvininkas</th>
+                <th>Vardas</th>
+                <th>Rūšis</th>
+                <th>Lytis</th>
+                <th>Amžius</th>
+                <th>Žymėjimo numeris</th>
+                <th>Paso numeris</th>
+                <th>Veiksmai</th>
             </tr>
             </thead>
             <tbody>
             {% for patient in patients %}
                 <tr>
                     <td>
-                        {{ patient.client ? patient.client.name ~ ' ' ~ patient.client.lastName : 'No Owner Assigned' }}
+                        {{ patient.client ? patient.client.name ~ ' ' ~ patient.client.lastName : 'Nepasirinktas savininkas' }}
                     </td>
                     <td>{{ patient.name }}</td>
                     <td>{{ patient.type }}</td>
@@ -30,18 +30,18 @@
                     <td>{{ patient.markingNumber }}</td>
                     <td>{{ patient.passportNumber }}</td>
                     <td>
-                        <a href="{{ path('app_patient_show', {'id': patient.id}) }}" class="btn btn-secondary btn-sm">Show</a>
-                        <a href="{{ path('app_patient_edit', {'id': patient.id}) }}" class="btn btn-secondary btn-sm">Edit</a>
+                        <a href="{{ path('app_patient_show', {'id': patient.id}) }}" class="btn btn-secondary btn-sm">Rodyti</a>
+                        <a href="{{ path('app_patient_edit', {'id': patient.id}) }}" class="btn btn-secondary btn-sm">Redaguoti</a>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="8" class="text-center">No records found</td>
+                    <td colspan="8" class="text-center">Įrašų nerasta</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
 
-    <a href="{{ path('app_patient_new') }}" class="btn btn-primary mt-3">Create new</a>
+    <a href="{{ path('app_patient_new') }}" class="btn btn-primary mt-3">Naujas Augintinis</a>
 {% endblock %}
