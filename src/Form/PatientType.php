@@ -24,15 +24,16 @@ class PatientType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('client', EntityType::class, [
+            'label' => 'Savininkas',
             'class' => Client::class,
             'choice_label' => function (Client $client) {
                 return $client->getName().' '.$client->getLastName();
             },
-            'placeholder' => 'Select an owner',
+            'placeholder' => 'Pasirinkite savininką',
             'required' => true,
             'constraints' => [
                 new Assert\NotBlank([
-                    'message' => 'Please select an owner before filling the form.',
+                    'message' => 'Pasirinkite sąvininką prieš pildant formą.',
                 ]),
             ],
         ]);
@@ -69,71 +70,78 @@ class PatientType extends AbstractType
             ->add('name', null, [
                 'disabled' => $disabled,
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Name is required.']),
+                    new Assert\NotBlank(['message' => 'Šis laukas privalomas.']),
                 ],
                 'attr' => [
-                    'placeholder' => 'Enter the patient’s name',
+                    'placeholder' => 'Įrašykite augintinio vardą.',
                 ],
             ])
-            ->add('type', null, ['disabled' => $disabled,
+            ->add('type', null, [
+                'label' => 'Tipas',
+                'disabled' => $disabled,
                 'attr' => [
-                    'placeholder' => 'Enter the patient’s type (e.g., dog, cat)',
+                    'placeholder' => 'Įrašykite augintinio rūšį.',
                 ],
             ])
             ->add('gender', ChoiceType::class, [
+                'label' => 'Lytis',
                 'choices' => [
-                    'Male' => 'male',
-                    'Female' => 'female',
-                    'Other' => 'other',
+                    'Patinas' => 'male',
+                    'Patelė' => 'female',
+                    'Kita' => 'other',
                 ],
-                'placeholder' => 'Choose a gender',
+                'placeholder' => 'Pasirinkite lytį',
                 'disabled' => $disabled,
                 'required' => true,
             ])
             ->add('age', null, [
+                'label' => 'Amžius',
                 'widget' => 'single_text',
                 'disabled' => $disabled,
                 'constraints' => [
                     new LessThanOrEqual([
                         'value' => 'today',
-                        'message' => 'The date of birth cannot be in the future.',
+                        'message' => 'Gimimo data negali būti ateityje.',
                     ]),
                 ],
             ])
             ->add('markingNumber', null, [
+                'label' => 'Žymėjimo numeris',
                 'disabled' => $disabled,
                 'constraints' => [
                     new Assert\Length([
                         'max' => 50,
-                        'maxMessage' => 'Marking number cannot be longer than {{ limit }} characters.',
+                        'maxMessage' => 'Šis laukas negali Būti ilgesnis nei {{ limit }} ženklai.',
                     ]),
                 ],
                 'required' => false,
                 'attr' => [
-                    'placeholder' => '(optional)',
+                    'placeholder' => '(neprivaloma)',
                 ],
             ])
             ->add('passportNumber', null, [
+                'label' => 'Paso numeris',
                 'disabled' => $disabled,
                 'constraints' => [
                     new Assert\Length([
                         'max' => 50,
-                        'maxMessage' => 'Passport number cannot be longer than {{ limit }} characters.',
+                        'maxMessage' => 'Šis laukas negali Būti ilgesnis nei {{ limit }} ženklai.',
                     ]),
                 ],
                 'required' => false,
                 'attr' => [
-                    'placeholder' => '(optional)',
+                    'placeholder' => '(neprivaloma)',
                 ],
             ])
             ->add('appearance', TextareaType::class, [
+                'label' => 'Išvaizda',
                 'disabled' => $disabled,
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Appearance is required.']),
+                    new Assert\NotBlank(['message' => 'Šis laukas privalomas.']),
                 ],
                 'required' => true,
                 'attr' => [
-                    'placeholder' => 'Describe the patient’s appearance',
+                    'placeholder' => 'Apibūdinkite augintinio išvaizdą',
                     'rows' => 5,
                 ],
             ]);

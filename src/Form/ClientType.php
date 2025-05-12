@@ -31,64 +31,64 @@ class ClientType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'First Name',
-                'attr' => ['placeholder' => 'Enter Name'],
+                'label' => 'Vardas',
+                'attr' => ['placeholder' => 'Įrašykite vardą'],
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Name cannot be empty',
+                        'message' => 'Šis laikas negali būti tuščias',
                     ]),
                     new Assert\Length([
                         'min' => 2,
-                        'minMessage' => 'Name must be at least {{ limit }} characters long',
+                        'minMessage' => 'Šis laukas turi būti bent {{ limit }} ženklu ilgio',
                     ]),
                 ],
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'Last Name',
-                'attr' => ['placeholder' => 'Enter last name'],
+                'label' => 'Pavardė',
+                'attr' => ['placeholder' => 'Įrašykite pavardę'],
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Last name cannot be empty',
+                        'message' => 'Šis laukas negali būti tuščias',
                     ]),
                     new Assert\Length([
                         'min' => 2,
-                        'minMessage' => 'Last name must be at least {{ limit }} characters long',
+                        'minMessage' => 'Šis laukas turi būti bent {{ limit }} ženklų ilgio',
                     ]),
                 ],
             ])
             ->add('address', TextareaType::class, [
-                'label' => 'Address',
+                'label' => 'Addresas',
                 'required' => false,
-                'attr' => ['placeholder' => 'Enter address (optional)'],
+                'attr' => ['placeholder' => 'Įrašykite adresą (neprivaloma)'],
                 'constraints' => [
                     new Assert\Length([
                         'max' => 150,
-                        'maxMessage' => 'Address cannot be longer than {{ limit }} characters',
+                        'maxMessage' => 'Šis laukas negali būti ilgesnis nei {{ limit }} ženklai',
                     ]),
                 ],
             ])
             ->add('phone', TelType::class, [
-                'label' => 'Phone Number',
+                'label' => 'Telefono numeris',
                 'required' => true,
-                'attr' => ['placeholder' => 'Enter phone number'],
+                'attr' => ['placeholder' => 'Įrašykite telefono numeri'],
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Phone number cannot be empty',
+                        'message' => 'Šis laukas negali būti tuščias',
                     ]),
                 ],
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email Address',
+                'label' => 'Elektroninis paštas',
                 'required' => true,
-                'attr' => ['placeholder' => 'Enter email address'],
+                'attr' => ['placeholder' => 'Įrašykite elektroninio pašto adresa'],
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Email cannot be empty',
+                        'message' => 'Šis laukas negali būti tuščias',
                     ]),
                     new Assert\Email([
-                        'message' => 'Invalid email format',
+                        'message' => 'Netinkamas elektroninio pašto formatas',
                     ]),
                     new Callback(function ($email, ExecutionContextInterface $context) use ($options) {
                         $clientRepository = $options['client_repository'] ?? null;
@@ -100,7 +100,7 @@ class ClientType extends AbstractType
 
                         $existingClient = $clientRepository->findOneBy(['email' => $email]);
                         if ($existingClient && (!$currentClient || $existingClient->getId() !== $currentClient->getId())) {
-                            $context->buildViolation('This email is already registered.')
+                            $context->buildViolation('Šis elektroninis paštas jau egzistuoja.')
                                 ->addViolation();
                         }
                     }),

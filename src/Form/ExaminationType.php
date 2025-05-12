@@ -17,41 +17,45 @@ class ExaminationType extends AbstractType
     {
         $builder
             ->add('shortcut', null, [
+                'label' => 'Trumpinys',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'The shortcut cannot be empty.',
+                        'message' => 'Šis laukas negali būti tuščias.',
                     ]),
                     new Assert\Length([
                         'max' => 10,
-                        'maxMessage' => 'The shortcut cannot be longer than {{ limit }} characters.',
+                        'maxMessage' => 'Šis laukas negali büti ilgesnis nei {{ limit }} ženklų.',
                     ]),
                 ],
             ])
             ->add('examinationName', null, [
+                'label' => 'Tyrimo pavadinimas',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'The examination name cannot be empty.',
+                        'message' => 'Šis laukas negali būti tuščias.',
                     ]),
                     new Assert\Length([
                         'max' => 150,
-                        'maxMessage' => 'The examination name cannot be longer than {{ limit }} characters.',
+                        'maxMessage' => 'Šis laukas negali büti ilgesnis nei  {{ limit }} ženklų.',
                     ]),
                 ],
             ])
             ->add('norms', null, [
+                'label' => 'Normos',
                 'constraints' => [
                     new Assert\Length([
                         'max' => 200,
-                        'maxMessage' => 'Norms cannot be longer than {{ limit }} characters.',
+                        'maxMessage' => 'Šis laukas negali büti ilgesnis nei {{ limit }} ženklų.',
                     ]),
                 ],
                 'required' => false,
             ])
             ->add('machine', null, [
+                'label' => 'Aparatas',
                 'constraints' => [
                     new Assert\Length([
                         'max' => 255,
-                        'maxMessage' => 'The machine name cannot be longer than {{ limit }} characters.',
+                        'maxMessage' => 'Šis laukas negali büti ilgesnis nei {{ limit }} ženklų.',
                     ]),
                 ],
                 'required' => false,

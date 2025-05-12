@@ -11,10 +11,10 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 /**
  * @SuppressWarnings("unused")
  */
-
 class AsignedDrugsType extends AbstractType
 {
     private DrugWarehouseRepository $drugWarehouseRepository;
@@ -32,13 +32,13 @@ class AsignedDrugsType extends AbstractType
                 'widget' => 'single_text',
                 'data' => new \DateTime(),
                 'required' => true,
-                'label' => 'Data'
+                'label' => 'Data',
             ])
             ->add('amount', NumberType::class, [
                 'required' => true,
                 'scale' => 2,
                 'attr' => ['min' => 0],
-                'label' => 'Kiekis'
+                'label' => 'Kiekis',
             ])
             ->add('drugWarehouse', EntityType::class, [
                 'class' => DrugWarehouse::class,

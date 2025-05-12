@@ -6,8 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class DrugReportType extends AbstractType
 {
@@ -19,7 +19,7 @@ class DrugReportType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                 ],
-                'label' => 'Start Date',
+                'label' => 'Nuo',
                 'required' => true,
             ])
             ->add('endDate', DateType::class, [
@@ -31,7 +31,7 @@ class DrugReportType extends AbstractType
                         'message' => 'End date cannot be in the future',
                     ]),
                 ],
-                'label' => 'End Date',
+                'label' => 'Iki',
                 'required' => true,
             ]);
     }
@@ -42,4 +42,4 @@ class DrugReportType extends AbstractType
             'data_class' => null,
         ]);
     }
-} 
+}

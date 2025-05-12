@@ -9,7 +9,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use DateTime;
 
 /**
  * @SuppressWarnings("Unused")
@@ -21,7 +20,7 @@ class ExaminationWithResultsType extends AbstractType
         $builder
             ->add('date', DateTimeType::class, [
                 'widget' => 'single_text',
-                'data' => new DateTime(),
+                'data' => new \DateTime(),
                 'required' => false,
             ])
             ->add('examination', EntityType::class, [
@@ -29,7 +28,7 @@ class ExaminationWithResultsType extends AbstractType
                 'choice_label' => 'examinationName',
             ])
 
-            ->add('result')
+            ->add('result', null, ['label' => 'Rezultatas'])
         ;
     }
 
