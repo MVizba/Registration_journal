@@ -6,49 +6,74 @@
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h1 class="text-left">Animal info</h1>
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <th>Owner</th>
-                        <td>{{ patient.client.name }} {{ patient.client.lastName }}</td>
-                    </tr>
-                    <tr>
-                        <th>Name</th>
-                        <td>{{ patient.name }}</td>
-                    </tr>
-                    <tr>
-                        <th>Type</th>
-                        <td>{{ patient.type }}</td>
-                    </tr>
-                    <tr>
-                        <th>Gender</th>
-                        <td>{{ patient.gender }}</td>
-                    </tr>
-                    <tr>
-                        <th>Age</th>
-                        <td>
-                            {% if patient.age %}
-                                {{ patient.age|date('Y-m-d') }}
-                            {% else %}
-                                N/A
-                            {% endif %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Marking Number</th>
-                        <td>{{ patient.markingNumber }}</td>
-                    </tr>
-                    <tr>
-                        <th>Passport Number</th>
-                        <td>{{ patient.passportNumber }}</td>
-                    </tr>
-                    <tr>
-                        <th>Appearance</th>
-                        <td>{{ patient.appearance }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Animal Info</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Owner:</strong> {{ patient.client.name }} {{ patient.client.lastName }}</p>
+                                <p><strong>Name:</strong> {{ patient.name }}</p>
+                                <p><strong>Type:</strong> {{ patient.type }}</p>
+                                <p><strong>Gender:</strong> {{ patient.gender }}</p>
+                                <p><strong>Age:</strong> {{ patient.age ? patient.age|date('Y-m-d') : 'N/A' }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Marking Number:</strong> {{ patient.markingNumber ?: 'N/A' }}</p>
+                                <p><strong>Passport Number:</strong> {{ patient.passportNumber ?: 'N/A' }}</p>
+                                <p><strong>Appearance:</strong> {{ patient.appearance }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0">Appointments</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if appointments|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Diagnosis</th>
+                                            <th>View</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for appointment in appointments %}
+                                            <tr>
+                                                <td>{{ appointment.date ? appointment.date|date('Y-m-d H:i') : '' }}</td>
+                                                <td>
+                                                    <span class="text-truncate d-inline-block" style="max-width: 200px;" title="{{ appointment.status }}">
+                                                        {{ appointment.status }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-truncate d-inline-block" style="max-width: 200px;" title="{{ appointment.diagnosis }}">
+                                                        {{ appointment.diagnosis }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ path('app_appointment_show', {'id': appointment.id}) }}" class="btn btn-sm btn-info">
+                                                        View Details
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No appointments found for this patient.</p>
+                        {% endif %}
+                    </div>
+                </div>
+
                 <div class="row justify-content-left mt-3">
                     <div class="col-auto">
                         <a href="{{ path('app_patient_index') }}" class="btn btn-secondary">Back to list</a>
