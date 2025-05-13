@@ -17,7 +17,7 @@ class Appointment
     // @phpstan-ignore-next-line
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'appointments')]
@@ -28,10 +28,10 @@ class Appointment
     #[ORM\JoinColumn(nullable: false)]
     private ?Patient $patient = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $registrationDate = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $symptomsDate = null;
 
     #[ORM\Column(type: Types::TEXT)]

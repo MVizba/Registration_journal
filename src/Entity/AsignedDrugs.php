@@ -14,7 +14,7 @@ class AsignedDrugs
     // @phpstan-ignore-next-line
     private ?int $id = null;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(targetEntity: DrugWarehouse::class, inversedBy: 'asignedDrugs')]

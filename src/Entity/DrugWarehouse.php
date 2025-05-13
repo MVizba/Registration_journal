@@ -16,7 +16,7 @@ class DrugWarehouse
     // @phpstan-ignore-next-line
     private ?int $id = null;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $dateOfReceipt = null;
 
     #[ORM\Column(length: 255)]
@@ -37,10 +37,10 @@ class DrugWarehouse
     #[ORM\Column(length: 100)]
     private ?string $type = null;
 
-    #[ORM\Column(type: 'date', nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $manufactureDate = null;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $expirationDate = null;
 
     #[ORM\Column(length: 255)]
