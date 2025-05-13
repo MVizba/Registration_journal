@@ -69,6 +69,7 @@
                                             <th>Serija</th>
                                             <th>Sunaudotas kiekis</th>
                                             <th>Likutis</th>
+                                            <th>Veiksmai</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -83,6 +84,11 @@
                                                 <td>{{ drug['Serija'] }}</td>
                                                 <td>{{ drug['Sunaudotas kiekis'] }}</td>
                                                 <td>{{ drug['Likutis'] }}</td>
+                                                <td>
+                                                    <a href="{{ path('app_drug_warehouse_show', {'id': drug['id'] }) }}" class="btn btn-info btn-sm" target="_blank">
+                                                        Detaliau
+                                                    </a>
+                                                </td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
