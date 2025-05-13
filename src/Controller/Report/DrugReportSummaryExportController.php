@@ -23,13 +23,14 @@ class DrugReportSummaryExportController extends AbstractController
     public function export(
         Request $request,
         AsignedDrugsRepository $asignedDrugsRepository,
-        DrugWarehouseRepository $drugWarehouseRepository
+        DrugWarehouseRepository $drugWarehouseRepository,
     ): Response {
         $form = $this->createForm(DrugReportType::class);
         $form->handleRequest($request);
 
         if (!$form->isSubmitted() || !$form->isValid()) {
             $this->addFlash('error', 'Invalid form submission');
+
             return $this->redirectToRoute('app_report_summary_index');
         }
 
@@ -39,7 +40,8 @@ class DrugReportSummaryExportController extends AbstractController
 
         $asignedDrugs = $asignedDrugsRepository->findByDateRange($startDate, $endDate);
         if (empty($asignedDrugs)) {
-            $this->addFlash('warning', 'No data found for the specified date range');
+            $this->addFlash('warning', 'Šiame periode nėra išrašytų medikamentų.');
+
             return $this->redirectToRoute('app_report_summary_index');
         }
 
@@ -47,7 +49,9 @@ class DrugReportSummaryExportController extends AbstractController
         $drugSummary = [];
         foreach ($asignedDrugs as $asignedDrug) {
             $drugWarehouse = $asignedDrug->getDrugWarehouse();
-            if (!$drugWarehouse) continue;
+            if (!$drugWarehouse) {
+                continue;
+            }
 
             $drugId = $drugWarehouse->getId();
             if (!isset($drugSummary[$drugId])) {
@@ -57,7 +61,7 @@ class DrugReportSummaryExportController extends AbstractController
                     'used' => $drugWarehouse->getUsedAmount(),
                     'remaining' => $drugWarehouse->getRemainingAmount(),
                     'unit' => $drugWarehouse->getType(),
-                    'expiration' => $drugWarehouse->getExpirationDate()
+                    'expiration' => $drugWarehouse->getExpirationDate(),
                 ];
             }
         }
@@ -67,14 +71,12 @@ class DrugReportSummaryExportController extends AbstractController
         $sheet->setTitle('Drug Usage Summary');
 
         // Set headers
-        $sheet->fromArray([
-            'Drug Name',
-            'Initial Amount',
-            'Used Amount',
-            'Remaining Amount',
-            'Unit',
-            'Expiration Date'
-        ], null, 'A1');
+        $sheet->setCellValue('A1', 'Pavadinimas')
+            ->setCellValue('B1', 'Gauta')
+            ->setCellValue('C1', 'Sunaudota')
+            ->setCellValue('D1', 'Liko')
+            ->setCellValue('E1', 'Tipas')
+            ->setCellValue('F1', 'Galioja iki:');
 
         // Add summary data
         $row = 2;
@@ -85,7 +87,7 @@ class DrugReportSummaryExportController extends AbstractController
                 $summary['used'],
                 $summary['remaining'],
                 $summary['unit'],
-                $summary['expiration']->format('Y-m-d')
+                $summary['expiration']->format('Y-m-d'),
             ], null, "A$row");
             ++$row;
         }
@@ -95,7 +97,8 @@ class DrugReportSummaryExportController extends AbstractController
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
-        $filename = sprintf('drug_summary_%s_to_%s.xlsx',
+        $filename = sprintf(
+            'drug_summary_%s_to_%s.xlsx',
             $startDate->format('Ymd'),
             $endDate->format('Ymd')
         );
@@ -119,4 +122,4 @@ class DrugReportSummaryExportController extends AbstractController
 
         return $response;
     }
-} 
+}

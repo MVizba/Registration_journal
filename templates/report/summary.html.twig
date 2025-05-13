@@ -8,7 +8,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        <h1 class="h3 mb-0">Generate Drug Summary Report</h1>
+                        <h1 class="h3 mb-0">Medikamentų sąnaudų statistika</h1>
                     </div>
                     <div class="card-body">
                         {% for message in app.flashes('warning') %}
@@ -33,7 +33,7 @@
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
-                                Generate Summary Report
+                                Generuoti ataskaitą
                             </button>
                         </div>
                         {{ form_end(form) }}
@@ -43,14 +43,14 @@
                 {% if drugSummary is not empty %}
                     <div class="card mt-4">
                         <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-                            <h2 class="h4 mb-0">Drug Usage Summary</h2>
+                            <h2 class="h4 mb-0">Medikamentų sąnautų ataskaita</h2>
                             {% if dateRange %}
                                 <form action="{{ path('app_report_summary_export') }}" method="post" class="d-inline">
                                     <input type="hidden" name="drug_report[startDate]" value="{{ dateRange.start|date('Y-m-d') }}">
                                     <input type="hidden" name="drug_report[endDate]" value="{{ dateRange.end|date('Y-m-d') }}">
                                     <input type="hidden" name="drug_report[_token]" value="{{ csrf_token('drug_report') }}">
                                     <button type="submit" class="btn btn-light btn-sm">
-                                        Download Summary Excel
+                                        Atisiųsti Excel
                                     </button>
                                 </form>
                             {% endif %}
@@ -60,12 +60,12 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Drug Name</th>
-                                            <th>Initial Amount</th>
-                                            <th>Used Amount</th>
-                                            <th>Remaining Amount</th>
-                                            <th>Unit</th>
-                                            <th>Expiration Date</th>
+                                            <th>Pavadinimas</th>
+                                            <th>Gautas kiekis</th>
+                                            <th>Sunaudotas kiekis</th>
+                                            <th>Likęs kiekis</th>
+                                            <th>Tipas</th>
+                                            <th>Galioja iki:</th>
                                         </tr>
                                     </thead>
                                     <tbody>

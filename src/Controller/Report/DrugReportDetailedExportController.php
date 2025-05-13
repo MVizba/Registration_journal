@@ -37,7 +37,7 @@ class DrugReportDetailedExportController extends AbstractController
 
         $asignedDrugs = $asignedDrugsRepository->findByDateRange($startDate, $endDate);
         if (empty($asignedDrugs)) {
-            $this->addFlash('warning', 'No data found for the specified date range');
+            $this->addFlash('warning', 'Šiame periode nėra išrašytų medikamentų.');
             return $this->redirectToRoute('app_report_detailed_index');
         }
 
@@ -63,14 +63,12 @@ class DrugReportDetailedExportController extends AbstractController
         $sheet->setTitle('Detailed Usage');
 
         // Set headers
-        $sheet->fromArray([
-            'Date',
-            'Drug Name',
-            'Amount Used',
-            'Unit',
-            'Patient',
-            'Client'
-        ], null, 'A1');
+        $sheet->setCellValue('A1', 'Data')
+            ->setCellValue('B1', 'Pavadinimas')
+            ->setCellValue('C1', 'Kiekis')
+            ->setCellValue('D1', 'Tipas')
+            ->setCellValue('E1', 'Augintinis')
+            ->setCellValue('F1', 'Klientas');
 
         // Add detailed data
         $row = 2;

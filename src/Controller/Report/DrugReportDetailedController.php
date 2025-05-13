@@ -34,7 +34,7 @@ class DrugReportDetailedController extends AbstractController
             $asignedDrugs = $asignedDrugsRepository->findByDateRange($startDate, $endDate);
 
             if (empty($asignedDrugs)) {
-                $this->addFlash('warning', 'No assigned drugs found for the specified date range.');
+                $this->addFlash('warning', 'Šiame periode nėra išrašytų medikamentų.');
                 return $this->redirectToRoute('app_report_detailed_index');
             }
 
