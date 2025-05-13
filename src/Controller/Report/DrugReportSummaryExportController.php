@@ -45,7 +45,7 @@ class DrugReportSummaryExportController extends AbstractController
             return $this->redirectToRoute('app_report_summary_index');
         }
 
-        // Generate summary data
+        // Generuoti ataskaitos duomenis
         $drugSummary = [];
         foreach ($asignedDrugs as $asignedDrug) {
             $drugWarehouse = $asignedDrug->getDrugWarehouse();
@@ -56,12 +56,15 @@ class DrugReportSummaryExportController extends AbstractController
             $drugId = $drugWarehouse->getId();
             if (!isset($drugSummary[$drugId])) {
                 $drugSummary[$drugId] = [
-                    'name' => $drugWarehouse->getDrugName(),
-                    'initial' => $drugWarehouse->getAmount(),
-                    'used' => $drugWarehouse->getUsedAmount(),
-                    'remaining' => $drugWarehouse->getRemainingAmount(),
-                    'unit' => $drugWarehouse->getType(),
-                    'expiration' => $drugWarehouse->getExpirationDate(),
+                    'Gavimo Data' => $drugWarehouse->getDateOfReceipt(),
+                    'Pavadinimas' => $drugWarehouse->getDrugName(),
+                    'Dokumento numeris' => $drugWarehouse->getDocumentNumber(),
+                    'Gautas Kiekis' => $drugWarehouse->getAmount(),
+                    'Tipas' => $drugWarehouse->getType(),
+                    'Tinkamumo naudoti laikas' => $drugWarehouse->getExpirationDate(),
+                    'Serija' => $drugWarehouse->getSeries(),
+                    'Sunaudotas kiekis' => $drugWarehouse->getUsedAmount(),
+                    'Likutis' => $drugWarehouse->getRemainingAmount(),
                 ];
             }
         }
@@ -70,30 +73,71 @@ class DrugReportSummaryExportController extends AbstractController
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Drug Usage Summary');
 
-        // Set headers
-        $sheet->setCellValue('A1', 'Pavadinimas')
-            ->setCellValue('B1', 'Gauta')
-            ->setCellValue('C1', 'Sunaudota')
-            ->setCellValue('D1', 'Liko')
-            ->setCellValue('E1', 'Tipas')
-            ->setCellValue('F1', 'Galioja iki:');
+        // Ataskaitos pavadinimas
+        $sheet->setCellValue('A1', 'VETERINARINIŲ VAISTŲ IR VAISTINIŲ PREPARATŲ APSKAITOS ŽURNALAS');
+        $sheet->mergeCells('A1:H1');
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+        // Date range info in the same cell per line
+        $sheet->setCellValue('A2', 'Nuo: ' . ($startDate instanceof \DateTimeInterface ? $startDate->format('Y-m-d') : ''));
+        $sheet->setCellValue('A3', 'Iki: ' . ($endDate instanceof \DateTimeInterface ? $endDate->format('Y-m-d') : ''));
 
-        // Add summary data
-        $row = 2;
+        // Headerius pradeti nuo 6 eilutes
+        $sheet->setCellValue('A6', 'Gavimo Data')
+            ->setCellValue('B6', 'Pavadinimas')
+            ->setCellValue('C6', 'Dokumento numeris')
+            ->setCellValue('D6', 'Gautas Kiekis')
+            ->setCellValue('E6', 'Tipas')
+            ->setCellValue('F6', 'Tinkamumo naudoti laikas')
+            ->setCellValue('G6', 'Serija')
+            ->setCellValue('H6', 'Sunaudotas kiekis')
+            ->setCellValue('I6', 'Likutis');
+        // Paboldinti headerius
+        $sheet->getStyle('A6:I6')->getFont()->setBold(true);
+
+        // Nuo 7 eilutės pridėti ataskaitą
+        $row = 7;
         foreach ($drugSummary as $summary) {
             $sheet->fromArray([
-                $summary['name'],
-                $summary['initial'],
-                $summary['used'],
-                $summary['remaining'],
-                $summary['unit'],
-                $summary['expiration']->format('Y-m-d'),
+                $summary['Gavimo Data'] instanceof \DateTimeInterface ? $summary['Gavimo Data']->format('Y-m-d') : '',
+                $summary['Pavadinimas'],
+                $summary['Dokumento numeris'],
+                $summary['Gautas Kiekis'],
+                $summary['Tipas'],
+                $summary['Tinkamumo naudoti laikas'] instanceof \DateTimeInterface ? $summary['Tinkamumo naudoti laikas']->format('Y-m-d') : '',
+                $summary['Serija'],
+                $summary['Sunaudotas kiekis'],
+                $summary['Likutis'],
             ], null, "A$row");
             ++$row;
         }
 
-        // Auto-size columns
-        foreach (range('A', 'F') as $col) {
+        // Pridėti dvi tuščias linijas
+        $row += 2;
+        // Pridėti patvirtinimo žinutę.
+        $sheet->setCellValue("A$row", 'Patvirtinu, kad šioje ataskaitoje pateikti visi teisingi ir reikiami duomenys ir informacija.');
+        $sheet->mergeCells("A$row:I$row");
+        $sheet->getStyle("A$row")->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+        $row++;
+        // Pridėti dvi tuščias linijas
+        $row++;
+        $row++;
+        // Pridėti vietą parašui
+        $sheet->setCellValue("A$row", '_________________________________');
+        $row++;
+        // pareigų informacija
+        $sheet->setCellValue("A$row", 'Ataskaitą užpildžiusio asmens pareigos.');
+        $row++;
+        // Papildomas tuščia eilutė
+        $row++;
+        // Pridėti vietą parašui, vardui pavardei
+        $sheet->setCellValue("A$row", '_________________________________');
+        $row++;
+        // Informacija viršutinei eilutei
+        $sheet->setCellValue("A$row", 'Vardas, pavardė, parašas');
+        $sheet->getStyle("A$row")->getFont()->setItalic(true);
+
+
+        foreach (range('A', 'I') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
