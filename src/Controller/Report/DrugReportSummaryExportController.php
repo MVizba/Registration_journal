@@ -38,36 +38,46 @@ class DrugReportSummaryExportController extends AbstractController
         $startDate = $data['startDate'];
         $endDate = $data['endDate'];
 
+        // Fetch all drugs in the warehouse
+        $allDrugs = $drugWarehouseRepository->findAll();
+        // Fetch all assigned drugs in the period
         $asignedDrugs = $asignedDrugsRepository->findByDateRange($startDate, $endDate);
-        if (empty($asignedDrugs)) {
-            $this->addFlash('warning', 'Šiame periode nėra išrašytų medikamentų.');
 
-            return $this->redirectToRoute('app_report_summary_index');
-        }
-
-        // Generuoti ataskaitos duomenis
-        $drugSummary = [];
+        // Map assigned drugs by warehouse drug id
+        $assignedByDrugId = [];
         foreach ($asignedDrugs as $asignedDrug) {
             $drugWarehouse = $asignedDrug->getDrugWarehouse();
-            if (!$drugWarehouse) {
-                continue;
-            }
-
+            if (!$drugWarehouse) continue;
             $drugId = $drugWarehouse->getId();
-            if (!isset($drugSummary[$drugId])) {
-                $drugSummary[$drugId] = [
-                    'Gavimo Data' => $drugWarehouse->getDateOfReceipt(),
-                    'Pavadinimas' => $drugWarehouse->getDrugName(),
-                    'Dokumento numeris' => $drugWarehouse->getDocumentNumber(),
-                    'Gautas Kiekis' => $drugWarehouse->getAmount(),
-                    'Tipas' => $drugWarehouse->getType(),
-                    'Tinkamumo naudoti laikas' => $drugWarehouse->getExpirationDate(),
-                    'Serija' => $drugWarehouse->getSeries(),
-                    'Sunaudotas kiekis' => $drugWarehouse->getUsedAmount(),
-                    'Likutis' => $drugWarehouse->getRemainingAmount(),
+            if (!isset($assignedByDrugId[$drugId])) {
+                $assignedByDrugId[$drugId] = [
+                    'Sunaudotas kiekis' => 0,
                 ];
             }
+            $assignedByDrugId[$drugId]['Sunaudotas kiekis'] += $asignedDrug->getAmount();
         }
+
+        // Compose summary for all drugs
+        $drugSummary = [];
+        foreach ($allDrugs as $drugWarehouse) {
+            $drugId = $drugWarehouse->getId();
+            $drugSummary[$drugId] = [
+                'id' => $drugWarehouse->getId(),
+                'Gavimo Data' => $drugWarehouse->getDateOfReceipt(),
+                'Pavadinimas' => $drugWarehouse->getDrugName(),
+                'Dokumento numeris' => $drugWarehouse->getDocumentNumber(),
+                'Gautas Kiekis' => $drugWarehouse->getAmount(),
+                'Tipas' => $drugWarehouse->getType(),
+                'Tinkamumo naudoti laikas' => $drugWarehouse->getExpirationDate(),
+                'Serija' => $drugWarehouse->getSeries(),
+                'Sunaudotas kiekis' => isset($assignedByDrugId[$drugId]) ? $assignedByDrugId[$drugId]['Sunaudotas kiekis'] : 0,
+                'Likutis' => $drugWarehouse->getRemainingAmount(),
+            ];
+        }
+        // Sort by date ascending
+        uasort($drugSummary, function($a, $b) {
+            return $a['Gavimo Data'] <=> $b['Gavimo Data'];
+        });
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
