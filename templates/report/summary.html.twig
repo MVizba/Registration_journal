@@ -8,7 +8,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        <h1 class="h3 mb-0">Medikamentų sąnaudų statistika</h1>
+                        <h1 class="h3 mb-0">VETERINARINIŲ VAISTŲ IR VAISTINIŲ PREPARATŲ APSKAITOS ŽURNALAS</h1>
                     </div>
                     <div class="card-body">
                         {% for message in app.flashes('warning') %}
@@ -60,23 +60,29 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
+                                            <th>Gavimo Data</th>
                                             <th>Pavadinimas</th>
-                                            <th>Gautas kiekis</th>
-                                            <th>Sunaudotas kiekis</th>
-                                            <th>Likęs kiekis</th>
+                                            <th>Dokumento numeris</th>
+                                            <th>Gautas Kiekis</th>
                                             <th>Tipas</th>
-                                            <th>Galioja iki:</th>
+                                            <th>Tinkamumo naudoti laikas</th>
+                                            <th>Serija</th>
+                                            <th>Sunaudotas kiekis</th>
+                                            <th>Likutis</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for drug in drugSummary %}
                                             <tr>
-                                                <td>{{ drug.name }}</td>
-                                                <td>{{ drug.initial }}</td>
-                                                <td>{{ drug.used }}</td>
-                                                <td>{{ drug.remaining }}</td>
-                                                <td>{{ drug.unit }}</td>
-                                                <td>{{ drug.expiration|date('Y-m-d') }}</td>
+                                                <td>{{ drug['Gavimo Data']|date('Y-m-d') }}</td>
+                                                <td>{{ drug['Pavadinimas'] }}</td>
+                                                <td>{{ drug['Dokumento numeris'] }}</td>
+                                                <td>{{ drug['Gautas Kiekis'] }}</td>
+                                                <td>{{ drug['Tipas'] }}</td>
+                                                <td>{{ drug['Tinkamumo naudoti laikas']|date('Y-m-d') }}</td>
+                                                <td>{{ drug['Serija'] }}</td>
+                                                <td>{{ drug['Sunaudotas kiekis'] }}</td>
+                                                <td>{{ drug['Likutis'] }}</td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
