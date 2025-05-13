@@ -23,7 +23,6 @@ class DrugWarehouseType extends AbstractType
             ->add('dateOfReceipt', DateTimeType::class, [
                 'label' => 'Gavimo data',
                 'widget' => 'single_text',
-                'data' => new \DateTime(),
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(),

@@ -21,7 +21,6 @@ class ExaminationWithResultsType extends AbstractType
             ->add('date', DateTimeType::class, [
                 'label' => 'Data',
                 'widget' => 'single_text',
-                'data' => new \DateTime(),
                 'required' => false,
             ])
             ->add('examination', EntityType::class, [

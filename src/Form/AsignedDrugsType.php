@@ -30,7 +30,6 @@ class AsignedDrugsType extends AbstractType
         $builder
             ->add('date', DateTimeType::class, [
                 'widget' => 'single_text',
-                'data' => new \DateTime(),
                 'required' => true,
                 'label' => 'Data',
             ])

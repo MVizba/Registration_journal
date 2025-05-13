@@ -23,22 +23,20 @@ class AppointmentType extends AbstractType
             ->add('date', DateTimeType::class, [
                 'label' => 'Data',
                 'widget' => 'single_text',
-                'data' => new \DateTime(),
                 'required' => false,
             ])
             ->add('registrationDate', DateTimeType::class, [
                 'label' => 'Registracijos data',
                 'widget' => 'single_text',
-                'data' => new \DateTime(),
                 'required' => false,
             ])
             ->add('symptomsDate', DateTimeType::class, [
-                'label' => 'Simptomų data',
+                'label' => 'Simptomų data',
                 'widget' => 'single_text',
                 'constraints' => [
                     new Assert\LessThanOrEqual([
                         'value' => new \DateTime('now'),
-                        'message' => 'Simptomų data negali būti vėlesnė už dabartinę datą',
+                        'message' => 'Simptomų data negali būti vėlesnė už dabartinę datą',
                     ]),
                 ],
             ])
