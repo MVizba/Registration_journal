@@ -40,7 +40,7 @@ class DrugReportSummaryController extends AbstractController
                 return $this->redirectToRoute('app_report_summary_index');
             }
 
-            // Group assigned drugs by drug warehouse for summary
+            // Grupuoti vaistus
             foreach ($asignedDrugs as $asignedDrug) {
                 $drugWarehouse = $asignedDrug->getDrugWarehouse();
                 if (!$drugWarehouse) continue;
@@ -48,12 +48,15 @@ class DrugReportSummaryController extends AbstractController
                 $drugId = $drugWarehouse->getId();
                 if (!isset($drugSummary[$drugId])) {
                     $drugSummary[$drugId] = [
-                        'name' => $drugWarehouse->getDrugName(),
-                        'initial' => $drugWarehouse->getAmount(),
-                        'used' => $drugWarehouse->getUsedAmount(),
-                        'remaining' => $drugWarehouse->getRemainingAmount(),
-                        'unit' => $drugWarehouse->getType(),
-                        'expiration' => $drugWarehouse->getExpirationDate()
+                        'Gavimo Data' => $drugWarehouse->getDateOfReceipt(),
+                        'Pavadinimas' => $drugWarehouse->getDrugName(),
+                        'Dokumento numeris' => $drugWarehouse->getDocumentNumber(),
+                        'Gautas Kiekis' => $drugWarehouse->getAmount(),
+                        'Tipas' => $drugWarehouse->getType(),
+                        'Tinkamumo naudoti laikas' => $drugWarehouse->getExpirationDate(),
+                        'Serija' => $drugWarehouse->getSeries(),
+                        'Sunaudotas kiekis' => $drugWarehouse->getUsedAmount(),
+                        'Likutis' => $drugWarehouse->getRemainingAmount(),
                     ];
                 }
             }
