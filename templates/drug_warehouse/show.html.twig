@@ -15,7 +15,7 @@
                             <tbody>
                             <tr>
                                 <th>DateOfReceipt</th>
-                                <td>{{ drug_warehouse.dateOfReceipt ? drug_warehouse.dateOfReceipt|date('Y-m-d') : '' }}</td>
+                                <td>{{ drug_warehouse.dateOfReceipt ? drug_warehouse.dateOfReceipt|date('Y-m-d H:i') : '' }}</td>
                             </tr>
                             <tr>
                                 <th>DrugName</th>
@@ -43,11 +43,11 @@
                             </tr>
                             <tr>
                                 <th>ManufactureDate</th>
-                                <td>{{ drug_warehouse.manufactureDate ? drug_warehouse.manufactureDate|date('Y-m-d') : '' }}</td>
+                                <td>{{ drug_warehouse.manufactureDate ? drug_warehouse.manufactureDate|date('Y-m-d H:i') : '' }}</td>
                             </tr>
                             <tr>
                                 <th>ExpirationDate</th>
-                                <td>{{ drug_warehouse.expirationDate ? drug_warehouse.expirationDate|date('Y-m-d') : '' }}</td>
+                                <td>{{ drug_warehouse.expirationDate ? drug_warehouse.expirationDate|date('Y-m-d H:i') : '' }}</td>
                             </tr>
                             <tr>
                                 <th>Series</th>
@@ -83,7 +83,7 @@
                                     <tbody>
                                         {% for assignment in drug_warehouse.asignedDrugs %}
                                             <tr>
-                                                <td>{{ assignment.date|date('Y-m-d') }}</td>
+                                                <td>{{ assignment.date|date('Y-m-d H:i') }}</td>
                                                 <td>{{ assignment.amount }} {{ drug_warehouse.type }}</td>
                                                 <td>
                                                     {% if assignment.appointment and assignment.appointment.patient %}

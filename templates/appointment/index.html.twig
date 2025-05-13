@@ -23,9 +23,9 @@
                 <tbody>
                 {% for appointment in appointments %}
                     <tr>
-                        <td>{{ appointment.date ? appointment.date|date('Y-m-d') : '' }}</td>
-                        <td>{{ appointment.registrationDate ? appointment.registrationDate|date('Y-m-d') : '' }}</td>
-                        <td>{{ appointment.symptomsDate ? appointment.symptomsDate|date('Y-m-d') : '' }}</td>
+                        <td>{{ appointment.date ? appointment.date|date('Y-m-d H:i') : '' }}</td>
+                        <td>{{ appointment.registrationDate ? appointment.registrationDate|date('Y-m-d H:i') : '' }}</td>
+                        <td>{{ appointment.symptomsDate ? appointment.symptomsDate|date('Y-m-d H:i') : '' }}</td>
                         <td>{{ appointment.status }}</td>
                         <td>{{ appointment.diagnosis }}</td>
                         <td>{{ appointment.services }}</td>

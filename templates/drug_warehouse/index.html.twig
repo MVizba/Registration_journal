@@ -21,13 +21,13 @@
             <tbody>
             {% for drug_warehouse in drug_warehouses %}
                 <tr>
-                    <td>{{ drug_warehouse.dateOfReceipt ? drug_warehouse.dateOfReceipt|date('Y-m-d') : '' }}</td>
+                    <td>{{ drug_warehouse.dateOfReceipt ? drug_warehouse.dateOfReceipt|date('Y-m-d H:i') : '' }}</td>
                     <td>{{ drug_warehouse.DrugName }}</td>
                     <td>{{ drug_warehouse.drugManufacturer }}</td>
                     <td>{{ drug_warehouse.documentNumber }}</td>
                     <td>{{ drug_warehouse.amount }} {{ drug_warehouse.type }}</td>
                     <td>{{ drug_warehouse.usedAmount }} {{ drug_warehouse.type }}</td>
-                    <td>{{ drug_warehouse.expirationDate ? drug_warehouse.expirationDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ drug_warehouse.expirationDate ? drug_warehouse.expirationDate|date('Y-m-d H:i') : '' }}</td>
                     <td>
                         <a href="{{ path('app_drug_warehouse_show', {'id': drug_warehouse.id}) }}" class="btn btn-secondary btn-sm">Peržiūrėti</a>
                         <a href="{{ path('app_drug_warehouse_edit', {'id': drug_warehouse.id}) }}" class="btn btn-secondary btn-sm">Redaguoti</a>

@@ -18,7 +18,7 @@
         {% for asigned_drug in asigned_drugs %}
             <tr>
                 <td>{{ asigned_drug.id }}</td>
-                <td>{{ asigned_drug.date ? asigned_drug.date|date('Y-m-d') : '' }}</td>
+                <td>{{ asigned_drug.date ? asigned_drug.date|date('Y-m-d H:i') : '' }}</td>
                 <td>{{ asigned_drug.amount }}</td>
                 <td>
                     <a href="{{ path('app_asigned_drugs_show', {'id': asigned_drug.id}) }}">show</a>
