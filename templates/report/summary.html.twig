@@ -85,9 +85,9 @@
                                                 <td>{{ drug['Sunaudotas kiekis'] }}</td>
                                                 <td>{{ drug['Likutis'] }}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-info btn-sm" onclick="window.open('{{ path('app_drug_warehouse_show', {'id': drug['id'] }) }}', '_blank');">
+                                                    <button type="button" class="btn btn-info btn-sm" onclick="window.location.href='{{ path('app_drug_warehouse_show', {'id': drug['id'] }) }}';">
                                                         Detaliau
-                                                    </a>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         {% endfor %}
