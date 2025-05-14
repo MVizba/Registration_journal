@@ -31,6 +31,13 @@ class DrugReportSummaryController extends AbstractController
             $data = $form->getData();
             $startDate = $data['startDate'];
             $endDate = $data['endDate'];
+            // Ensure the full day is included for both start and end dates
+            if ($startDate instanceof \DateTime) {
+                $startDate->setTime(0, 0, 0);
+            }
+            if ($endDate instanceof \DateTime) {
+                $endDate->setTime(23, 59, 59);
+            }
             $dateRange = ['start' => $startDate, 'end' => $endDate];
 
             // Fetch all drugs in the warehouse
