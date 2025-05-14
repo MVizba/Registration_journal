@@ -8,7 +8,7 @@
             <h1>Vizito kortelė</h1>
             <div class="btn-group">
                 <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-primary">Redaguoti</a>
-                <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary">Atgal</a>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back();">Atgal</button>
             </div>
         </div>
 

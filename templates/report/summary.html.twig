@@ -43,14 +43,14 @@
                 {% if drugSummary is not empty %}
                     <div class="card mt-4">
                         <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-                            <h2 class="h4 mb-0">Medikamentų sąnautų ataskaita</h2>
+                            <h2 class="h4 mb-0">Medikamentų sąnaudų ataskaita</h2>
                             {% if dateRange %}
                                 <form action="{{ path('app_report_summary_export') }}" method="post" class="d-inline">
                                     <input type="hidden" name="drug_report[startDate]" value="{{ dateRange.start|date('Y-m-d') }}">
                                     <input type="hidden" name="drug_report[endDate]" value="{{ dateRange.end|date('Y-m-d') }}">
                                     <input type="hidden" name="drug_report[_token]" value="{{ csrf_token('drug_report') }}">
                                     <button type="submit" class="btn btn-light btn-sm">
-                                        Atisiųsti Excel
+                                        Atsisiųsti Excel
                                     </button>
                                 </form>
                             {% endif %}
@@ -85,7 +85,7 @@
                                                 <td>{{ drug['Sunaudotas kiekis'] }}</td>
                                                 <td>{{ drug['Likutis'] }}</td>
                                                 <td>
-                                                    <a href="{{ path('app_drug_warehouse_show', {'id': drug['id'] }) }}" class="btn btn-info btn-sm" target="_blank">
+                                                    <button type="button" class="btn btn-info btn-sm" onclick="window.open('{{ path('app_drug_warehouse_show', {'id': drug['id'] }) }}', '_blank');">
                                                         Detaliau
                                                     </a>
                                                 </td>

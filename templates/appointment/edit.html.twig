@@ -63,7 +63,7 @@
 
             <div class="d-flex justify-content-between">
                 <button class="btn btn-primary">Atnaujinti</button>
-                <a href="{{ path('app_appointment_index') }}" class="btn btn-secondary">Atgal</a>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back();">Atgal</button>
             </div>
             
             {{ form_end(form) }}

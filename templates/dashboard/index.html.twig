@@ -29,8 +29,8 @@
                             <td>{{ appointment.diagnosis }}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Actions">
-                                    <a href="{{ path('app_appointment_show', {'id': appointment.id}) }}" class="btn btn-success btn-sm">Rodyti</a>
-                                    <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}" class="btn btn-success btn-sm">Redaguoti</a>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ path('app_appointment_show', {'id': appointment.id}) }}'">Rodyti</button>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ path('app_appointment_edit', {'id': appointment.id}) }}'">Redaguoti</button>
                                 </div>
                             </td>
                         </tr>
@@ -41,7 +41,7 @@
                     {% endfor %}
                     </tbody>
                 </table>
-                <a href="{{ path('app_appointment_new') }}" class="btn btn-primary">Naujas vizitas</a>
+                <button type="button" class="btn btn-primary" onclick="window.location.href='{{ path('app_appointment_new') }}'">Naujas vizitas</button>
             </div>
         </div>
     </div>

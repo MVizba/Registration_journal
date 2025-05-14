@@ -8,7 +8,7 @@
             <h1>Kliento informacija</h1>
             <div class="btn-group">
                 <a href="{{ path('app_client_edit', {'id': client.id}) }}" class="btn btn-primary">Redaguoti</a>
-                <a href="{{ path('app_client_index') }}" class="btn btn-secondary">Atgal</a>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back();">Atgal</button>
             </div>
         </div>
 

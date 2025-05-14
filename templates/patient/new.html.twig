@@ -15,6 +15,7 @@
             {{ include('patient/_form.html.twig', {'button_label': 'Išsaugoti'}) }}
         </div>
         {{ form_end(form) }}
+        <button type="button" class="btn btn-secondary" onclick="window.history.back();">Atgal</button>
     </div>
 {% endblock %}
 
