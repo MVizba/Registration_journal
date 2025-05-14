@@ -46,6 +46,11 @@ class DrugReportSummaryController extends AbstractController
             // Fetch all assigned drugs in the period
             $asignedDrugs = $asignedDrugsRepository->findByDateRange($startDate, $endDate);
 
+            // If no assigned drugs, add a flash message
+            if (empty($asignedDrugs)) {
+                $this->addFlash('warning', 'Šiame periode nėra sunaudotų medikamentų.');
+            }
+
             // Map assigned drugs by warehouse drug id
             $assignedByDrugId = [];
             foreach ($asignedDrugs as $asignedDrug) {
