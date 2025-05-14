@@ -53,9 +53,15 @@ class DrugReportSummaryController extends AbstractController
                 $assignedByDrugId[$drugId]['Sunaudotas kiekis'] += $asignedDrug->getAmount();
             }
 
+            // Fetch all drugs in the warehouse
+            $allDrugs = $drugWarehouseRepository->findAll();
+
             // Compose summary for all drugs
             foreach ($allDrugs as $drugWarehouse) {
                 $drugId = $drugWarehouse->getId();
+                if (!isset($assignedByDrugId[$drugId])) {
+                    continue;
+                }
                 $drugSummary[$drugId] = [
                     'id' => $drugWarehouse->getId(),
                     'Gavimo Data' => $drugWarehouse->getDateOfReceipt(),
@@ -65,7 +71,7 @@ class DrugReportSummaryController extends AbstractController
                     'Tipas' => $drugWarehouse->getType(),
                     'Tinkamumo naudoti laikas' => $drugWarehouse->getExpirationDate(),
                     'Serija' => $drugWarehouse->getSeries(),
-                    'Sunaudotas kiekis' => isset($assignedByDrugId[$drugId]) ? $assignedByDrugId[$drugId]['Sunaudotas kiekis'] : 0,
+                    'Sunaudotas kiekis' => $assignedByDrugId[$drugId]['Sunaudotas kiekis'],
                     'Likutis' => $drugWarehouse->getRemainingAmount(),
                 ];
             }
