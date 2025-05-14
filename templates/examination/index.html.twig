@@ -8,41 +8,39 @@
             <div class="col-md-8">
                 <h1 class="text-left">Tyrimų sąrašas</h1>
 
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Trumpinys</th>
-                        <th>Tyrimo pavadinimas</th>
-                        <th>Normos</th>
-                        <th>Aparatas</th>
-                        <th>Veiksmai</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for examination in examinations %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
                         <tr>
-                            <td>{{ examination.shortcut }}</td>
-                            <td>{{ examination.examinationName }}</td>
-                            <td>{{ examination.norms }}</td>
-                            <td>{{ examination.machine }}</td>
-                            <td>
-                                <a href="{{ path('app_examination_show', {'id': examination.id}) }}" class="btn btn-secondary btn-sm">Rodyti</a>
-                                <a href="{{ path('app_examination_edit', {'id': examination.id}) }}" class="btn btn-secondary btn-sm">Redaguoti</a>
-                            </td>
+                            <th>Trumpinys</th>
+                            <th>Tyrimo pavadinimas</th>
+                            <th>Normos</th>
+                            <th>Aparatas</th>
+                            <th>Veiksmai</th>
                         </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="6">Įrašų nerasta</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-
-                <div class="row justify-content-left mt-3">
-                    <div class="col-auto">
-                        <a href="{{ path('app_examination_new') }}" class="btn btn-secondary">Naujas tyrimas</a>
-                    </div>
+                        </thead>
+                        <tbody>
+                        {% for examination in examinations %}
+                            <tr>
+                                <td>{{ examination.shortcut }}</td>
+                                <td>{{ examination.examinationName }}</td>
+                                <td>{{ examination.norms }}</td>
+                                <td>{{ examination.machine }}</td>
+                                <td>
+                                    <a href="{{ path('app_examination_show', {'id': examination.id}) }}" class="btn btn-secondary btn-sm">Rodyti</a>
+                                    <a href="{{ path('app_examination_edit', {'id': examination.id}) }}" class="btn btn-secondary btn-sm">Redaguoti</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">Įrašų nerasta</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
+
+                <a href="{{ path('app_examination_new') }}" class="btn btn-primary mt-3">Naujas tyrimas</a>
             </div>
         </div>
     </div>

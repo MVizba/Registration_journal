@@ -4,33 +4,21 @@
 
 {% block body %}
     <div class="container mt-4">
-        <h1 class="text-center">Redaguoti medikamento įrašą</h1>
-
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <!-- Form for editing drug warehouse -->
-                <form method="post" action="{{ path('app_drug_warehouse_edit', {'id': drug_warehouse.id}) }}" id="drug_warehouse_form">
-                    {{ form_start(form) }}
-                    {{ form_widget(form) }}
-                    <div class="row mt-3 justify-content-between">
-                        <div class="col-auto">
-                            <button type="button" class="btn btn-secondary" onclick="window.history.back();">Atgal</button>
-                        </div>
-                        <div class="col-auto">
-                            <!-- Update button inside the form -->
-                            <button type="submit" class="btn btn-primary">Atnaujinti</button>
-                        </div>
-                    </div>
-                    {{ form_end(form) }}
-                </form>
-
-                <!-- Include Delete form -->
-                <div class="row mt-3 justify-content-end">
-                    <div class="col-auto">
-                        {{ include('drug_warehouse/_delete_form.html.twig') }}
-                    </div>
-                </div>
-            </div>
+        <h1 class="mb-4">Redaguoti medikamento įrašą</h1>
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Atnaujinkite medikamento informaciją.
+        </div>
+        {{ form_start(form) }}
+        <div class="card p-4 shadow">
+            {{ form_widget(form) }}
+        </div>
+        <div class="d-flex justify-content-between mt-3">
+            <button type="button" class="btn btn-secondary" onclick="window.history.back();">Atgal</button>
+            <button type="submit" class="btn btn-primary">Atnaujinti</button>
+        </div>
+        {{ form_end(form) }}
+        <div class="d-flex justify-content-end mt-3">
+            {{ include('drug_warehouse/_delete_form.html.twig') }}
         </div>
     </div>
 {% endblock %}

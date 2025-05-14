@@ -4,24 +4,21 @@
 
 {% block body %}
     <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <h1 class="text-left">Redaguoti tyrimą</h1>
-
-                {{ include('examination/_form.html.twig', {'button_label': 'Atnaujinti'}) }}
-
-                <div class="row justify-content-left mt-3">
-                    <div class="col-auto">
-                        <button type="button" class="btn btn-secondary" onclick="window.history.back();">Atgal</button>
-                    </div>
-                </div>
-
-                <div class="row justify-content-left mt-3">
-                    <div class="col-auto">
-                        {{ include('examination/_delete_form.html.twig') }}
-                    </div>
-                </div>
-            </div>
+        <h1 class="mb-4">Redaguoti tyrimą</h1>
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Atnaujinkite tyrimo informaciją.
+        </div>
+        {{ form_start(form) }}
+        <div class="card p-4 shadow">
+            {{ include('examination/_form.html.twig', {'button_label': 'Atnaujinti'}) }}
+        </div>
+        <div class="d-flex justify-content-between mt-3">
+            <button type="button" class="btn btn-secondary" onclick="window.history.back();">Atgal</button>
+            <button type="submit" class="btn btn-primary">Atnaujinti</button>
+        </div>
+        {{ form_end(form) }}
+        <div class="d-flex justify-content-end mt-3">
+            {{ include('examination/_delete_form.html.twig') }}
         </div>
     </div>
 {% endblock %}

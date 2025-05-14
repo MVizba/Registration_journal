@@ -4,20 +4,17 @@
 
 {% block body %}
     <div class="container mt-4">
+        <h1 class="mb-4">Pridėti klientą</h1>
 
-
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <h1 class="text-left">Naujas klientas</h1>
-                {{ include('client/_form.html.twig') }}
-                <div class="row mt-3 justify-content-left">
-                    <div class="col-auto">
-                        <button type="button" class="btn btn-secondary" onclick="window.history.back();">Atgal</button>
-                    </div>
-                </div>
-            </div>
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Užpildykite kliento informaciją.
         </div>
 
-
+        {{ form_start(form) }}
+        <div class="card p-4 shadow">
+            {{ include('client/_form.html.twig', {'button_label': 'Išsaugoti'}) }}
+        </div>
+        {{ form_end(form) }}
+        <button type="button" class="btn btn-secondary" onclick="window.history.back();">Atgal</button>
     </div>
 {% endblock %}
