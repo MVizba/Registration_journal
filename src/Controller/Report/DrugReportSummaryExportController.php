@@ -37,6 +37,13 @@ class DrugReportSummaryExportController extends AbstractController
         $data = $form->getData();
         $startDate = $data['startDate'];
         $endDate = $data['endDate'];
+        // Ensure the full day is included for both start and end dates
+        if ($startDate instanceof \DateTime) {
+            $startDate->setTime(0, 0, 0);
+        }
+        if ($endDate instanceof \DateTime) {
+            $endDate->setTime(23, 59, 59);
+        }
 
         // Fetch all drugs in the warehouse
         $allDrugs = $drugWarehouseRepository->findAll();
@@ -61,6 +68,9 @@ class DrugReportSummaryExportController extends AbstractController
         $drugSummary = [];
         foreach ($allDrugs as $drugWarehouse) {
             $drugId = $drugWarehouse->getId();
+            if (!isset($assignedByDrugId[$drugId])) {
+                continue;
+            }
             $drugSummary[$drugId] = [
                 'id' => $drugWarehouse->getId(),
                 'Gavimo Data' => $drugWarehouse->getDateOfReceipt(),
@@ -70,7 +80,7 @@ class DrugReportSummaryExportController extends AbstractController
                 'Tipas' => $drugWarehouse->getType(),
                 'Tinkamumo naudoti laikas' => $drugWarehouse->getExpirationDate(),
                 'Serija' => $drugWarehouse->getSeries(),
-                'Sunaudotas kiekis' => isset($assignedByDrugId[$drugId]) ? $assignedByDrugId[$drugId]['Sunaudotas kiekis'] : 0,
+                'Sunaudotas kiekis' => $assignedByDrugId[$drugId]['Sunaudotas kiekis'],
                 'Likutis' => $drugWarehouse->getRemainingAmount(),
             ];
         }
